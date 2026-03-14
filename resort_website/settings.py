@@ -152,15 +152,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Security Settings (For Production)
 # https://docs.djangoproject.com/en/4.2/topics/security/
 
-# HTTPS only (set to True in production)
-SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=False, cast=bool)
+# HTTPS only - DISABLED for Railway (uses reverse proxy with SECURE_PROXY_HEADER)
+SECURE_SSL_REDIRECT = False
 
 # Trust X-Forwarded-Proto header from reverse proxy (Railway)
 SECURE_PROXY_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# Secure cookies
-SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=False, cast=bool)
-CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=False, cast=bool)
+# Secure cookies - DISABLED for Railway proxy
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
 
 # CSRF settings
 CSRF_COOKIE_HTTPONLY = True
