@@ -32,7 +32,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 # Dynamically configured with Railway, Heroku, and other platform support
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS',
-    default='localhost,127.0.0.1,.up.railway.app,.railway.app,.herokuapp.com',
+    default='localhost,127.0.0.1,resortwebsite-production.up.railway.app,.up.railway.app,.railway.app,.herokuapp.com',
     cast=Csv()
 )
 
