@@ -28,11 +28,22 @@ SECRET_KEY = config(
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 # Allowed hosts for CSRF protection
-ALLOWED_HOSTS = config(
-    'ALLOWED_HOSTS',
-    default='localhost,127.0.0.1',
-    cast=Csv()
-)
+# Allow environment-configured hosts, with sensible defaults for development and production
+if DEBUG:
+    # Development: permissive defaults
+    ALLOWED_HOSTS = config(
+        'ALLOWED_HOSTS',
+        default='localhost,127.0.0.1',
+        cast=Csv()
+    )
+else:
+    # Production: require explicit configuration, but include Railway and common domains
+    default_hosts = 'localhost,127.0.0.1,.railway.app,.herokuapp.com,.up.railway.app'
+    ALLOWED_HOSTS = config(
+        'ALLOWED_HOSTS',
+        default=default_hosts,
+        cast=Csv()
+    )
 
 # Application definition
 INSTALLED_APPS = [
