@@ -1,0 +1,311 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+{% block meta_description %}{{ page_description }}{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="py-4 mb-5" style="background: linear-gradient(135deg, #2d8a63 0%, #1f6b4a 100%); color: white;">
+    <div class="container">
+        <h1 class="mb-2 text-white">Book Your Stay</h1>
+        <p class="lead text-white-50">Reserve your perfect room at Diamond Hill Resort</p>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Availability Status Alert -->
+            {% if has_availability_check %}
+            <div class="alert {% if rooms_available %}alert-success{% else %}alert-warning{% endif %} mb-4"
+                role="alert">
+                <div style="display: flex; align-items: flex-start;">
+                    {% if rooms_available %}
+                    <i class="fas fa-check-circle me-3" style="font-size: 1.5rem; color: #28a745;"></i>
+                    <div>
+                        <h5 style="margin: 0; color: #28a745; font-weight: 600;">Rooms Available</h5>
+                        <p style="margin: 8px 0 0 0; color: #666;">
+                            <strong>{{ check_in_date|date:"M d, Y" }}</strong> to <strong>{{ check_out_date|date:"M d,
+                                Y" }}</strong>
+                            ({{ nights }} night{{ nights|pluralize }})
+                        </p>
+                        <div style="margin-top: 10px; font-size: 0.95rem;">
+                            <strong style="color: #28a745; display: block; margin-bottom: 8px;">Available
+                                Rooms:</strong>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                {% for available in available_rooms %}
+                                <div
+                                    style="padding: 10px; background-color: rgba(40, 167, 69, 0.05); border-left: 3px solid #28a745; border-radius: 4px;">
+                                    <div style="font-weight: 600; color: #28a745; margin-bottom: 4px;">{{
+                                        available.room.title }}</div>
+                                    <div style="font-size: 0.85rem; color: #555; line-height: 1.4;">
+                                        <div>{{ available.available_count }} available</div>
+                                        <div style="color: #2d8a63; font-weight: 600;">NPR {{
+                                            available.room.price|floatformat:0 }}/night</div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <i class="fas fa-exclamation-triangle me-3" style="font-size: 1.5rem; color: #ff9800;"></i>
+                    <div>
+                        <h5 style="margin: 0; color: #ff9800; font-weight: 600;">No Rooms Available</h5>
+                        <p style="margin: 8px 0 0 0; color: #666;">
+                            Sorry, no rooms are available for <strong>{{ check_in_date|date:"M d, Y" }}</strong> to
+                            <strong>{{ check_out_date|date:"M d, Y" }}</strong>.
+                            <br />Please try different dates or <a href="{% url 'main:contact' %}"
+                                style="color: #2d8a63; text-decoration: underline;">contact us</a> for more options.
+                        </p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Booking Form -->
+            <div class="card shadow-lg mb-5">
+                <div class="card-body p-4 p-md-5">
+                    <h4 class="card-title mb-4">Booking Form</h4>
+
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+
+                        <!-- Guest Information -->
+                        <fieldset class="mb-4">
+                            <legend class="fs-6 fw-bold text-primary mb-3">Guest Information</legend>
+
+                            <div class="mb-3">
+                                <label for="{{ form.guest_name.id_for_label }}" class="form-label">Full Name *</label>
+                                {{ form.guest_name }}
+                                {% if form.guest_name.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.guest_name.errors.0 }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.guest_email.id_for_label }}" class="form-label">Email Address
+                                    *</label>
+                                {{ form.guest_email }}
+                                {% if form.guest_email.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.guest_email.errors.0 }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.guest_phone.id_for_label }}" class="form-label">Phone Number
+                                    *</label>
+                                {{ form.guest_phone }}
+                                {% if form.guest_phone.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.guest_phone.errors.0 }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </fieldset>
+
+                        <!-- Booking Details -->
+                        <fieldset class="mb-4">
+                            <legend class="fs-6 fw-bold text-primary mb-3">Booking Details</legend>
+
+                            <div class="mb-3">
+                                <label for="{{ form.room.id_for_label }}" class="form-label">Room Type *</label>
+                                {{ form.room }}
+                                {% if form.room.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.room.errors.0 }}
+                                </div>
+                                {% endif %}
+                                <small class="text-muted d-block mt-1">Select the room that best fits your needs</small>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.check_in.id_for_label }}" class="form-label">Check-in Date
+                                        *</label>
+                                    {{ form.check_in }}
+                                    {% if form.check_in.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.check_in.errors.0 }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.check_out.id_for_label }}" class="form-label">Check-out Date
+                                        *</label>
+                                    {{ form.check_out }}
+                                    {% if form.check_out.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.check_out.errors.0 }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.guests.id_for_label }}" class="form-label">Number of Guests
+                                    *</label>
+                                {{ form.guests }}
+                                {% if form.guests.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.guests.errors.0 }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </fieldset>
+
+                        <!-- Form Errors -->
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            <strong>Error:</strong>
+                            {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <!-- Price Estimate Note -->
+                        <div class="alert alert-info" role="alert">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <small>The total amount will be calculated after you select your room and dates. Seasonal
+                                pricing may apply.</small>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid gap-2 mb-3">
+                            <button type="submit" class="btn btn-warning btn-lg fw-bold">
+                                <i class="fas fa-calendar-check me-2"></i>Proceed to Payment
+                            </button>
+                        </div>
+
+                        <p class="text-muted text-center small mb-0">
+                            <i class="fas fa-shield-alt me-1"></i>
+                            Your booking is secure. We protect your personal information.
+                        </p>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Benefits -->
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <i class="fas fa-lock text-warning fs-2 mb-3"></i>
+                        <h6>Secure Booking</h6>
+                        <p class="small text-muted">Your data is encrypted and secure</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <i class="fas fa-undo text-warning fs-2 mb-3"></i>
+                        <h6>Free Cancellation</h6>
+                        <p class="small text-muted">Cancel up to 7 days before</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <i class="fas fa-headset text-warning fs-2 mb-3"></i>
+                        <h6>24/7 Support</h6>
+                        <p class="small text-muted">We're here to help anytime</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FAQ Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h3 class="mb-4 text-center">Frequently Asked Questions</h3>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faq1">
+                                How soon will I receive my booking confirmation?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                You will receive a booking confirmation email immediately after completing your payment.
+                                Our team will also contact you within 2 hours to confirm all details.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faq2">
+                                What is your cancellation policy?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Free cancellation up to 7 days before check-in. Cancellations within 7 days are subject
+                                to one night's charge. No-show bookings will be fully charged.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faq3">
+                                What payment methods do you accept?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                We accept all major credit cards, eSewa, Khalti, and bank transfers. All payments are
+                                processed securely through our payment gateway.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faq4">
+                                Are there any additional charges?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                The price shown includes room rate and taxes. Some services like airport transfer, spa,
+                                or special requests may have additional charges.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-control,
+    .form-select {
+        border-radius: 0.5rem;
+        border: 1px solid #dee2e6;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #ffc107;
+        box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+    }
+</style>
+{% endblock %}

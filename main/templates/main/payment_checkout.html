@@ -1,0 +1,259 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Payment Checkout | Diamond Hill Resort{% endblock %}
+{% block meta_description %}Complete your booking payment securely{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-body p-5">
+                    <!-- Header -->
+                    <div class="text-center mb-5">
+                        <h1 class="fw-bold mb-2">Secure Payment</h1>
+                        <p class="text-muted">Complete your booking for Diamond Hill Resort</p>
+                    </div>
+
+                    <!-- Booking Summary -->
+                    <div class="bg-light p-4 rounded-3 mb-4">
+                        <h5 class="fw-bold mb-3">Booking Summary</h5>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Booking ID:</span>
+                            <strong>#{{ booking_id }}</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Room:</span>
+                            <strong>{{ room_type }}</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Duration:</span>
+                            <strong>{{ nights }} nights</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal:</span>
+                            <strong>NPR {{ subtotal|floatformat:2 }}</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Tax (13%):</span>
+                            <strong>NPR {{ tax|floatformat:2 }}</strong>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <span class="fs-5">Total Amount:</span>
+                            <span class="fs-5 fw-bold text-success">NPR {{ total_amount|floatformat:2 }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method Selection -->
+                    <h5 class="fw-bold mb-3">Select Payment Method</h5>
+                    <div class="row g-3">
+                        <!-- Stripe Payment -->
+                        <div class="col-md-6">
+                            <button class="payment-method-btn w-100 p-4 border-2 rounded-3 text-center cursor-pointer"
+                                id="stripeBtn"
+                                style="border: 2px solid #ddd; background: #fff; transition: all 0.3s ease;">
+                                <div class="mb-2">
+                                    <i class="fas fa-credit-card" style="font-size: 2rem; color: #635bff;"></i>
+                                </div>
+                                <h6 class="fw-bold">Credit/Debit Card</h6>
+                                <small class="text-muted">Via Stripe</small>
+                            </button>
+                        </div>
+
+                        <!-- Khalti Payment -->
+                        <div class="col-md-6">
+                            <button class="payment-method-btn w-100 p-4 border-2 rounded-3 text-center cursor-pointer"
+                                id="khaltiBtn"
+                                style="border: 2px solid #ddd; background: #fff; transition: all 0.3s ease;">
+                                <div class="mb-2">
+                                    <i class="fas fa-mobile-alt" style="font-size: 2rem; color: #5a2d82;"></i>
+                                </div>
+                                <h6 class="fw-bold">Khalti Wallet</h6>
+                                <small class="text-muted">Mobile Payment</small>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Stripe Payment Form -->
+                    <div id="stripePaymentForm" style="display: none; margin-top: 30px;">
+                        <h5 class="fw-bold mb-3">Card Details</h5>
+                        <form id="stripeCheckoutForm">
+                            <div id="card-element" class="form-control p-3" style="height: 50px;"></div>
+                            <div id="card-errors" role="alert" class="text-danger mt-2"></div>
+                            <button type="submit" class="btn btn-primary btn-lg w-100 mt-3">
+                                <i class="fas fa-lock me-2"></i>Pay NPR {{ total_amount|floatformat:2 }},00
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Khalti Payment Button -->
+                    <div id="khaltiPaymentSection" style="display: none; margin-top: 30px;">
+                        <h5 class="fw-bold mb-3">Khalti Wallet Payment</h5>
+                        <button class="btn btn-lg w-100" style="background-color: #5a2d82; color: white;"
+                            onclick="initiateKhaltiPayment()">
+                            <i class="fas fa-mobile-alt me-2"></i>Pay with Khalti - NPR {{ total_amount|floatformat:2
+                            }},00
+                        </button>
+                        <p class="text-muted text-center mt-3 small">You will be redirected to Khalti to complete the
+                            payment</p>
+                    </div>
+
+                    <!-- Security Info -->
+                    <div class="alert alert-info mt-4" role="alert">
+                        <i class="fas fa-shield-alt me-2"></i>
+                        <strong>Secure Payment:</strong> All payments are processed securely with industry-standard
+                        encryption.
+                    </div>
+
+                    <!-- Back Button -->
+                    <div class="text-center mt-4">
+                        <a href="{% url 'main:booking' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Booking
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Stripe Script -->
+{% if stripe_public_key %}
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    const stripe = Stripe('{{ stripe_public_key }}');
+    const elements = stripe.elements();
+    const cardElement = elements.create('card');
+
+    document.getElementById('stripeBtn').addEventListener('click', function () {
+        document.getElementById('stripePaymentForm').style.display = 'block';
+        document.getElementById('khaltiPaymentSection').style.display = 'none';
+        this.style.borderColor = '#635bff';
+        this.style.backgroundColor = '#f5f3ff';
+        document.getElementById('khaltiBtn').style.borderColor = '#ddd';
+        document.getElementById('khaltiBtn').style.backgroundColor = '#fff';
+        cardElement.mount('#card-element');
+    });
+
+    document.getElementById('khaltiBtn').addEventListener('click', function () {
+        document.getElementById('stripePaymentForm').style.display = 'none';
+        document.getElementById('khaltiPaymentSection').style.display = 'block';
+        this.style.borderColor = '#5a2d82';
+        this.style.backgroundColor = '#f5f3ff';
+        document.getElementById('stripeBtn').style.borderColor = '#ddd';
+        document.getElementById('stripeBtn').style.backgroundColor = '#fff';
+    });
+
+    document.getElementById('stripeCheckoutForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const { setupIntent, error } = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+                card: cardElement,
+                billing_details: {}
+            }
+        });
+
+        if (error) {
+            document.getElementById('card-errors').textContent = error.message;
+        } else {
+            // Payment successful
+            window.location.href = '{% url "main:booking_success" %}';
+        }
+    });
+
+    cardElement.addEventListener('change', function (event) {
+        const displayError = document.getElementById('card-errors');
+        if (event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = '';
+        }
+    });
+</script>
+{% endif %}
+
+<!-- Khalti Payment Handler -->
+<script src="https://khalti.com/static/khalti-checkout.js"></script>
+<script>
+    function initiateKhaltiPayment() {
+        const config = {
+            "publicKey": "{{ khalti_public_key }}",
+            "productIdentity": "booking_{{ booking_id }}",
+            "productName": "Diamond Hill Resort Booking",
+            "productUrl": window.location.href,
+            "eventHandler": {
+                onSuccess(payload) {
+                    // Verify payment on backend
+                    verifyKhaltiPayment(payload.token, payload.jwe);
+                },
+                onError(error) {
+                    alert('Payment failed: ' + error.message);
+                },
+                onClose() {
+                    console.log('Payment window closed');
+                }
+            },
+            "amount": {{ total_amount| floatformat: 2
+    }} * 100  // Convert to paisa
+        };
+
+    const checkout = new KhaltiCheckout(config);
+    checkout.show({ "amount": {{ total_amount| floatformat: 2 }} * 100 });
+    }
+
+    function verifyKhaltiPayment(token, jwe) {
+        // This would typically be done via your backend
+        fetch('{% url "main:khalti_verify" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify({
+                token: token,
+                jwe: jwe,
+                booking_id: {{ booking_id }}
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                window.location.href = '{% url "main:booking_success" %}';
+            } else {
+                alert('Payment verification failed: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred during payment verification');
+        });
+    }
+</script>
+
+<style>
+    .payment-method-btn {
+        cursor: pointer;
+    }
+
+    .payment-method-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    #card-element {
+        border: 1px solid #ddd !important;
+        border-radius: 6px;
+    }
+
+    #card-element.StripeElement--complete {
+        border-color: #4caf50 !important;
+    }
+
+    #card-element.StripeElement--invalid {
+        border-color: #f44336 !important;
+    }
+</style>
+{% endblock %}

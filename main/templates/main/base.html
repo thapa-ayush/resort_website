@@ -1,0 +1,236 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="{% block meta_description %}Diamond Hill Resort – A stylish mountain retreat in Nagarkot, Nepal. Book deluxe rooms, enjoy panoramic views of Himalayas, rooftop pool, spa & premium service.{% endblock %}">
+    <meta name="keywords"
+        content="Diamond Hill Resort, Nepal resort, Nagarkot accommodation, luxury rooms, mountain view">
+    <meta name="author" content="Diamond Hill Resort">
+    <meta property="og:title" content="{% block og_title %}Diamond Hill Resort - Own the Drip{% endblock %}">
+    <meta property="og:description"
+        content="{% block og_description %}A stylish mountain retreat in Nagarkot, Nepal{% endblock %}">
+
+    <title>{% block title %}Diamond Hill Resort - Own the Drip{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS - Premium -->
+    <link rel="stylesheet" href="{% static 'css/style-premium.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top"
+        style="background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.08);">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center fw-bold" href="{% url 'main:home' %}"
+                style="color: #2d8a63;">
+                <img src="{% static 'images/logo.svg' %}" alt="Diamond Hill Resort" class="navbar-logo">
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                style="color: #2d8a63;">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %} fw-500"
+                            href="{% url 'main:home' %}">
+                            <i class="fas fa-home me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'room_list' %}active{% endif %} fw-500"
+                            href="{% url 'main:room_list' %}">
+                            <i class="fas fa-door-open me-1"></i>Rooms
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'gallery' %}active{% endif %} fw-500"
+                            href="{% url 'main:gallery' %}">
+                            <i class="fas fa-images me-1"></i>Gallery
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'blog' or request.resolver_match.url_name == 'blog_detail' %}active{% endif %} fw-500"
+                            href="{% url 'main:blog' %}">
+                            <i class="fas fa-newspaper me-1"></i>Blog
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %} fw-500"
+                            href="{% url 'main:contact' %}">
+                            <i class="fas fa-envelope me-1"></i>Contact
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %} fw-500"
+                            href="{% url 'main:about' %}">
+                            <i class="fas fa-info-circle me-1"></i>About
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold ms-2 px-3 rounded-2" href="{% url 'main:booking' %}"
+                            style="background-color: #2d8a63; color: white; transition: background-color 0.3s ease;"
+                            onmouseover="this.style.backgroundColor='#1f6b4a'"
+                            onmouseout="this.style.backgroundColor='#2d8a63'">
+                            <i class="fas fa-calendar-check me-1"></i>Book Now
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Messages/Alerts -->
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert alert-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %} alert-dismissible fade show"
+            role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    {% block content %}{% endblock %}
+
+    <!-- Footer -->
+    <footer class="text-light mt-5 py-5" style="background: linear-gradient(135deg, #1f6b4a 0%, #0d4a2e 100%);">
+        <div class="container">
+            <div class="row">
+                <!-- About -->
+                <div class="col-md-4 mb-4">
+                    <h5 class="mb-3">
+                        <img src="{% static 'images/logo.svg' %}" alt="Diamond Hill Resort" style="height: 30px;">
+                    </h5>
+                    <p class="text-light" style="opacity: 0.9;">
+                        Blessed by Nature — A luxury mountain retreat in Nagarkot, Nepal offering unforgettable
+                        experiences.
+                    </p>
+                    <div class="mt-3">
+                        <p class="mb-2">
+                            <i class="fas fa-map-marker-alt text-warning me-2"></i>
+                            Panauti-4, Chamkhar, Nepal
+                        </p>
+                        <p class="mb-2">
+                            <i class="fas fa-phone text-warning me-2"></i>
+                            <a href="tel:+977-11-405145" class="text-decoration-none text-light">+977 011-405145</a>
+                        </p>
+                        <p class="mb-2">
+                            <i class="fas fa-mobile-alt text-warning me-2"></i>
+                            <a href="tel:+977-9851065001" class="text-decoration-none text-light">+977 9851065001</a>
+                        </p>
+                        <p class="mb-2">
+                            <i class="fas fa-envelope text-warning me-2"></i>
+                            <a href="mailto:revs@diamondhillresort.com.np"
+                                class="text-decoration-none text-light">revs@diamondhillresort.com.np</a>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="col-md-4 mb-4">
+                    <h5 class="mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <a href="{% url 'main:home' %}" class="text-decoration-none text-light"
+                                style="opacity: 0.9; transition: opacity 0.3s ease;"
+                                onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.9'">Home</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="{% url 'main:room_list' %}" class="text-decoration-none text-light"
+                                style="opacity: 0.9; transition: opacity 0.3s ease;"
+                                onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.9'">Our Rooms</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="{% url 'main:gallery' %}" class="text-decoration-none text-light"
+                                style="opacity: 0.9; transition: opacity 0.3s ease;"
+                                onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.9'">Gallery</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="{% url 'main:booking' %}" class="text-decoration-none text-light"
+                                style="opacity: 0.9; transition: opacity 0.3s ease;"
+                                onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.9'">Book Now</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="{% url 'main:contact' %}" class="text-decoration-none text-light"
+                                style="opacity: 0.9; transition: opacity 0.3s ease;"
+                                onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.9'">Contact
+                                Us</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="/admin/" class="text-decoration-none text-light"
+                                style="opacity: 0.9; transition: opacity 0.3s ease;"
+                                onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.9'">Admin</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Social & Amenities -->
+                <div class="col-md-4 mb-4">
+                    <h5 class="mb-3">Amenities</h5>
+                    <ul class="list-unstyled" style="opacity: 0.9;">
+                        <li class="mb-2"><i class="fas fa-wifi text-warning me-2"></i>Free WiFi</li>
+                        <li class="mb-2"><i class="fas fa-utensils text-warning me-2"></i>Fine Dining</li>
+                        <li class="mb-2"><i class="fas fa-hiking text-warning me-2"></i>Trekking Tours</li>
+                        <li class="mb-2"><i class="fas fa-mountain text-warning me-2"></i>Mountain Views</li>
+                    </ul>
+                    <div class="mt-4">
+                        <h6 class="mb-3">Follow Us</h6>
+                        <a href="https://www.facebook.com/diamondhillresort.com.np/" target="_blank"
+                            class="text-light me-3" title="Facebook" style="transition: color 0.3s ease;"
+                            onmouseover="this.style.color='#ffc107'" onmouseout="this.style.color='white'">
+                            <i class="fab fa-facebook-f fa-lg"></i>
+                        </a>
+                        <a href="https://instagram.com" target="_blank" class="text-light me-3" title="Instagram"
+                            style="transition: color 0.3s ease;" onmouseover="this.style.color='#ffc107'"
+                            onmouseout="this.style.color='white'">
+                            <i class="fab fa-instagram fa-lg"></i>
+                        </a>
+                        <a href="https://twitter.com" target="_blank" class="text-light" title="Twitter"
+                            style="transition: color 0.3s ease;" onmouseover="this.style.color='#ffc107'"
+                            onmouseout="this.style.color='white'">
+                            <i class="fab fa-twitter fa-lg"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <hr class="bg-secondary" style="opacity: 0.3;">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0 text-light" style="opacity: 0.8;">
+                        &copy; {% now "Y" %} Diamond Hill Resort. All rights reserved.
+                    </p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <p class="mb-0 text-light" style="opacity: 0.8;">
+                        <small>Designed with <i class="fas fa-heart text-danger"></i> by Ayush Thapa</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery (optional, for additional functionality) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

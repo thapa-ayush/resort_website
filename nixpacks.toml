@@ -1,0 +1,1 @@
+cmd = "gunicorn resort_website.wsgi --bind 0.0.0.0:$PORT")  ; type nixpacks.toml

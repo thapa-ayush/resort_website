@@ -1,0 +1,260 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+{% block meta_description %}{{ page_description }}{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="py-4 mb-5" style="background: linear-gradient(135deg, #2d8a63 0%, #1f6b4a 100%); color: white;">
+    <div class="container">
+        <h1 class="mb-2 text-white">Contact Us</h1>
+        <p class="lead text-white-50">Get in touch with Diamond Hill Resort</p>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <div class="row g-5">
+        <!-- Contact Information -->
+        <div class="col-lg-5">
+            <!-- Address -->
+            <div class="mb-4">
+                <h5 class="mb-3">
+                    <i class="fas fa-map-marker-alt text-warning me-2"></i>Location
+                </h5>
+                <p class="text-muted mb-2">
+                    {{ resort_address }}
+                </p>
+                <a href="https://maps.google.com/?q=Nagarkot,+Nepal" target="_blank"
+                    class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-map me-2"></i>View on Map
+                </a>
+            </div>
+
+            <!-- Contact Details -->
+            <div class="mb-4">
+                <h5 class="mb-3">
+                    <i class="fas fa-info-circle text-warning me-2"></i>Contact Information
+                </h5>
+                <ul class="list-unstyled">
+                    <li class="mb-3">
+                        <strong>Phone:</strong><br>
+                        <a href="tel:{{ resort_phone }}" class="text-decoration-none">{{ resort_phone }}</a>
+                    </li>
+                    <li class="mb-3">
+                        <strong>Email:</strong><br>
+                        <a href="mailto:{{ resort_email }}" class="text-decoration-none">{{ resort_email }}</a>
+                    </li>
+                    <li class="mb-3">
+                        <strong>Operating Hours:</strong><br>
+                        24/7 Front Desk Available
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Social Media -->
+            <div class="mb-4">
+                <h5 class="mb-3">
+                    <i class="fas fa-share-alt text-warning me-2"></i>Follow Us
+                </h5>
+                <a href="{{ facebook_url }}" target="_blank" class="btn btn-primary btn-sm me-2">
+                    <i class="fab fa-facebook me-1"></i>Facebook
+                </a>
+                <a href="https://instagram.com" target="_blank" class="btn btn-danger btn-sm me-2">
+                    <i class="fab fa-instagram me-1"></i>Instagram
+                </a>
+                <a href="https://twitter.com" target="_blank" class="btn btn-info btn-sm">
+                    <i class="fab fa-twitter me-1"></i>Twitter
+                </a>
+            </div>
+
+            <!-- Quick Facts -->
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h6 class="card-title">Quick Facts</h6>
+                    <ul class="list-unstyled small">
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Established in 2020</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>50+ Guest Rooms</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Award Winning Service</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>24/7 Customer Support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="col-lg-7">
+            <div class="card shadow-lg">
+                <div class="card-body p-4">
+                    <h5 class="card-title mb-4">Send us a Message</h5>
+
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="{{ form.name.id_for_label }}" class="form-label">Full Name *</label>
+                            {{ form.name }}
+                            {% if form.name.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.name.errors.0 }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.email.id_for_label }}" class="form-label">Email Address *</label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.email.errors.0 }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.phone.id_for_label }}" class="form-label">Phone Number
+                                (Optional)</label>
+                            {{ form.phone }}
+                            {% if form.phone.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.phone.errors.0 }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.subject.id_for_label }}" class="form-label">Subject *</label>
+                            {{ form.subject }}
+                            {% if form.subject.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.subject.errors.0 }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.message.id_for_label }}" class="form-label">Message *</label>
+                            {{ form.message }}
+                            {% if form.message.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.message.errors.0 }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <button type="submit" class="btn btn-warning btn-lg w-100">
+                            <i class="fas fa-paper-plane me-2"></i>Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Google Map -->
+<section class="mb-5">
+    <div class="container-fluid px-0">
+        <h3 class="mb-4 ms-3">Find Us on the Map</h3>
+        <iframe src="{{ map_embed }}" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+</section>
+
+<!-- FAQs -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h3 class="mb-4 text-center">Common Questions</h3>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion" id="contactFAQ">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faq1">
+                                What is the best time to visit Nagarkot?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#contactFAQ">
+                            <div class="accordion-body">
+                                The best time to visit is September to November (autumn) and February to April (spring).
+                                These seasons offer clear skies and excellent views of the Himalayas. December to
+                                January can be cold but are also popular.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faq2">
+                                How far is the resort from Kathmandu?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#contactFAQ">
+                            <div class="accordion-body">
+                                Diamond Hill Resort is approximately 32 km from Kathmandu city center, about 1-1.5 hours
+                                drive depending on traffic. We offer airport transfer services for your convenience.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faq3">
+                                Do you arrange adventure activities?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#contactFAQ">
+                            <div class="accordion-body">
+                                Yes! We offer guided hiking tours, paragliding, sunrise viewing, and local cultural
+                                experiences. Contact us for more details and to book your activities.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faq4">
+                                Is WiFi available throughout the resort?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#contactFAQ">
+                            <div class="accordion-body">
+                                Yes, high-speed WiFi is complimentary in all rooms and common areas including the
+                                restaurant and lounge.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-control,
+    .form-select {
+        border-radius: 0.5rem;
+        border: 1px solid #dee2e6;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #ffc107;
+        box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+    }
+</style>
+{% endblock %}

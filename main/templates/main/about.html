@@ -1,0 +1,406 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+{% block meta_description %}{{ page_description }}{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="py-4 mb-5" style="background: linear-gradient(135deg, #2d8a63 0%, #1f6b4a 100%); color: white;">
+    <div class="container">
+        <h1 class="mb-2 text-white">About Diamond Hill Resort</h1>
+        <p class="lead text-white-50">Your gateway to luxury and natural beauty in the Himalayas</p>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <!-- History Section -->
+    <div class="row g-5 mb-5 align-items-center">
+        <div class="col-lg-6">
+            <h2 style="color: #2d8a63;" class="mb-4">Our Story</h2>
+            {% if about and about.story %}
+            <p class="lead text-muted mb-3">
+                {{ about.story|linebreaks }}
+            </p>
+            {% else %}
+            <p class="lead text-muted mb-3">
+                Diamond Hill Resort stands as a beacon of luxury and comfort in the heart of Nagarkot, Nepal.
+                Established with a vision to provide world-class hospitality, we have been welcoming guests
+                from around the globe to experience the breathtaking beauty of the Himalayas.
+            </p>
+            <p class="text-muted mb-3">
+                Our resort is more than just a place to stay—it's a destination where memories are created,
+                cultures blend, and nature's majesty takes center stage. Every detail, from our meticulously
+                designed rooms to our exceptional dining experiences, reflects our commitment to excellence.
+            </p>
+            <p class="text-muted">
+                Whether you're seeking a romantic getaway, a family vacation, or a corporate retreat,
+                Diamond Hill Resort offers the perfect setting for your unforgettable Himalayan experience.
+            </p>
+            {% endif %}
+        </div>
+        <div class="col-lg-6">
+            <div class="position-relative">
+                {% if featured_images %}
+                <img src="{{ featured_images.0.image.url }}" alt="Resort Overview" class="img-fluid rounded shadow-lg"
+                    style="height: 400px; object-fit: cover; width: 100%;">
+                {% else %}
+                <div class="bg-light rounded shadow-lg d-flex align-items-center justify-content-center"
+                    style="height: 400px;">
+                    <i class="fas fa-image text-muted fa-3x"></i>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Values Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 style="color: #2d8a63;" class="mb-4 text-center">Our Values</h2>
+            {% if about and about.values_intro %}
+            <p class="text-center lead text-muted mb-4">{{ about.values_intro }}</p>
+            {% endif %}
+        </div>
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card border-0 shadow-sm h-100" style="text-align: center;">
+                <div class="card-body p-4">
+                    <div style="font-size: 3rem; color: #2d8a63; margin-bottom: 1rem;">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h5 class="card-title" style="color: #2d8a63;">Hospitality</h5>
+                    <p class="card-text text-muted">
+                        We treat every guest as family, ensuring their comfort and satisfaction is our top priority.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card border-0 shadow-sm h-100" style="text-align: center;">
+                <div class="card-body p-4">
+                    <div style="font-size: 3rem; color: #2d8a63; margin-bottom: 1rem;">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h5 class="card-title" style="color: #2d8a63;">Sustainability</h5>
+                    <p class="card-text text-muted">
+                        We are committed to preserving the natural beauty of Nagarkot for generations to come.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card border-0 shadow-sm h-100" style="text-align: center;">
+                <div class="card-body p-4">
+                    <div style="font-size: 3rem; color: #2d8a63; margin-bottom: 1rem;">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h5 class="card-title" style="color: #2d8a63;">Excellence</h5>
+                    <p class="card-text text-muted">
+                        We strive for perfection in every aspect of our service and amenities.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card border-0 shadow-sm h-100" style="text-align: center;">
+                <div class="card-body p-4">
+                    <div style="font-size: 3rem; color: #2d8a63; margin-bottom: 1rem;">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h5 class="card-title" style="color: #2d8a63;">Community</h5>
+                    <p class="card-text text-muted">
+                        We support local communities and celebrate the rich culture of Nepal.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Amenities Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 style="color: #2d8a63;" class="mb-4 text-center">World-Class Amenities</h2>
+        </div>
+        <div class="col-lg-6 mb-4">
+            <div class="d-flex mb-3">
+                <div style="color: #2d8a63; font-size: 1.5rem; margin-right: 1rem;">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <div>
+                    <h5 style="color: #2d8a63;">Fine Dining Restaurant</h5>
+                    <p class="text-muted">Experience exquisite Nepali and international cuisine prepared by our expert
+                        chefs.</p>
+                </div>
+            </div>
+            <div class="d-flex mb-3">
+                <div style="color: #2d8a63; font-size: 1.5rem; margin-right: 1rem;">
+                    <i class="fas fa-spa"></i>
+                </div>
+                <div>
+                    <h5 style="color: #2d8a63;">Spa & Wellness</h5>
+                    <p class="text-muted">Rejuvenate your body and mind with our comprehensive spa and wellness
+                        services.</p>
+                </div>
+            </div>
+            <div class="d-flex mb-3">
+                <div style="color: #2d8a63; font-size: 1.5rem; margin-right: 1rem;">
+                    <i class="fas fa-wifi"></i>
+                </div>
+                <div>
+                    <h5 style="color: #2d8a63;">High-Speed WiFi</h5>
+                    <p class="text-muted">Stay connected with our complimentary high-speed internet throughout the
+                        resort.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 mb-4">
+            <div class="d-flex mb-3">
+                <div style="color: #2d8a63; font-size: 1.5rem; margin-right: 1rem;">
+                    <i class="fas fa-swimming-pool"></i>
+                </div>
+                <div>
+                    <h5 style="color: #2d8a63;">Rooftop Swimming Pool</h5>
+                    <p class="text-muted">Swim under the stars with stunning views of the Himalayan landscape.</p>
+                </div>
+            </div>
+            <div class="d-flex mb-3">
+                <div style="color: #2d8a63; font-size: 1.5rem; margin-right: 1rem;">
+                    <i class="fas fa-hiking"></i>
+                </div>
+                <div>
+                    <h5 style="color: #2d8a63;">Trekking & Tours</h5>
+                    <p class="text-muted">Explore the natural beauty of Nepal with our expert guides and curated tour
+                        packages.</p>
+                </div>
+            </div>
+            <div class="d-flex mb-3">
+                <div style="color: #2d8a63; font-size: 1.5rem; margin-right: 1rem;">
+                    <i class="fas fa-concierge-bell"></i>
+                </div>
+                <div>
+                    <h5 style="color: #2d8a63;">24/7 Concierge</h5>
+                    <p class="text-muted">Our dedicated team is available around the clock to assist with any requests.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customer Testimonials Section -->
+    <div class="row mb-5 py-5"
+        style="background: linear-gradient(135deg, #f8f9fa 0%, #e8f5e9 100%); border-radius: 15px; margin: 0 -15px; padding: 3rem 15px !important;">
+        <div class="col-12">
+            <h2 style="color: #2d8a63;" class="mb-2 text-center">What Our Guests Say</h2>
+            <p class="text-center text-muted mb-5">Hear from travelers who have experienced the magic of Diamond Hill
+                Resort</p>
+        </div>
+
+        {% if reviews %}
+        <div class="col-12">
+            <div class="row g-4">
+                {% for review in reviews|slice:":3" %}
+                <!-- Review Card 1 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100 hover-lift"
+                        style="transition: all 0.3s ease; border-left: 5px solid #2d8a63;">
+                        <!-- Star Rating -->
+                        <div class="card-body pb-2">
+                            <div class="d-flex gap-1 mb-3">
+                                {% for i in "12345" %}
+                                {% if i|add:0 <= review.rating %} <i class="fas fa-star"
+                                    style="color: #ffc107; font-size: 0.9rem;"></i>
+                                    {% else %}
+                                    <i class="fas fa-star" style="color: #ffc107; opacity: 0.3; font-size: 0.9rem;"></i>
+                                    {% endif %}
+                                    {% endfor %}
+                            </div>
+
+                            <!-- Review Text -->
+                            <p class="card-text text-muted mb-3" style="font-size: 0.95rem; line-height: 1.6;">
+                                "{{ review.review_text }}"
+                            </p>
+                        </div>
+
+                        <!-- Guest Info -->
+                        <div class="card-footer bg-white border-0 pt-0">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-circle"
+                                    style="width: 45px; height: 45px; border-radius: 50%; background: linear-gradient(135deg, #2d8a63 0%, #1f6b4a 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 12px;">
+                                    {{ review.guest_name|slice:":1"|upper }}
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 fw-bold" style="color: #2d8a63;">{{ review.guest_name }}</h6>
+                                    <small class="text-muted">{{ review.location }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+        <!-- Default Reviews if no database reviews -->
+        <div class="col-12">
+            <div class="row g-4">
+                <!-- Review Card 1 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100 hover-lift"
+                        style="transition: all 0.3s ease; border-left: 5px solid #2d8a63;">
+                        <!-- Star Rating -->
+                        <div class="card-body pb-2">
+                            <div class="d-flex gap-1 mb-3">
+                                <i class="fas fa-star" style="color: #ffc107;"></i>
+                                <i class="fas fa-star" style="color: #ffc107;"></i>
+                                <i class="fas fa-star" style="color: #ffc107;"></i>
+                                <i class="fas fa-star" style="color: #ffc107;"></i>
+                                <i class="fas fa-star" style="color: #ffc107;"></i>
+                            </div>
+
+                            <!-- Review Text -->
+                            <p class="card-text text-muted mb-3" style="font-size: 0.95rem; line-height: 1.6;">
+                                "An absolutely stunning resort with breathtaking mountain views. The staff was
+                                incredibly hospitable and the rooms were immaculate. Highly recommend for anyone
+                                visiting Nepal!"
+                            </p>
+                        </div>
+
+                        <!-- Guest Info -->
+                        <div class="card-footer bg-white border-0 pt-0">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-circle"
+                                    style="width: 45px; height: 45px; border-radius: 50%; background: linear-gradient(135deg, #2d8a63 0%, #1f6b4a 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 12px;">
+                                    S
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 fw-bold" style="color: #2d8a63;">Sarah Johnson</h6>
+                                    <small class="text-muted">London, UK</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review Card 2 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100 hover-lift"
+                        style="transition: all 0.3s ease; border-left: 5px solid #2d8a63;">
+                        <!-- Star Rating -->
+                        <div class="card-body pb-2">
+                            <div class="d-flex gap-1 mb-3">
+                                <i class="fas fa-star" style="color: #ffc107;"></i>
+                                <i class="fas fa-star" style="color: #ffc107;"></i>
+                                <i class="fas fa-star" style="color: #ffc107;"></i>
+                                <i class="fas fa-star" style="color: #ffc107;"></i>
+                                <i class="fas fa-star" style="color: #ffc107;"></i>
+                            </div>
+
+                            <!-- Review Text -->
+                            <p class="card-text text-muted mb-3" style="font-size: 0.95rem; line-height: 1.6;">
+                                "The best resort experience in Nagarkot! Perfect location for sunrise views, excellent
+                                food, and amazing service. Our family had an unforgettable stay."
+                            </p>
+                        </div>
+
+                        <!-- Guest Info -->
+                        <div class="card-footer bg-white border-0 pt-0">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-circle"
+                                    style="width: 45px; height: 45px; border-radius: 50%; background: linear-gradient(135deg, #2d8a63 0%, #1f6b4a 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 12px;">
+                                    R
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 fw-bold" style="color: #2d8a63;">Rajesh Patel</h6>
+                                    <small class="text-muted">New Delhi, India</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review Card 3 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100 hover-lift"
+                        style="transition: all 0.3s ease; border-left: 5px solid #2d8a63;">
+                        <!-- Star Rating -->
+                        <div class="card-body pb-2">
+                            <div class="d-flex gap-1 mb-3">
+                                <i class="fas fa-star" style="color: #ffc107;"></i>
+                                <i class="fas fa-star" style="color: #ffc107;"></i>
+                                <i class="fas fa-star" style="color: #ffc107;"></i>
+                                <i class="fas fa-star" style="color: #ffc107;"></i>
+                                <i class="fas fa-star-half-alt" style="color: #ffc107;"></i>
+                            </div>
+
+                            <!-- Review Text -->
+                            <p class="card-text text-muted mb-3" style="font-size: 0.95rem; line-height: 1.6;">
+                                "Wonderful stay with exceptional amenities. The mountain trekking guides were
+                                knowledgeable, and the rooftop dining experience was incredible. Will definitely come
+                                back!"
+                            </p>
+                        </div>
+
+                        <!-- Guest Info -->
+                        <div class="card-footer bg-white border-0 pt-0">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-circle"
+                                    style="width: 45px; height: 45px; border-radius: 50%; background: linear-gradient(135deg, #2d8a63 0%, #1f6b4a 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 12px;">
+                                    E
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 fw-bold" style="color: #2d8a63;">Emma Wilson</h6>
+                                    <small class="text-muted">Sydney, Australia</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Gallery Section -->
+    <div class="row">
+        <div class="col-12">
+            <h2 style="color: #2d8a63;" class="mb-4 text-center">Gallery</h2>
+        </div>
+        {% if featured_images %}
+        {% for image in featured_images %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="position-relative overflow-hidden rounded shadow-sm" style="height: 250px; cursor: pointer;">
+                <img src="{{ image.image.url }}" alt="{{ image.caption }}" class="img-fluid w-100 h-100"
+                    style="object-fit: cover; transition: transform 0.3s ease;"
+                    onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                <div class="position-absolute bottom-0 start-0 end-0 bg-dark bg-opacity-50 p-3">
+                    <p class="text-white mb-0 small">{{ image.caption }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+<!-- Call to Action -->
+<section class="py-5" style="background: linear-gradient(135deg, #2d8a63 0%, #1f6b4a 100%);">
+    <div class="container text-center text-white">
+        <h3 class="mb-4 text-white">Experience Diamond Hill Resort</h3>
+        <p class="lead mb-5 text-white-50">Join us for an unforgettable stay in one of Nepal's most beautiful mountain
+            retreats</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="{% url 'main:booking' %}" class="btn btn-light btn-lg fw-bold" style="transition: all 0.3s ease;"
+                onmouseover="this.style.backgroundColor='#f0f0f0'; this.style.transform='translateY(-2px)'"
+                onmouseout="this.style.backgroundColor='white'; this.style.transform='translateY(0)'">
+                <i class="fas fa-calendar-check me-2"></i>Book Now
+            </a>
+            <a href="{% url 'main:contact' %}" class="btn btn-outline-light btn-lg fw-bold"
+                style="border-color: white; color: white; transition: all 0.3s ease;"
+                onmouseover="this.style.backgroundColor='rgba(255,255,255,0.1)'; this.style.transform='translateY(-2px)'"
+                onmouseout="this.style.backgroundColor='transparent'; this.style.transform='translateY(0)'">
+                <i class="fas fa-envelope me-2"></i>Get in Touch
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

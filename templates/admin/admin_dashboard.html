@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Diamond Hill Resort Admin{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/admin-style.css' %}">
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                Diamond Hill Resort
+            </div>
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="{% url 'admin:index' %}"
+                        class="sidebar-link {% if request.resolver_match.app_name == 'admin' and request.path == '/admin/' %}active{% endif %}">
+                        Dashboard
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{% url 'admin:main_room_changelist' %}"
+                        class="sidebar-link {% if 'room' in request.path %}active{% endif %}">
+                        Rooms
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{% url 'admin:main_booking_changelist' %}"
+                        class="sidebar-link {% if 'booking' in request.path %}active{% endif %}">
+                        Bookings
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{% url 'admin:main_galleryimage_changelist' %}"
+                        class="sidebar-link {% if 'gallery' in request.path %}active{% endif %}">
+                        Gallery
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{% url 'admin:main_blogpost_changelist' %}"
+                        class="sidebar-link {% if 'blog' in request.path %}active{% endif %}">
+                        Blog Posts
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{% url 'admin:main_herosection_changelist' %}"
+                        class="sidebar-link {% if 'hero' in request.path %}active{% endif %}">
+                        Hero Slides
+                    </a>
+                </li>
+                <li class="sidebar-item"
+                    style="margin-top: 24px; border-top: 1px solid var(--border-color); padding-top: 16px;">
+                    <a href="{% url 'admin:logout' %}" class="sidebar-link">
+                        Logout
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main">
+            {% block content %}
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <h1>Welcome to Admin Panel</h1>
+                    <p>Manage your resort content and bookings</p>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-secondary btn-small">Export</button>
+                    <a href="{% url 'admin:main_room_add' %}" class="btn btn-primary">+ Add Room</a>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content">
+                {% block main_content %}
+                <div class="card">
+                    <div class="empty-state">
+                        <div class="empty-state-icon"></div>
+                        <h2>Dashboard</h2>
+                        <p>Welcome to Diamond Hill Resort Admin Panel</p>
+                    </div>
+                </div>
+                {% endblock %}
+            </div>
+            {% endblock %}
+        </main>
+    </div>
+
+    <script src="{% static 'js/admin-script.js' %}"></script>
+</body>
+
+</html>

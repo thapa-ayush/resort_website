@@ -1,0 +1,134 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+{% block meta_description %}{{ page_description }}{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="py-4 mb-5" style="background: linear-gradient(135deg, #2d8a63 0%, #1f6b4a 100%); color: white;">
+    <div class="container">
+        <h1 class="mb-2 text-white">Our Rooms</h1>
+        <p class="lead text-white-50">Choose from our collection of luxurious room types</p>
+    </div>
+</div>
+
+<!-- Rooms Grid -->
+<div class="container mb-5">
+    {% if rooms %}
+    <div class="row g-4">
+        {% for room in rooms %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm hover-lift border-0">
+                <div class="position-relative overflow-hidden" style="height: 300px;">
+                    {% if room.image %}
+                    <img src="{{ room.image.url }}" alt="{{ room.title }}" class="card-img-top w-100 h-100"
+                        style="object-fit: cover; transition: transform 0.4s ease;">
+                    {% else %}
+                    <div class="bg-light d-flex align-items-center justify-content-center w-100 h-100">
+                        <i class="fas fa-image text-muted fa-3x"></i>
+                    </div>
+                    {% endif %}
+                    <div class="room-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+                        style="background: rgba(37, 150, 190, 0.85); opacity: 0; transition: opacity 0.3s ease;">
+                        <a href="{% url 'main:room_detail' room.slug %}" class="btn btn-light btn-lg fw-bold">
+                            <i class="fas fa-eye me-2"></i>View Details
+                        </a>
+                    </div>
+                    <span class="badge fw-bold position-absolute top-0 end-0 m-3 fs-6"
+                        style="background-color: #2d8a63; color: white;">NPR {{ room.price|floatformat:0 }}/night</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" style="color: #2d8a63;">{{ room.title }}</h5>
+                    <p class="card-text text-muted">{{ room.description|truncatewords:20 }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <nav aria-label="Room pagination" class="mt-5">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1">&laquo; First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            <li class="page-item active">
+                <span class="page-link">{{ num }}</span>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+
+    {% else %}
+    <div class="alert text-center py-5 rounded-3" role="alert"
+        style="background-color: #e8f5e9; border-left: 4px solid #2d8a63; color: #1f6b4a;">
+        <i class="fas fa-inbox fa-2x mb-3"></i>
+        <p class="mb-0">No rooms available at the moment. Please check back later!</p>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Call to Action -->
+<section class="py-5" style="background: linear-gradient(135deg, #f8f9fa 0%, #e8f5e9 100%);">
+    <div class="container text-center">
+        <h3 class="mb-4" style="color: #2d8a63;">Can't find your perfect room?</h3>
+        <p class="lead mb-4 text-muted">Contact us for special requests or group bookings</p>
+        <a href="{% url 'main:contact' %}" class="btn btn-lg fw-bold"
+            style="background-color: #2d8a63; color: white; transition: background-color 0.3s ease;"
+            onmouseover="this.style.backgroundColor='#1f6b4a'" onmouseout="this.style.backgroundColor='#2d8a63'">
+            <i class="fas fa-envelope me-2"></i>Get in Touch
+        </a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hover-lift {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    /* Room Card Hover Effect */
+    .card {
+        position: relative;
+    }
+
+    .card:hover .card-img-top {
+        transform: scale(1.05);
+    }
+
+    .card:hover .room-overlay {
+        opacity: 1 !important;
+    }
+</style>
+{% endblock %}
