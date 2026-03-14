@@ -25,25 +25,16 @@ SECRET_KEY = config(
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
+# Default to False for security (can be overridden with DEBUG=True environment variable)
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 # Allowed hosts for CSRF protection
-# Allow environment-configured hosts, with sensible defaults for development and production
-if DEBUG:
-    # Development: permissive defaults
-    ALLOWED_HOSTS = config(
-        'ALLOWED_HOSTS',
-        default='localhost,127.0.0.1',
-        cast=Csv()
-    )
-else:
-    # Production: require explicit configuration, but include Railway and common domains
-    default_hosts = 'localhost,127.0.0.1,.railway.app,.herokuapp.com,.up.railway.app'
-    ALLOWED_HOSTS = config(
-        'ALLOWED_HOSTS',
-        default=default_hosts,
-        cast=Csv()
-    )
+# Dynamically configured with Railway, Heroku, and other platform support
+ALLOWED_HOSTS = config(
+    'ALLOWED_HOSTS',
+    default='localhost,127.0.0.1,.up.railway.app,.railway.app,.herokuapp.com',
+    cast=Csv()
+)
 
 # Application definition
 INSTALLED_APPS = [
