@@ -155,6 +155,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # HTTPS only (set to True in production)
 SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=False, cast=bool)
 
+# Trust X-Forwarded-Proto header from reverse proxy (Railway)
+SECURE_PROXY_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 # Secure cookies
 SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=False, cast=bool)
 CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=False, cast=bool)
