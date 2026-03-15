@@ -144,7 +144,17 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.2/topics/files/
 MEDIA_URL = '/media/'
 # Use persistent volume on Railway
-MEDIA_ROOT = '/app/media' if 'DATABASE_URL' in os.environ else BASE_DIR / 'media'
+if 'DATABASE_URL' in os.environ:
+    # Production: Railway persistent volume
+    MEDIA_ROOT = '/app/media'
+else:
+    # Development: Local directory
+    MEDIA_ROOT = BASE_DIR / 'media'
+
+# WhiteNoise staticfiles storage with media file support
+if 'DATABASE_URL' in os.environ:
+    # Production: Collect media files for WhiteNoise caching
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
