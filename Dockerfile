@@ -33,5 +33,5 @@ RUN chmod +x entrypoint.sh
 # Expose port
 EXPOSE 8000
 
-# Run entrypoint script
-ENTRYPOINT ["./entrypoint.sh"]
+# Run via shell to ensure proper environment variable expansion
+CMD ["/bin/sh", "-c", "./entrypoint.sh"]
