@@ -1,5 +1,5 @@
-[build]
+[phases.install]
 cmds = ["pip install -r requirements.txt"]
 
-[start]
+[phases.start]
 cmd = "gunicorn resort_website.wsgi"
