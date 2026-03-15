@@ -1,8 +1,10 @@
 # Diamond Hill Resort - Django Web Application
 
-A professional, production-ready Django web application for **Diamond Hill Resort** in Nagarkot, Nepal. Deploy to **Railway, Heroku, or any Python hosting** in minutes.
+A professional, production-ready Django web application for **Diamond Hill Resort** in Nagarkot, Nepal. Deploy to **Railway** with Docker in minutes.
 
 **Tagline:** *"Own the Drip"* - Experience luxury, style, and comfort in the heart of Nepal's mountains.
+
+**Live Demo:** https://resortwebsite-production.up.railway.app/
 
 ---
 
@@ -12,12 +14,13 @@ A professional, production-ready Django web application for **Diamond Hill Resor
 - Python 3.10+
 - pip (Python package manager)
 - Git
+- (Optional) Docker & Docker Compose for local containerized testing
 
 ### Local Setup (5 minutes)
 
 ```bash
 # Clone and navigate
-git clone <repository-url>
+git clone https://github.com/thapa-ayush/resort_website.git
 cd resort_website
 
 # Create virtual environment
@@ -45,9 +48,34 @@ python manage.py runserver
 
 ---
 
-## ✨ Features
+## 🐳 Docker & Production Deployment
 
-| Feature | Description |
+### Production Deployment on Railway
+
+See [RAILWAY_QUICK_START.md](RAILWAY_QUICK_START.md) for complete Railway deployment guide.
+
+**TL;DR:**
+1. Push code to GitHub
+2. Import repo in Railway
+3. Add PostgreSQL database
+4. Deploy automatically
+
+**Status:** ✅ **Working** - Fully deployed and tested
+
+### Key Production Features Configured
+
+| Feature | Status | Details |
+|---------|--------|---------|
+| **Admin Panel** | ✅ | Login at `/admin/` with superuser credentials |
+| **Database** | ✅ PostgreSQL | Auto-configured via Railway environment variables |
+| **Static Files** | ✅ WhiteNoise | Collected at Docker build time (production optimized) |
+| **Media Uploads** | ✅ Persistent | Stored in Railway volume at `/app/media` (survives redeployments) |
+| **Image Processing** | ✅ Pillow | Full support for JPEG, PNG, GIF with system libraries |
+| **CSRF Protection** | ✅ | Configured for Railway domain and wildcard subdomains |
+| **HTTPS/SSL** | ✅ | Automatic via Railway reverse proxy |
+| **Domain** | resortwebsite-production.up.railway.app | Custom domain support available |
+
+---
 |---------|-------------|
 | **Responsive Design** | Bootstrap 5 mobile-first responsive layout |
 | **Room Management** | Add/edit rooms with images, amenities, multi-currency pricing |

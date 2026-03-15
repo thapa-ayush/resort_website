@@ -1,0 +1,1398 @@
+/* MOBILE-FIRST OPTIMIZATION - COMPREHENSIVE */
+
+/* Extra Small Devices (< 576px) */
+@media (max-width: 575.98px) {
+    /* Container Padding */
+    .container, 
+    .container-fluid {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
+    /* Spacing Adjustments */
+    body {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    p {
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Headings */
+    h1 {
+        font-size: 1.5rem !important;
+        margin-bottom: 1.2rem;
+    }
+
+    h2 {
+        font-size: 1.25rem !important;
+        margin-bottom: 1rem;
+    }
+
+    h3 {
+        font-size: 1.1rem !important;
+        margin-bottom: 0.9rem;
+    }
+
+    h4, h5, h6 {
+        font-size: 0.95rem !important;
+        margin-bottom: 0.75rem;
+    }
+
+    /* Navigation */
+    .navbar {
+        padding: 0.75rem 0;
+    }
+
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+
+    .navbar-logo {
+        height: 35px;
+    }
+
+    .navbar .nav-link {
+        padding: 0.4rem 0.5rem !important;
+        font-size: 0.85rem;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+
+    .nav-link::after {
+        display: none;
+    }
+
+    /* Mobile collapse needs better styling */
+    .navbar-collapse {
+        background: rgba(0, 0, 0, 0.95);
+        border-radius: 0 0 0.5rem 0.5rem;
+        margin-top: 0.5rem;
+        padding: 1rem;
+    }
+
+    /* Hero Section */
+    .hero-section {
+        min-height: 280px;
+        padding: 1.5rem 0;
+    }
+
+    .hero-section > .container {
+        display: block !important;
+        grid-template-columns: unset !important;
+    }
+
+    .hero-content {
+        text-align: left;
+        margin-bottom: 1.5rem;
+    }
+
+    .hero-section h1 {
+        font-size: 1.5rem !important;
+        margin-bottom: 0.75rem;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-section p {
+        font-size: 0.9rem !important;
+        margin-bottom: 1.25rem;
+    }
+
+    /* Buttons in Hero */
+    .hero-section .btn {
+        width: 100%;
+        padding: 0.7rem 1.2rem;
+        font-size: 0.85rem;
+        margin-bottom: 0.75rem;
+    }
+
+    /* Cards */
+    .card {
+        margin-bottom: 1.5rem;
+    }
+
+    .card-img-top {
+        height: 150px;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    .card-title {
+        font-size: 1rem !important;
+        margin-bottom: 0.4rem;
+    }
+
+    .card-text {
+        font-size: 0.9rem !important;
+        margin-bottom: 0.75rem;
+    }
+
+    /* Buttons */
+    .btn {
+        border-radius: 0.5rem;
+        padding: 0.55rem 1.2rem;
+        font-size: 0.85rem !important;
+        min-height: 44px;
+        width: 100%;
+        margin-bottom: 0.75rem;
+    }
+
+    .btn-sm {
+        min-height: 36px;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .btn-lg {
+        padding: 0.65rem 1.5rem;
+        min-height: 48px;
+    }
+
+    /* Forms */
+    .form-control,
+    .form-select,
+    textarea.form-control {
+        font-size: 16px; /* Prevents zoom on iOS */
+        padding: 0.65rem 0.9rem;
+        min-height: 44px;
+        border-radius: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-label {
+        font-size: 0.9rem;
+        margin-bottom: 0.35rem;
+        font-weight: 600;
+    }
+
+    .form-group {
+        margin-bottom: 1.2rem;
+    }
+
+    /* Stacking forms vertically */
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .form-row > div {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    /* Tables */
+    .table {
+        font-size: 0.9rem;
+    }
+
+    .table th,
+    .table td {
+        padding: 0.6rem 0.5rem;
+    }
+
+    /* Alerts */
+    .alert {
+        padding: 0.75rem 1rem;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+        border-radius: 0.5rem;
+    }
+
+    /* Badges */
+    .badge {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.75rem;
+    }
+
+    /* Sections */
+    section {
+        padding: 1.5rem 0 !important;
+    }
+
+    section h2 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Booking Widget Mobile */
+    .booking-widget {
+        padding: 1.5rem !important;
+        margin: 0 !important;
+        border-radius: 0.75rem !important;
+    }
+
+    .booking-widget h2,
+    .booking-widget h5 {
+        font-size: 1.25rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .booking-widget .form-group {
+        margin-bottom: 1.25rem;
+    }
+
+    .booking-widget .form-label {
+        font-size: 0.9rem;
+        margin-bottom: 0.55rem;
+        font-weight: 600;
+    }
+
+    .booking-widget .form-control,
+    .booking-widget .form-select {
+        font-size: 16px;
+        padding: 0.8rem 0.9rem;
+        min-height: 48px;
+        border-radius: 0.4rem;
+    }
+
+    .booking-widget .btn-primary {
+        padding: 0.95rem 1rem;
+        font-size: 1rem;
+        min-height: 48px;
+    }
+
+    /* Grid Adjustments */
+    .row {
+        margin-left: -0.5rem;
+        margin-right: -0.5rem;
+    }
+
+    .col {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Cards on mobile */
+    .card {
+        margin-bottom: 1rem;
+        border-radius: 0.75rem;
+    }
+
+    .card-img-top {
+        height: 200px;
+    }
+
+    .card-body {
+        padding: 1.25rem;
+    }
+
+    .card-title {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .card-text {
+        font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer {
+        padding: 1.5rem 0 1rem;
+    }
+
+    footer h5,
+    footer h6 {
+        font-size: 0.95rem;
+        margin-bottom: 0.75rem;
+        margin-top: 1rem;
+    }
+
+    footer p {
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+    }
+
+    footer .row {
+        margin-bottom: 1.5rem;
+    }
+
+    /* Gallery Grid on Mobile */
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .gallery-item {
+        height: 200px;
+    }
+
+    /* Modals */
+    .modal-body {
+        padding: 1rem;
+        max-height: 80vh;
+    }
+
+    .modal-header,
+    .modal-footer {
+        padding: 1rem;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+        font-size: 0.8rem;
+        margin-bottom: 0.75rem;
+    }
+
+    /* Dropdown menus */
+    .dropdown-menu {
+        font-size: 0.9rem;
+        min-width: 150px;
+    }
+
+    .dropdown-item {
+        padding: 0.5rem 1rem;
+        min-height: 36px;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Input groups */
+    .input-group {
+        margin-bottom: 1rem;
+    }
+
+    /* Scroll behavior for modals and dropdowns */
+    .modal {
+        --bs-modal-margin: 0.5rem;
+    }
+
+    /* Better touch targets */
+    a, button {
+        min-height: 44px;
+    }
+
+    /* Image responsive */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Spacing utilities */
+    .mb-mobile {
+        margin-bottom: 1rem;
+    }
+
+    .mt-mobile {
+        margin-top: 1rem;
+    }
+
+    .p-mobile {
+        padding: 1rem;
+    }
+
+    /* Text alignment */
+    .text-center-mobile {
+        text-align: center;
+    }
+
+    /* Display utilities */
+    .d-flex-mobile {
+        display: flex;
+    }
+
+    /* Navbar on mobile - stack vertically */
+    .navbar-nav {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .nav-item {
+        width: 100%;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-item:last-child {
+        border-bottom: none;
+    }
+
+    /* Accordion on mobile */
+    .accordion {
+        margin-bottom: 1rem;
+    }
+
+    .accordion-button {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .accordion-body {
+        padding: 1rem;
+    }
+
+    /* Lists on mobile */
+    ul, ol {
+        padding-left: 1.5rem;
+    }
+
+    li {
+        margin-bottom: 0.5rem;
+    }
+
+    /* Links in mobile */
+    a {
+        word-break: break-word;
+    }
+
+    /* Overflow handling */
+    .table-responsive {
+        font-size: 0.9rem;
+    }
+
+    /* Utility spacing classes for mobile */
+    .mx-auto-mobile {
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+}
+
+/* Small Devices (576px - 767px) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    body {
+        font-size: 15px;
+    }
+
+    h1 {
+        font-size: 1.75rem !important;
+    }
+
+    h2 {
+        font-size: 1.4rem !important;
+    }
+
+    h3 {
+        font-size: 1.2rem !important;
+    }
+
+    section {
+        padding: 2rem 0 !important;
+    }
+
+    .hero-section {
+        min-height: 350px;
+    }
+
+    .hero-section h1 {
+        font-size: 2rem !important;
+    }
+
+    .btn {
+        padding: 0.6rem 1.5rem;
+    }
+
+    .form-control,
+    .form-select {
+        font-size: 16px;
+    }
+
+    .card-img-top {
+        height: 200px;
+    }
+
+    .navbar-collapse {
+        background: rgba(0, 0, 0, 0.95);
+        border-radius: 0 0 0.5rem 0.5rem;
+        margin-top: 0.5rem;
+        padding: 1rem;
+    }
+}
+
+/* Extra Utilities */
+.touch-friendly {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.5rem 1rem;
+}
+
+.no-wrap-mobile {
+    white-space: nowrap;
+}
+
+.flex-grow-mobile {
+    flex-grow: 1;
+}
+
+/* Prevent horizontal scroll */
+body, html {
+    overflow-x: hidden;
+    max-width: 100vw;
+}
+
+/* Better responsive images */
+.responsive-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Smooth transitions on mobile */
+* {
+    -webkit-tap-highlight-color: rgba(37, 150, 190, 0.1);
+}
+
+/* Improve readability on small screens */
+@media (max-width: 575.98px) {
+    body {
+        line-height: 1.6;
+        letter-spacing: 0.3px;
+    }
+}
+
+/* Safe area for notched devices */
+body {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+}
+
+.container {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+}
+
+/* Better scrolling on mobile */
+html {
+    scroll-behavior: auto; /* Avoid smooth scroll on mobile for better performance */
+}
+
+@media (min-width: 992px) {
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
+/* ===== ENHANCED MOBILE HERO SECTION ===== */
+
+@media (max-width: 575.98px) {
+    /* Prevent Hero Section Overlapping */
+    .hero-section {
+        min-height: auto !important;
+        padding: 1.5rem 0 !important;
+        display: block;
+    }
+
+    .hero-section > .container {
+        display: block !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
+    .hero-section .row {
+        flex-direction: column;
+        gap: 1.5rem !important;
+    }
+
+    .hero-section .col-lg-6 {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+
+    .hero-content {
+        margin-bottom: 0;
+        text-align: left;
+    }
+
+    .hero-section h1 {
+        font-size: 1.35rem !important;
+        margin-bottom: 0.75rem;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        line-height: 1.3;
+    }
+
+    .hero-section p {
+        font-size: 0.9rem !important;
+        margin-bottom: 1.25rem;
+        word-wrap: break-word;
+        line-height: 1.6;
+    }
+
+    .hero-subtitle {
+        display: block !important;
+        margin-bottom: 0.75rem !important;
+        font-size: 0.85rem !important;
+    }
+
+    /* Hero Buttons on Mobile - Full Width */
+    .hero-content .d-flex {
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+        margin-bottom: 1.5rem;
+    }
+
+    .hero-content .btn {
+        width: 100% !important;
+        min-height: 48px;
+        font-size: 0.95rem;
+        padding: 12px 16px !important;
+        border-radius: 0.4rem;
+    }
+
+    /* Booking Widget - Mobile Specific */
+    .booking-widget {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 1.5rem !important;
+        border-radius: 0.8rem !important;
+        background: rgba(255, 255, 255, 0.98) !important;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .booking-widget h5 {
+        font-size: 1.15rem;
+        margin-bottom: 1.25rem;
+        color: #2d3436;
+    }
+
+    .booking-form .mb-4,
+    .booking-form .mb-5 {
+        margin-bottom: 1.25rem !important;
+    }
+
+    .booking-form .form-label {
+        font-size: 0.9rem;
+        margin-bottom: 0.55rem;
+        font-weight: 600;
+        color: #2d3436;
+    }
+
+    .booking-form .form-control,
+    .booking-form .form-select {
+        font-size: 16px; /* Prevents iOS zoom */
+        padding: 12px 12px !important;
+        min-height: 48px !important;
+        border-radius: 0.4rem;
+        border: 2px solid #e0e0e0 !important;
+        background-color: #f9f9f9 !important;
+    }
+
+    .booking-form .form-control:focus,
+    .booking-form .form-select:focus {
+        border-color: var(--primary-color) !important;
+        background-color: #fff !important;
+        box-shadow: 0 0 0 3px rgba(37, 150, 190, 0.15) !important;
+    }
+
+    .booking-form .btn {
+        width: 100% !important;
+        min-height: 50px;
+        padding: 12px 16px !important;
+        font-size: 1rem;
+        font-weight: 700;
+        border-radius: 0.4rem;
+    }
+
+    .booking-form .text-muted {
+        font-size: 0.8rem;
+        margin-top: 0.75rem !important;
+    }
+
+    /* Ensure no horizontal overflow */
+    .hero-section .row,
+    .booking-widget {
+        overflow-x: hidden;
+    }
+
+    /* Form Labels - Better Mobile Typography */
+    .form-label {
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin-bottom: 0.6rem;
+        color: #2d3436;
+    }
+
+    /* Form Controls - Enhanced Mobile Experience */
+    .form-control,
+    .form-select {
+        font-size: 16px; /* Prevents iOS auto-zoom */
+        padding: 0.95rem 1rem;
+        border-radius: 0.5rem;
+        border: 2px solid #e0e0e0;
+        background-color: #f9f9f9;
+        min-height: 48px;
+        width: 100%;
+        transition: all 0.3s ease;
+        -webkit-appearance: none; /* Remove iOS default styling */
+        appearance: none;
+    }
+
+    /* Form Control Focus - Mobile */
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #2596be;
+        background-color: #fff;
+        box-shadow: 0 0 0 4px rgba(37, 150, 190, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        outline: none;
+    }
+
+    /* Dropdown Select - Custom Mobile Styling */
+    select.form-select {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232596be' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 1.2rem;
+        padding-right: 2.8rem;
+    }
+
+    /* Mobile Form Buttons - Full Width & Prominent */
+    .btn,
+    [type="submit"],
+    [type="button"] {
+        width: 100%;
+        min-height: 48px;
+        padding: 1rem;
+        font-size: 1rem;
+        font-weight: 700;
+        border-radius: 0.5rem;
+    }
+
+    .btn-primary,
+    .btn-check-availability,
+    .btn-booking {
+        width: 100%;
+        min-height: 50px;
+        padding: 1.1rem;
+        font-size: 1.05rem;
+        border-radius: 0.5rem;
+    }
+
+    /* Booking Form Card on Mobile */
+    .booking-card,
+    .card-booking,
+    .modal-content {
+        border-radius: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .booking-card .card-body,
+    .card-booking .card-body {
+        padding: 1.5rem 1.25rem;
+    }
+
+    /* Form Row - Stack on Mobile */
+    .form-row {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .form-row > div {
+        flex: 1 0 100% !important;
+        min-width: 100%;
+    }
+
+    /* Checkbox and Radio - Better Touch Targets */
+    [type="checkbox"],
+    [type="radio"] {
+        width: 1.25rem;
+        height: 1.25rem;
+        cursor: pointer;
+        margin-right: 0.75rem;
+    }
+
+    label input[type="checkbox"],
+    label input[type="radio"] {
+        margin-top: 0.25rem;
+    }
+
+    /* Better Form Input Placeholder */
+    .form-control::placeholder {
+        color: #bbb;
+    }
+
+    /* Dates and Time Inputs */
+    [type="date"],
+    [type="time"],
+    [type="datetime-local"] {
+        font-size: 16px;
+    }
+
+    /* Help Text */
+    .form-text,
+    .small {
+        font-size: 0.85rem;
+    }
+
+    /* Input Validation States */
+    .form-control.is-valid,
+    .form-control.is-invalid {
+        background-position: right 0.75rem center;
+        padding-right: 2.5rem;
+    }
+
+    .form-control.is-valid {
+        border-color: #28a745;
+    }
+
+    .form-control.is-invalid {
+        border-color: #dc3545;
+    }
+}
+
+/* Small Devices (576px - 768px) - Form Improvements */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .form-control,
+    .form-select {
+        font-size: 16px;
+        padding: 0.85rem 1rem;
+        min-height: 46px;
+        border-radius: 0.5rem;
+    }
+
+    .btn {
+        min-height: 46px;
+        font-size: 0.95rem;
+    }
+
+    .form-label {
+        font-size: 0.95rem;
+        margin-bottom: 0.55rem;
+    }
+}
+
+/* Tablet and Desktop - Form Optimization */
+@media (min-width: 768px) {
+    .form-control,
+    .form-select {
+        font-size: 15px;
+        border-radius: 0.5rem;
+    }
+
+    /* Multi-column forms */
+    .form-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .form-row.two-col {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .form-row.three-col {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* ===== TESTIMONIAL/REVIEW CARDS - MOBILE RESPONSIVE ===== */
+
+/* Tablet (576px - 768px) */
+@media (max-width: 767.98px) {
+    .testimonial-card {
+        min-height: 360px;
+        padding: 1.5rem;
+    }
+    
+    .testimonial-card .testimonial-text {
+        -webkit-line-clamp: 3;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+    
+    .testimonial-card .rating {
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .testimonial-card::before {
+        font-size: 2.5rem;
+        top: 8px;
+        left: 12px;
+    }
+}
+
+/* Mobile (< 576px) */
+@media (max-width: 575.98px) {
+    .testimonial-card,
+    .review-card {
+        min-height: 320px;
+        padding: 1.25rem;
+        margin-bottom: 1.5rem;
+        flex: 0 0 calc(100% - 1rem) !important;
+    }
+    
+    .testimonial-card .testimonial-text {
+        -webkit-line-clamp: 2;
+        font-size: 0.85rem;
+        margin-bottom: 0.75rem;
+        line-height: 1.5;
+    }
+    
+    .testimonial-card .rating {
+        font-size: 0.95rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .testimonial-card .testimonial-author {
+        font-size: 0.9rem;
+        margin-bottom: 0.15rem;
+    }
+    
+    .testimonial-card .testimonial-role {
+        font-size: 0.75rem;
+    }
+    
+    .testimonial-card::before {
+        font-size: 2rem;
+        top: 5px;
+        left: 10px;
+    }
+    
+    /* Review carousel container - full width */
+    .row > [class*="col-"] .testimonial-card,
+    .carousel-inner .testimonial-card,
+    .reviews-carousel .testimonial-card {
+        width: 100%;
+    }
+    
+    /* Stacked layout for reviews section */
+    .reviews-section .row {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .reviews-section .col-md-6,
+    .reviews-section .col-lg-4 {
+        flex-basis: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+/* ===== ROOM CARDS MOBILE OPTIMIZATION ===== */
+@media (max-width: 767.98px) {
+    .rooms-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+        gap: 1.5rem !important;
+    }
+    
+    .room-card {
+        margin-bottom: 0 !important;
+    }
+    
+    .room-image-container {
+        height: 250px !important;
+    }
+    
+    .room-price-badge {
+        padding: 0.75rem 1rem !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .rooms-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+    
+    .room-card-wrapper {
+        animation: none !important;
+    }
+    
+    .room-image-container {
+        height: 200px !important;
+    }
+    
+    .room-overlay {
+        opacity: 0.5 !important;
+    }
+    
+    .room-price-badge {
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.8rem !important;
+        border-radius: 0.4rem !important;
+    }
+}
+
+/* ===== BLOG CARDS MOBILE OPTIMIZATION ===== */
+@media (max-width: 767.98px) {
+    .blog-grid {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important;
+        gap: 1.5rem !important;
+    }
+    
+    .blog-image-container {
+        height: 220px !important;
+    }
+    
+    .blog-card .blog-content {
+        padding: 1rem !important;
+    }
+    
+    .blog-title {
+        font-size: 1.05rem !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .blog-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+    
+    .blog-card-wrapper {
+        animation: none !important;
+    }
+    
+    .blog-image-container {
+        height: 180px !important;
+    }
+    
+    .blog-card .blog-content {
+        padding: 1rem !important;
+    }
+    
+    .blog-title {
+        font-size: 1rem !important;
+    }
+    
+    .blog-excerpt {
+        font-size: 0.85rem !important;
+    }
+}
+
+/* ===== GALLERY GRID MOBILE OPTIMIZATION ===== */
+@media (max-width: 767.98px) {
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
+        gap: 1rem !important;
+    }
+    
+    .gallery-figure {
+        aspect-ratio: 1 1 !important;
+    }
+    
+    .gallery-caption {
+        padding: 1rem !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.75rem !important;
+    }
+    
+    .gallery-item-wrapper {
+        animation: none !important;
+    }
+    
+    .gallery-figure {
+        border-radius: 0.5rem !important;
+    }
+    
+    .gallery-caption {
+        padding: 0.75rem !important;
+    }
+    
+    .caption-title {
+        font-size: 0.85rem !important;
+    }
+    
+    .caption-date {
+        font-size: 0.75rem !important;
+    }
+}
+
+/* ===== CONTACT PAGE MOBILE OPTIMIZATION ===== */
+@media (max-width: 767.98px) {
+    .contact-card {
+        margin-bottom: 1.5rem !important;
+    }
+    
+    .contact-card-header,
+    .contact-card-body {
+        padding: 1.25rem !important;
+    }
+    
+    .stats-box {
+        padding: 1.5rem !important;
+    }
+    
+    .stat-row {
+        gap: 1rem !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .contact-card {
+        margin-bottom: 1rem !important;
+        border-radius: 0.75rem !important;
+    }
+    
+    .contact-card-header {
+        padding: 1rem !important;
+    }
+    
+    .contact-card-header h5 {
+        font-size: 1rem !important;
+    }
+    
+    .contact-card-body {
+        padding: 1rem !important;
+    }
+    
+    .contact-detail-item {
+        padding-left: 0.75rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    .contact-detail-item strong {
+        font-size: 0.7rem !important;
+    }
+    
+    .contact-detail-item p,
+    .contact-detail-item a {
+        font-size: 0.85rem !important;
+    }
+    
+    .contact-form-card {
+        border-radius: 1rem !important;
+    }
+    
+    .form-header {
+        padding: 1.25rem !important;
+    }
+    
+    .form-header h4 {
+        font-size: 1.25rem !important;
+    }
+    
+    .form-header p {
+        font-size: 0.85rem !important;
+    }
+    
+    .contact-form-card .form-control,
+    .contact-form-card .form-select {
+        padding: 0.65rem 1rem !important;
+        font-size: 16px !important;
+        min-height: 44px !important;
+    }
+    
+    .contact-form-card .btn-primary {
+        padding: 0.85rem 1.5rem !important;
+        font-size: 0.95rem !important;
+        min-height: 44px !important;
+    }
+    
+    .contact-form-card .invalid-feedback {
+        font-size: 0.75rem !important;
+    }
+    
+    .social-links {
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+    }
+    
+    .social-links .btn {
+        width: 100% !important;
+    }
+    
+    .stats-box {
+        padding: 1rem !important;
+        margin-top: 1rem !important;
+    }
+    
+    .stat-row {
+        gap: 0.75rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    .stat-value {
+        font-size: 1.5rem !important;
+    }
+    
+    .stat-label {
+        font-size: 0.75rem !important;
+    }
+}
+
+/* ===== ACCORDION MOBILE OPTIMIZATION ===== */
+@media (max-width: 767.98px) {
+    .accordion-item-custom {
+        margin-bottom: 1rem !important;
+    }
+    
+    .accordion-button-custom {
+        font-size: 0.95rem !important;
+        padding: 1rem 1.25rem !important;
+    }
+    
+    .accordion-body-custom {
+        padding: 1.25rem !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .accordion-item-custom {
+        border-radius: 0.5rem !important;
+    }
+    
+    .accordion-button-custom {
+        font-size: 0.85rem !important;
+        padding: 0.8rem 1rem !important;
+    }
+    
+    .accordion-body-custom {
+        padding: 0.85rem !important;
+        font-size: 0.8rem !important;
+    }
+    
+    .accordion-body-custom ul li {
+        padding-left: 0.8rem !important;
+    }
+}
+
+/* ===== MAP SECTION MOBILE OPTIMIZATION ===== */
+@media (max-width: 767.98px) {
+    .map-header h2 {
+        font-size: 1.5rem !important;
+    }
+    
+    .map-header p {
+        font-size: 0.95rem !important;
+    }
+    
+    .map-container iframe {
+        height: 300px !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .map-section {
+        padding: 1.5rem 0 !important;
+    }
+    
+    .map-header {
+        margin-bottom: 1.5rem !important;
+    }
+    
+    .map-header h2 {
+        font-size: 1.25rem !important;
+        margin-bottom: 0.75rem !important;
+    }
+    
+    .map-header p {
+        font-size: 0.85rem !important;
+    }
+    
+    .map-container {
+        border-radius: 0.5rem !important;
+    }
+    
+    .map-container iframe {
+        height: 250px !important;
+        border-radius: 0.5rem !important;
+    }
+}
+
+/* ===== DETAIL CARDS MOBILE OPTIMIZATION ===== */
+@media (max-width: 767.98px) {
+    .detail-card {
+        margin-bottom: 1.5rem !important;
+    }
+    
+    .detail-card .card-body {
+        padding: 1.5rem !important;
+    }
+    
+    .pricing-card::before {
+        height: 3px !important;
+    }
+    
+    .price-display {
+        padding: 1.25rem 0 !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .detail-card {
+        border-radius: 0.75rem !important;
+    }
+    
+    .detail-card .card-body {
+        padding: 1rem !important;
+    }
+    
+    .detail-card .card-title {
+        font-size: 1.05rem !important;
+    }
+    
+    .price-display {
+        padding: 1rem 0 !important;
+        border-radius: 0.5rem !important;
+    }
+    
+    .price-amount {
+        flex-wrap: wrap !important;
+    }
+    
+    .currency {
+        font-size: 1rem !important;
+    }
+    
+    .amount {
+        font-size: 2rem !important;
+    }
+    
+    .amenity-item {
+        padding: 0.75rem 0 !important;
+        font-size: 0.85rem !important;
+    }
+    
+    .spec-item {
+        padding: 0.75rem !important;
+        border-radius: 0.5rem !important;
+    }
+    
+    .spec-icon {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+/* ===== PAGE HEADER MOBILE OPTIMIZATION ===== */
+@media (max-width: 767.98px) {
+    .page-header {
+        padding: 2.5rem 0 2rem !important;
+    }
+    
+    .page-header .display-5 {
+        font-size: 1.75rem !important;
+    }
+    
+    .page-header p {
+        font-size: 0.95rem !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .page-header {
+        padding: 1.5rem 0 1.25rem !important;
+    }
+    
+    .page-header .display-5 {
+        font-size: 1.35rem !important;
+        margin-bottom: 0.75rem !important;
+    }
+    
+    .page-header p {
+        font-size: 0.85rem !important;
+    }
+    
+    .breadcrumb-light {
+        font-size: 0.75rem !important;
+    }
+}

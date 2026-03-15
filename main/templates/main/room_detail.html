@@ -6,43 +6,45 @@
 
 {% block content %}
 <!-- Page Header -->
-<div class="py-4 mb-5" style="background: linear-gradient(135deg, #2d8a63 0%, #1f6b4a 100%); color: white;">
-    <div class="container">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb breadcrumb-dark">
-                <li class="breadcrumb-item"><a href="{% url 'main:home' %}" class="text-white-50">Home</a></li>
-                <li class="breadcrumb-item"><a href="{% url 'main:room_list' %}" class="text-white-50">Rooms</a></li>
+<div class="page-header" style="background: linear-gradient(135deg, #2d8a63 0%, #1f6b4a 100%); color: white;">
+    <div class="container page-header-content">
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb breadcrumb-light mb-0">
+                <li class="breadcrumb-item"><a href="{% url 'main:home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'main:room_list' %}">Rooms</a></li>
                 <li class="breadcrumb-item active text-white" aria-current="page">{{ room.title }}</li>
             </ol>
         </nav>
-        <h1 class="mb-2 text-white">{{ room.title }}</h1>
-        <p class="lead text-white-50">
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star-half-alt text-warning"></i>
-            (4.5/5 based on guest reviews)
-        </p>
+        <h1 class="display-4 fw-900 mb-3 text-white">{{ room.title }}</h1>
+        <div class="d-flex align-items-center gap-3 flex-wrap">
+            <div class="rating-stars">
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star-half-alt text-warning"></i>
+                <span class="ms-2 text-white-50 small fw-bold">(4.5/5)</span>
+            </div>
+        </div>
     </div>
 </div>
 
 <div class="container mb-5">
-    <div class="row g-4">
+    <div class="row g-5">
         <!-- Room Image Gallery -->
         <div class="col-lg-7">
             <!-- Main Image Carousel -->
-            <div id="roomImageCarousel" class="carousel slide mb-4 shadow-lg" data-bs-ride="carousel"
-                data-bs-interval="5000">
-                <div class="carousel-inner rounded" style="background: #f0f0f0;">
+            <div id="roomImageCarousel" class="carousel slide room-carousel shadow-lg" data-bs-ride="carousel"
+                data-bs-interval="6000">
+                <div class="carousel-inner rounded-2xl overflow-hidden" style="background: linear-gradient(135deg, #f0f0f0, #e8e8e8);">
                     {% if gallery_images %}
                     {% for image in gallery_images %}
                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
                         <img src="{{ image.image.url }}" alt="{{ image.caption }}" class="d-block w-100"
-                            style="max-height: 500px; object-fit: cover;">
+                            style="min-height: 500px; max-height: 500px; object-fit: cover;">
                         {% if image.caption %}
-                        <div class="carousel-caption d-none d-md-block" style="background: rgba(0, 0, 0, 0.5);">
-                            <p class="mb-0"><strong>{{ image.caption }}</strong></p>
+                        <div class="carousel-caption d-none d-md-block" style="background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.7) 100%); bottom: 0; padding: 2rem;">
+                            <p class="mb-0 text-white"><strong>{{ image.caption }}</strong></p>
                         </div>
                         {% endif %}
                     </div>
@@ -50,12 +52,12 @@
                     {% elif room.image %}
                     <div class="carousel-item active">
                         <img src="{{ room.image.url }}" alt="{{ room.title }}" class="d-block w-100"
-                            style="max-height: 500px; object-fit: cover;">
+                            style="min-height: 500px; max-height: 500px; object-fit: cover;">
                     </div>
                     {% else %}
                     <div class="carousel-item active">
                         <div class="bg-light d-flex align-items-center justify-content-center" style="height: 500px;">
-                            <p class="text-muted"><i class="fas fa-image fa-3x"></i></p>
+                            <p class="text-muted"><i class="fas fa-image fa-4x"></i></p>
                         </div>
                     </div>
                     {% endif %}
@@ -63,12 +65,12 @@
 
                 <!-- Carousel Controls -->
                 {% if gallery_images|length > 1 %}
-                <button class="carousel-control-prev" type="button" data-bs-target="#roomImageCarousel"
+                <button class="carousel-control-prev carousel-control-custom" type="button" data-bs-target="#roomImageCarousel"
                     data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#roomImageCarousel"
+                <button class="carousel-control-next carousel-control-custom" type="button" data-bs-target="#roomImageCarousel"
                     data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Next</span>
@@ -78,16 +80,16 @@
 
             <!-- Thumbnail Gallery -->
             {% if gallery_images %}
-            <div class="row g-2 mb-4">
+            <div class="row g-3 mt-4">
                 {% for image in gallery_images %}
                 <div class="col-4 col-md-3">
-                    <img src="{{ image.image.url }}" alt="{{ image.caption }}"
-                        class="img-fluid rounded cursor-pointer gallery-thumbnail shadow-sm"
+                    <button class="gallery-thumbnail-btn p-0 border-0 w-100"
                         data-bs-target="#roomImageCarousel" data-bs-slide-to="{{ forloop.counter0 }}"
-                        style="cursor: pointer; height: 120px; object-fit: cover; width: 100%; border: 2px solid transparent; transition: all 0.3s ease;"
-                        onmouseover="this.style.borderColor='#2d8a63'; this.style.transform='scale(1.05)'"
-                        onmouseout="this.style.borderColor='transparent'; this.style.transform='scale(1)'"
                         title="{{ image.caption }}">
+                        <img src="{{ image.image.url }}" alt="{{ image.caption }}"
+                            class="img-fluid rounded-lg shadow-sm gallery-thumbnail"
+                            style="height: 120px; object-fit: cover; width: 100%; display: block; cursor: pointer;">
+                    </button>
                 </div>
                 {% endfor %}
             </div>
@@ -96,58 +98,107 @@
 
         <!-- Room Details Sidebar -->
         <div class="col-lg-5">
-            <!-- Price -->
-            <div class="card border-0 mb-4 shadow-sm" style="border-top: 4px solid #2d8a63 !important;">
+            <!-- Pricing Card -->
+            <div class="detail-card pricing-card mb-4">
                 <div class="card-body">
-                    <h3 class="card-title mb-3" style="color: #2d8a63;">Pricing</h3>
-                    <div class="d-flex align-items-baseline justify-content-between">
-                        <span class="fs-2 fw-bold" style="color: #2d8a63;">
+                    <h5 class="card-title text-primary fw-bold mb-3">
+                        <i class="fas fa-tag me-2"></i>Pricing
+                    </h5>
+                    <div class="price-display">
+                        <span class="price-label">Per Night</span>
+                        <div class="price-amount">
                             {% if currency_symbol == 'Rs.' %}
-                            {{ currency_symbol }} {{ room.price|floatformat:0 }}
+                            <span class="currency">{{ currency_symbol }}</span><span class="amount">{{ room.price|floatformat:0 }}</span>
                             {% else %}
-                            {{ currency_symbol }} {{ room_price_in_user_currency|floatformat:2 }}
+                            <span class="currency">{{ currency_symbol }}</span><span class="amount">{{ room_price_in_user_currency|floatformat:2 }}</span>
                             {% endif %}
-                        </span>
-                        <span class="text-muted">/night</span>
+                        </div>
                     </div>
-                    <p class="text-muted small mt-2">Seasonal pricing may apply</p>
+                    <p class="text-muted small mt-3 mb-0">
+                        <i class="fas fa-info-circle me-1"></i>Seasonal pricing may apply
+                    </p>
                 </div>
             </div>
 
-            <!-- Amenities -->
-            <div class="card border-0 mb-4 shadow-sm">
+            <!-- Amenities Card -->
+            <div class="detail-card amenities-card mb-4">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="card-title mb-0" style="color: #2d8a63;">Amenities</h5>
-                        {% if user.is_staff %}
-                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
-                            data-bs-target="#editAmenitiesModal">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        {% endif %}
-                    </div>
-                    <ul class="list-unstyled">
+                    <h5 class="card-title text-primary fw-bold mb-4">
+                        <i class="fas fa-star me-2"></i>Amenities
+                    </h5>
+                    <div class="amenities-list">
                         {% for amenity in amenities %}
-                        <li class="mb-2">
-                            <i class="fas fa-check-circle" style="color: #2d8a63;"></i> <span class="ms-2">{{ amenity
-                                }}</span>
-                        </li>
+                        <div class="amenity-item">
+                            <i class="fas fa-check-circle text-primary"></i>
+                            <span>{{ amenity }}</span>
+                        </div>
                         {% empty %}
-                        <li class="text-muted">No amenities listed</li>
+                        <p class="text-muted mb-0">No amenities listed</p>
                         {% endfor %}
-                    </ul>
+                    </div>
                 </div>
             </div>
 
-            <!-- Room Info -->
-            <div class="card border-0 mb-4 shadow-sm">
+            <!-- Room Info Card -->
+            <div class="detail-card info-card mb-4">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="card-title mb-0" style="color: #2d8a63;">Room Information</h5>
-                        {% if user.is_staff %}
-                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
-                            data-bs-target="#editRoomInfoModal">
-                            <i class="fas fa-edit"></i>
+                    <h5 class="card-title text-primary fw-bold mb-4">
+                        <i class="fas fa-info-circle me-2"></i>Room Details
+                    </h5>
+                    <div class="room-specs">
+                        <div class="spec-item">
+                            <span class="spec-icon"><i class="fas fa-users"></i></span>
+                            <div>
+                                <div class="spec-label">Capacity</div>
+                                <div class="spec-value">Max {{ room.max_capacity }} {% if room.max_capacity == 1 %}Guest{% else %}Guests{% endif %}</div>
+                            </div>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-icon"><i class="fas fa-ruler"></i></span>
+                            <div>
+                                <div class="spec-label">Room Size</div>
+                                <div class="spec-value">{{ room.size_sqft }} sq ft</div>
+                            </div>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-icon"><i class="fas fa-mountain"></i></span>
+                            <div>
+                                <div class="spec-label">View</div>
+                                <div class="spec-value">Mountain View</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Booking CTA Card -->
+            <div class="detail-card booking-cta-card mb-4">
+                <div class="card-body text-center">
+                    <div class="mb-4">
+                        <i class="fas fa-calendar-check fa-3x text-primary"></i>
+                    </div>
+                    <h5 class="card-title text-dark fw-bold mb-2">Ready to Discover Luxury?</h5>
+                    <p class="text-muted small mb-4">
+                        Secure your stay at {{ room.title }} today. Best rates guaranteed!
+                    </p>
+                    <a href="{% url 'main:booking' %}?room_id={{ room.id }}" class="btn btn-primary btn-lg w-100 fw-bold shadow-md">
+                        <i class="fas fa-calendar-check me-2"></i>Book This Room
+                    </a>
+                    <p class="text-muted small mt-3 mb-0">
+                        <i class="fas fa-lock me-1"></i>100% Secure Booking
+                    </p>
+                </div>
+            </div>
+
+            <!-- Future Bookings Alert -->
+            {% if future_bookings > 0 %}
+            <div class="alert alert-info alert-custom" role="alert">
+                <i class="fas fa-calendar-times me-2"></i>
+                <small><strong>{{ future_bookings }} upcoming booking{{ future_bookings|pluralize }}</strong> - Choose your dates carefully!</small>
+            </div>
+            {% endif %}
+        </div>
+    </div>
                         </button>
                         {% endif %}
                     </div>

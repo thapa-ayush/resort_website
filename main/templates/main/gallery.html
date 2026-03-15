@@ -6,36 +6,37 @@
 
 {% block content %}
 <!-- Page Header -->
-<div class="py-4 mb-5" style="background: linear-gradient(135deg, #2d8a63 0%, #1f6b4a 100%); color: white;">
-    <div class="container">
-        <h1 class="mb-2 text-white">Gallery</h1>
-        <p class="lead text-white-50">Explore the beauty of Diamond Hill Resort</p>
+<div class="page-header" style="background: transparent; position: relative;">
+    <div class="page-header-content text-center">
+        <h1 class="display-5 fw-900 mb-3 hero-title text-white">Gallery</h1>
+        <p class="hero-description lead text-muted">Explore the natural beauty and luxury of Diamond Hill Resort</p>
     </div>
 </div>
 
 <!-- Gallery Grid -->
 <div class="container mb-5">
     {% if images %}
-    <div class="row g-4">
+    <div class="gallery-grid">
         {% for image in images %}
-        <div class="col-md-6 col-lg-4">
-            <div class="position-relative overflow-hidden rounded shadow-lg hover-scale"
-                style="height: 300px; cursor: pointer;">
+        <div class="gallery-item-wrapper">
+            <figure class="gallery-figure">
                 {% if image.image %}
-                <img src="{{ image.image.url }}" alt="{{ image.caption }}" class="img-fluid w-100 h-100"
-                    style="object-fit: cover;" data-bs-toggle="modal" data-bs-target="#imageModal"
-                    data-image="{{ image.image.url }}" data-caption="{{ image.caption }}">
+                <img src="{{ image.image.url }}" alt="{{ image.caption }}" class="gallery-img"
+                    data-bs-toggle="modal" data-bs-target="#imageModal"
+                    data-image="{{ image.image.url }}" data-caption="{{ image.caption }}"
+                    style="cursor: pointer;">
                 {% else %}
                 <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400&h=300&fit=crop"
-                    alt="{{ image.caption }}" class="img-fluid w-100 h-100" style="object-fit: cover;"
+                    alt="{{ image.caption }}" class="gallery-img" style="cursor: pointer;"
                     data-bs-toggle="modal" data-bs-target="#imageModal" data-caption="{{ image.caption }}">
                 {% endif %}
-                <div
-                    class="position-absolute bottom-0 start-0 end-0 bg-dark bg-opacity-50 p-3 translate-y-100 transition">
-                    <p class="text-white mb-0">{{ image.caption }}</p>
-                    <small class="text-light">{{ image.upload_date|date:"M d, Y" }}</small>
-                </div>
-            </div>
+                <figcaption class="gallery-caption">
+                    <div class="caption-content">
+                        <h5 class="caption-title">{{ image.caption }}</h5>
+                        <p class="caption-date text-white-50 small mb-0">{{ image.upload_date|date:"M d, Y" }}</p>
+                    </div>
+                </figcaption>
+            </figure>
         </div>
         {% endfor %}
     </div>
@@ -103,13 +104,13 @@
 </div>
 
 <!-- Call to Action -->
-<section class="py-5" style="background: linear-gradient(135deg, #2d8a63 0%, #1f6b4a 100%);">
-    <div class="container text-center text-white">
-        <h3 class="mb-4 text-white">See these beautiful views in person!</h3>
-        <a href="{% url 'main:booking' %}" class="btn btn-light btn-lg" style="transition: all 0.3s ease;"
-            onmouseover="this.style.backgroundColor='#f0f0f0'; this.style.transform='translateY(-2px)'"
-            onmouseout="this.style.backgroundColor='white'; this.style.transform='translateY(0)'">
-            <i class="fas fa-calendar-check me-2"></i>Book Your Stay
+<section class="cta-section py-6" style="background: transparent; position: relative; overflow: hidden;">
+    <div class="cta-background"></div>
+    <div class="container text-center position-relative" style="z-index: 2;">
+        <h3 class="text-white mb-4" style="font-weight: 900; font-size: 2rem;">Experience These Views in Person</h3>
+        <p class="text-white-50 lead mb-5">Book your stay at Diamond Hill Resort and create unforgettable memories surrounded by natural beauty</p>
+        <a href="{% url 'main:booking' %}" class="btn btn-light btn-lg fw-bold shadow-lg px-5" style="transition: all 0.3s ease;">
+            <i class="fas fa-calendar-check me-2"></i>Book Your Adventure
         </a>
     </div>
 </section>

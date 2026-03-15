@@ -1,0 +1,150 @@
+/* Diamond Hill Resort - Modern Reactive Overrides */
+
+/* Globals & Component Resets */
+body {
+    background: var(--bg-color);
+    color: var(--text-secondary);
+}
+
+h1, h2, h3, h4, h5, h6, .text-dark {
+    color: var(--text-primary) !important;
+}
+
+p, .text-muted {
+    color: var(--text-secondary) !important;
+}
+
+/* Override Bootstrap Backgrounds for Dark Theme */
+.bg-white, .bg-light, .bg-transparent {
+    background-color: transparent !important;
+}
+
+/* Glassmorphism Cards */
+.card, .review-card, .room-card, .event-card, .feature-box, .stat-card, .pricing-card, .blog-card {
+    background: var(--surface-color) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border) !important;
+    border-radius: var(--border-radius-lg) !important;
+    color: var(--text-primary) !important;
+    box-shadow: var(--shadow-sm) !important;
+    transition: var(--transition-base);
+}
+
+.card:hover, .review-card:hover, .room-card:hover, .event-card:hover, .feature-box:hover, .stat-card:hover, .pricing-card:hover, .blog-card:hover {
+    box-shadow: var(--shadow-glow) !important;
+    transform: translateY(-8px);
+    border-color: rgba(0, 210, 135, 0.4) !important;
+}
+
+/* Text in Cards */
+.card h5, .card h6, .review-card h6, .room-title, .event-header h5, .feature-box h5, .stat-card h5, .pricing-card h5, .blog-title {
+    color: var(--text-primary) !important;
+}
+
+/* Navbar */
+.navbar-premium {
+    background: rgba(15, 23, 42, 0.85) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border) !important;
+}
+.navbar .nav-link {
+    color: var(--text-secondary) !important;
+}
+.navbar .nav-link:hover, .navbar .nav-link.active {
+    color: var(--primary) !important;
+    text-shadow: 0 0 10px rgba(0, 210, 135, 0.5);
+}
+.navbar-brand-text {color: var(--text-primary) !important;}
+
+/* Buttons */
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%) !important;
+    border: none !important;
+    color: #fff !important;
+    box-shadow: 0 4px 15px rgba(0, 210, 135, 0.3) !important;
+    border-radius: var(--border-radius-sm);
+    transition: var(--transition-base);
+}
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 210, 135, 0.5) !important;
+}
+
+.btn-outline-primary {
+    background: transparent !important;
+    border: 1px solid var(--primary) !important;
+    color: var(--primary) !important;
+    box-shadow: 0 4px 15px rgba(0, 210, 135, 0.1) !important;
+}
+.btn-outline-primary:hover {
+    background: rgba(0, 210, 135, 0.1) !important;
+    box-shadow: 0 8px 25px rgba(0, 210, 135, 0.3) !important;
+}
+
+/* Forms */
+.form-control, .form-select {
+    background: rgba(30, 41, 59, 0.5) !important;
+    border: 1px solid var(--glass-border) !important;
+    color: var(--text-primary) !important;
+    border-radius: var(--border-radius-sm) !important;
+}
+.form-control:focus, .form-select:focus {
+    background: rgba(30, 41, 59, 0.8) !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 4px rgba(0, 210, 135, 0.1) !important;
+    color: var(--text-primary) !important;
+}
+.form-label, .input-group-text {
+    color: var(--text-secondary) !important;
+}
+
+/* Footer */
+.footer-premium {
+    background: rgba(15, 23, 42, 0.95) !important;
+    border-top: 1px solid var(--glass-border) !important;
+}
+.footer-description, .footer-link {
+    color: var(--text-secondary) !important;
+}
+
+/* Sections */
+section, .py-6, .py-5 {
+    background: transparent !important;
+}
+
+/* Modal */
+.modal-content {
+    background: var(--dark-gray) !important;
+    border: 1px solid var(--glass-border) !important;
+    backdrop-filter: blur(20px);
+}
+.modal-title {
+    color: var(--text-primary) !important;
+}
+.modal-header, .modal-footer {
+    border-color: var(--glass-border) !important;
+}
+
+/* Carousel / Images */
+.room-image-wrapper {
+    background: transparent !important;
+}
+.hero-subtitle {
+    background: rgba(0, 210, 135, 0.1) !important;
+    border: 1px solid rgba(0, 210, 135, 0.3) !important;
+    color: var(--primary-light) !important;
+}
+.hero-overlay {
+    background: linear-gradient(180deg, rgba(15,23,42,0.6) 0%, rgba(15,23,42,0.9) 100%) !important;
+}
+
+/* Booking form wrapper */
+.booking-form {
+    background: rgba(30, 41, 59, 0.6) !important;
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border) !important;
+    border-radius: var(--border-radius-lg);
+    padding: 2rem;
+}

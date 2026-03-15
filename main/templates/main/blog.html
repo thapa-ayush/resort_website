@@ -6,61 +6,70 @@
 
 {% block content %}
 <!-- Page Header -->
-<div class="py-4 mb-5" style="background: linear-gradient(135deg, #2d8a63 0%, #1f6b4a 100%); color: white;">
-    <div class="container">
-        <h1 class="mb-2 text-white">Blog</h1>
-        <p class="lead text-white-50">Travel tips, stories, and insights from Diamond Hill Resort</p>
+<div class="page-header" style="background: transparent; position: relative;">
+    <div class="page-header-content text-center">
+        <h1 class="display-5 fw-900 mb-3 hero-title text-white">Travel Stories & Insights</h1>
+        <p class="hero-description lead text-muted">Discover travel tips, destination guides, and resort stories</p>
     </div>
 </div>
 
 <!-- Blog Grid -->
 <div class="container mb-5">
     {% if posts %}
-    <div class="row g-4">
+    <div class="blog-grid">
         {% for post in posts %}
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100 border-0 shadow-sm hover-lift overflow-hidden"
-                style="transition: transform 0.3s ease, box-shadow 0.3s ease;">
+        <article class="blog-card-wrapper">
+            <div class="blog-card card border-0 shadow-sm overflow-hidden">
                 <!-- Featured Image -->
-                <div class="position-relative overflow-hidden" style="height: 250px;">
+                <div class="blog-image-container position-relative overflow-hidden" style="height: 280px;">
                     {% if post.image %}
-                    <img src="{{ post.image.url }}" alt="{{ post.title }}" class="card-img-top"
-                        style="height: 100%; object-fit: cover; transition: transform 0.3s ease;"
-                        onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}" class="blog-image w-100 h-100"
+                        style="object-fit: cover; transition: transform 0.5s ease;">
                     {% else %}
-                    <div class="bg-light d-flex align-items-center justify-content-center h-100">
-                        <i class="fas fa-file-alt text-muted fa-3x"></i>
+                    <div class="bg-light d-flex align-items-center justify-content-center w-100 h-100">
+                        <i class="fas fa-file-alt text-muted fa-4x"></i>
                     </div>
                     {% endif %}
-                    <!-- Category Badge -->
-                    <span class="badge position-absolute top-0 start-0 m-3" style="background-color: #2d8a63;">
-                        <i class="fas fa-blog me-1"></i>Blog
-                    </span>
+
+                    <!-- Blog Badge -->
+                    <div class="blog-badge position-absolute top-0 start-0 m-3">
+                        <span class="badge fw-bold" style="background: rgba(30, 132, 73, 0.9);">
+                            <i class="fas fa-blog me-1"></i>Blog
+                        </span>
+                    </div>
+
+                    <!-- Overlay Gradient -->
+                    <div class="blog-overlay position-absolute inset-0"
+                        style="background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.4) 100%);"></div>
                 </div>
 
-                <div class="card-body d-flex flex-column">
-                    <!-- Date & Author -->
-                    <div class="d-flex justify-content-between align-items-center mb-2 text-muted small">
-                        <span><i class="fas fa-calendar-alt me-1" style="color: #2d8a63;"></i>{{ post.created_at|date:"b d, Y" }}</span>
-                        <span><i class="fas fa-user me-1" style="color: #2d8a63;"></i>{{ post.author }}</span>
+                <!-- Blog Content -->
+                <div class="card-body p-4 d-flex flex-column">
+                    <!-- Meta Information -->
+                    <div class="blog-meta d-flex gap-3 mb-3 flex-wrap">
+                        <span class="blog-date small fw-bold text-primary">
+                            <i class="fas fa-calendar-alt me-1"></i>{{ post.created_at|date:"b d, Y" }}
+                        </span>
+                        <span class="blog-author small fw-bold text-primary">
+                            <i class="fas fa-user me-1"></i>{{ post.author }}
+                        </span>
                     </div>
 
                     <!-- Title -->
-                    <h5 class="card-title mb-2" style="color: #2d8a63;">{{ post.title }}</h5>
+                    <h5 class="blog-title mb-3 fw-bold text-dark">{{ post.title }}</h5>
 
                     <!-- Excerpt -->
-                    <p class="card-text text-muted flex-grow-1">{{ post.excerpt|truncatewords:20 }}</p>
+                    <p class="blog-excerpt text-muted flex-grow-1 mb-4">
+                        {{ post.excerpt|truncatewords:20 }}
+                    </p>
 
-                    <!-- Read More Button -->
-                    <a href="{{ post.get_absolute_url }}" class="btn btn-sm fw-bold mt-auto"
-                        style="background-color: #2d8a63; color: white; transition: background-color 0.3s ease;"
-                        onmouseover="this.style.backgroundColor='#1f6b4a'"
-                        onmouseout="this.style.backgroundColor='#2d8a63'">
+                    <!-- Read More Link -->
+                    <a href="{{ post.get_absolute_url }}" class="btn btn-outline-primary btn-sm fw-bold align-self-start">
                         Read More <i class="fas fa-arrow-right ms-1"></i>
                     </a>
                 </div>
             </div>
-        </div>
+        </article>
         {% endfor %}
     </div>
 
@@ -113,24 +122,26 @@
 </div>
 
 <!-- Call to Action -->
-<section class="py-5" style="background: linear-gradient(135deg, #2d8a63 0%, #1f6b4a 100%);">
-    <div class="container text-center text-white">
-        <h3 class="mb-4 text-white">Subscribe to Our Newsletter</h3>
-        <p class="lead mb-5 text-white-50">Get the latest travel tips and resort updates delivered to your inbox</p>
-        <form class="row g-2 justify-content-center" style="max-width: 500px; margin: 0 auto;">
-            <div class="col-auto flex-grow-1">
-                <input type="email" class="form-control" placeholder="Enter your email" required
-                    style="border: none; padding: 12px 16px; border-radius: 8px;">
+<section class="cta-section py-6" style="background: transparent; position: relative; overflow: hidden;">
+    <div class="cta-background"></div>
+    <div class="container position-relative" style="z-index: 2;">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h3 class="text-white mb-2" style="font-weight: 900; font-size: 1.75rem;">Stay Updated with Our Latest Stories</h3>
+                <p class="text-white-50 lead mb-0">Get travel tips, resort updates, and exclusive offers delivered directly to your inbox</p>
             </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-light fw-bold"
-                    style="padding: 12px 24px; border-radius: 8px; transition: all 0.3s ease;"
-                    onmouseover="this.style.backgroundColor='#f0f0f0'; this.style.transform='translateY(-2px)'"
-                    onmouseout="this.style.backgroundColor='white'; this.style.transform='translateY(0)'">
-                    Subscribe
-                </button>
+            <div class="col-lg-6 mt-4 mt-lg-0">
+                <form class="newsletter-form d-flex gap-2 flex-column flex-sm-row">
+                    <input type="email" class="form-control form-control-lg" placeholder="Enter your email address" required
+                        style="border-radius: var(--border-radius-lg); padding: 0.875rem 1.25rem; backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.15); border: 2px solid rgba(255, 255, 255, 0.3); color: white;">
+                    <button type="submit" class="btn btn-light btn-lg fw-bold"
+                        style="padding: 0.875rem 2rem; border-radius: var(--border-radius-lg); transition: all 0.3s ease; white-space: nowrap;">
+                        Subscribe
+                    </button>
+                </form>
+                <p class="text-white small mt-3 mb-0"><i class="fas fa-shield-alt me-1"></i>We respect your privacy. Unsubscribe anytime.</p>
             </div>
-        </form>
+        </div>
     </div>
 </section>
 {% endblock %}

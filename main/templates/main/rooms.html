@@ -6,41 +6,91 @@
 
 {% block content %}
 <!-- Page Header -->
-<div class="py-4 mb-5" style="background: linear-gradient(135deg, #2d8a63 0%, #1f6b4a 100%); color: white;">
-    <div class="container">
-        <h1 class="mb-2 text-white">Our Rooms</h1>
-        <p class="lead text-white-50">Choose from our collection of luxurious room types</p>
+<div class="page-header" style="background: transparent; position: relative;">
+    <div class="page-header-content text-center">
+        <h1 class="text-white display-5 fw-900 mb-3 hero-title">Our Premium Rooms</h1>
+        <p class="text-muted lead hero-description">Discover luxury accommodation with breathtaking mountain views</p>
+        <nav aria-label="breadcrumb" class="mt-4 d-flex justify-content-center">
+            <ol class="breadcrumb breadcrumb-light">
+                <li class="breadcrumb-item"><a href="{% url 'main:home' %}" class="text-muted">Home</a></li>
+                <li class="breadcrumb-item text-primary" aria-current="page">Rooms</li>
+            </ol>
+        </nav>
     </div>
 </div>
 
 <!-- Rooms Grid -->
 <div class="container mb-5">
     {% if rooms %}
-    <div class="row g-4">
+    <div class="rooms-grid">
         {% for room in rooms %}
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100 shadow-sm hover-lift border-0">
-                <div class="position-relative overflow-hidden" style="height: 300px;">
+        <div class="room-card-wrapper">
+            <div class="room-card card border-0 shadow-sm overflow-hidden">
+                <!-- Room Image Container -->
+                <div class="room-image-container position-relative overflow-hidden" style="height: 320px;">
                     {% if room.image %}
-                    <img src="{{ room.image.url }}" alt="{{ room.title }}" class="card-img-top w-100 h-100"
-                        style="object-fit: cover; transition: transform 0.4s ease;">
+                    <img src="{{ room.image.url }}" alt="{{ room.title }}" class="room-image w-100 h-100"
+                        style="object-fit: cover;">
                     {% else %}
                     <div class="bg-light d-flex align-items-center justify-content-center w-100 h-100">
-                        <i class="fas fa-image text-muted fa-3x"></i>
+                        <i class="fas fa-image text-muted fa-4x"></i>
                     </div>
                     {% endif %}
-                    <div class="room-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
-                        style="background: rgba(37, 150, 190, 0.85); opacity: 0; transition: opacity 0.3s ease;">
-                        <a href="{% url 'main:room_detail' room.slug %}" class="btn btn-light btn-lg fw-bold">
-                            <i class="fas fa-eye me-2"></i>View Details
+                    
+                    <!-- Room Overlay -->
+                    <div class="room-overlay position-absolute inset-0 d-flex align-items-center justify-content-center"
+                        style="background: rgba(30, 132, 73, 0.9); opacity: 0; transition: opacity 0.3s ease;">
+                        <div class="text-center">
+                            <a href="{% url 'main:room_detail' room.slug %}" class="btn btn-light btn-lg fw-bold shadow-lg">
+                                <i class="fas fa-eye me-2"></i>View Details
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Price Badge -->
+                    <div class="room-price-badge position-absolute top-0 end-0 m-4">
+                        <div class="price-content">
+                            <span class="price-currency">NPR</span>
+                            <span class="price-amount">{{ room.price|floatformat:0 }}</span>
+                            <span class="price-period">/night</span>
+                        </div>
+                    </div>
+
+                    <!-- Room Category Badge -->
+                    <div class="room-category-badge position-absolute bottom-0 start-0 m-4">
+                        <span class="badge fw-bold" style="background-color: rgba(30, 132, 73, 0.9);">
+                            <i class="fas fa-door-open me-1"></i>{{ room.title }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Room Content -->
+                <div class="card-body p-4 d-flex flex-column">
+                    <h5 class="card-title text-primary fw-bold mb-2 fs-5">{{ room.title }}</h5>
+                    <p class="card-text text-muted mb-4" style="font-weight: 500; line-height: 1.7;">
+                        {{ room.description|truncatewords:20 }}
+                    </p>
+                    
+                    <!-- Room Stats -->
+                    <div class="room-stats d-flex gap-3 mb-4 flex-wrap">
+                        <div class="stat-item">
+                            <i class="fas fa-users text-primary"></i>
+                            <span class="ms-2 small fw-600">{{ room.max_capacity }} Guests</span>
+                        </div>
+                        {% if room.size_sqft %}
+                        <div class="stat-item">
+                            <i class="fas fa-ruler text-primary"></i>
+                            <span class="ms-2 small fw-600">{{ room.size_sqft }} sqft</span>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Action Button -->
+                    <div class="mt-auto pt-3">
+                        <a href="{% url 'main:room_detail' room.slug %}" class="btn btn-outline-primary w-100 fw-bold py-2">
+                            <i class="fas fa-arrow-right me-2"></i>Explore
                         </a>
                     </div>
-                    <span class="badge fw-bold position-absolute top-0 end-0 m-3 fs-6"
-                        style="background-color: #2d8a63; color: white;">NPR {{ room.price|floatformat:0 }}/night</span>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title" style="color: #2d8a63;">{{ room.title }}</h5>
-                    <p class="card-text text-muted">{{ room.description|truncatewords:20 }}</p>
                 </div>
             </div>
         </div>
@@ -94,14 +144,14 @@
 </div>
 
 <!-- Call to Action -->
-<section class="py-5" style="background: linear-gradient(135deg, #f8f9fa 0%, #e8f5e9 100%);">
-    <div class="container text-center">
-        <h3 class="mb-4" style="color: #2d8a63;">Can't find your perfect room?</h3>
-        <p class="lead mb-4 text-muted">Contact us for special requests or group bookings</p>
-        <a href="{% url 'main:contact' %}" class="btn btn-lg fw-bold"
-            style="background-color: #2d8a63; color: white; transition: background-color 0.3s ease;"
-            onmouseover="this.style.backgroundColor='#1f6b4a'" onmouseout="this.style.backgroundColor='#2d8a63'">
-            <i class="fas fa-envelope me-2"></i>Get in Touch
+<section class="cta-section py-6" style="background: transparent; position: relative; overflow: hidden;">
+    <div class="cta-background"></div>
+    <div class="container text-center position-relative" style="z-index: 2;">
+        <h3 class="text-white mb-3" style="font-weight: 900; font-size: 2rem;">Can't find your perfect room?</h3>
+        <p class="text-white-50 lead mb-5">Our hospitality team is ready to assist with special requests or group bookings</p>
+        <a href="{% url 'main:contact' %}" class="btn btn-light btn-lg fw-bold shadow-lg px-5" 
+            style="transition: all 0.3s ease;">
+            <i class="fas fa-envelope me-2"></i>Contact Our Team
         </a>
     </div>
 </section>

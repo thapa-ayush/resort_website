@@ -6,10 +6,10 @@
 
 {% block content %}
 <!-- Page Header -->
-<div class="py-4 mb-5" style="background: linear-gradient(135deg, #2d8a63 0%, #1f6b4a 100%); color: white;">
-    <div class="container">
-        <h1 class="mb-2 text-white">About Diamond Hill Resort</h1>
-        <p class="lead text-white-50">Your gateway to luxury and natural beauty in the Himalayas</p>
+<div class="py-4 mb-5 page-header" style="background: transparent; position: relative;">
+    <div class="container text-center">
+        <h1 class="mb-2 text-white hero-title">About Diamond Hill Resort</h1>
+        <p class="lead text-muted hero-description">Your gateway to luxury and natural beauty in the Himalayas</p>
     </div>
 </div>
 
@@ -187,8 +187,8 @@
     </div>
 
     <!-- Customer Testimonials Section -->
-    <div class="row mb-5 py-5"
-        style="background: linear-gradient(135deg, #f8f9fa 0%, #e8f5e9 100%); border-radius: 15px; margin: 0 -15px; padding: 3rem 15px !important;">
+    <div class="row mb-5 py-5 rounded-4"
+        style="background: transparent; margin: 0 -15px; padding: 3rem 15px !important;">
         <div class="col-12">
             <h2 style="color: #2d8a63;" class="mb-2 text-center">What Our Guests Say</h2>
             <p class="text-center text-muted mb-5">Hear from travelers who have experienced the magic of Diamond Hill
@@ -383,21 +383,17 @@
 </div>
 
 <!-- Call to Action -->
-<section class="py-5" style="background: linear-gradient(135deg, #2d8a63 0%, #1f6b4a 100%);">
-    <div class="container text-center text-white">
+<section class="py-5 cta-section" style="background: transparent; position: relative; overflow: hidden;">
+    <div class="cta-background"></div>
+    <div class="container text-center position-relative" style="z-index: 2;">
         <h3 class="mb-4 text-white">Experience Diamond Hill Resort</h3>
-        <p class="lead mb-5 text-white-50">Join us for an unforgettable stay in one of Nepal's most beautiful mountain
+        <p class="lead mb-5 text-muted">Join us for an unforgettable stay in one of Nepal's most beautiful mountain
             retreats</p>
         <div class="d-flex gap-3 justify-content-center flex-wrap">
-            <a href="{% url 'main:booking' %}" class="btn btn-light btn-lg fw-bold" style="transition: all 0.3s ease;"
-                onmouseover="this.style.backgroundColor='#f0f0f0'; this.style.transform='translateY(-2px)'"
-                onmouseout="this.style.backgroundColor='white'; this.style.transform='translateY(0)'">
+            <a href="{% url 'main:booking' %}" class="btn btn-primary btn-lg fw-bold px-4" style="transition: all 0.3s ease;">
                 <i class="fas fa-calendar-check me-2"></i>Book Now
             </a>
-            <a href="{% url 'main:contact' %}" class="btn btn-outline-light btn-lg fw-bold"
-                style="border-color: white; color: white; transition: all 0.3s ease;"
-                onmouseover="this.style.backgroundColor='rgba(255,255,255,0.1)'; this.style.transform='translateY(-2px)'"
-                onmouseout="this.style.backgroundColor='transparent'; this.style.transform='translateY(0)'">
+            <a href="{% url 'main:contact' %}" class="btn btn-outline-primary btn-lg fw-bold px-4">
                 <i class="fas fa-envelope me-2"></i>Get in Touch
             </a>
         </div>
