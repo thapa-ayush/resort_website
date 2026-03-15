@@ -164,11 +164,15 @@ CSRF_COOKIE_SECURE = False
 
 # CSRF settings
 CSRF_COOKIE_HTTPONLY = False
-CSRF_TRUSTED_ORIGINS = config(
-    'CSRF_TRUSTED_ORIGINS',
-    default='http://localhost:8000,http://127.0.0.1:8000,https://resortwebsite-production.up.railway.app',
-    cast=Csv()
-)
+CSRF_COOKIE_SECURE = True  # Enable for HTTPS
+CSRF_COOKIE_AGE = 31449600  # 1 year
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'https://resortwebsite-production.up.railway.app',
+    'https://*.up.railway.app',
+    'https://*.railway.app',
+]
 
 # Clickjacking protection
 X_FRAME_OPTIONS = 'DENY'
