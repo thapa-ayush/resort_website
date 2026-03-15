@@ -164,7 +164,6 @@ CSRF_COOKIE_SECURE = False
 
 # CSRF settings
 CSRF_COOKIE_HTTPONLY = False
-CSRF_COOKIE_SECURE = True  # Enable for HTTPS
 CSRF_COOKIE_AGE = 31449600  # 1 year
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8000',
@@ -180,6 +179,7 @@ X_FRAME_OPTIONS = 'DENY'
 # Content Security Policy
 SECURE_CONTENT_SECURITY_POLICY = {
     'default-src': ("'self'",),
+    'form-action': ("'self'",),
     'script-src': ("'self'", "'unsafe-inline'", 'cdn.jsdelivr.net', 'code.jquery.com'),
     'style-src': ("'self'", "'unsafe-inline'", 'cdn.jsdelivr.net'),
     'img-src': ("'self'", 'data:', '*'),
