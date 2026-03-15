@@ -163,10 +163,10 @@ SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
 
 # CSRF settings
-CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = False
 CSRF_TRUSTED_ORIGINS = config(
     'CSRF_TRUSTED_ORIGINS',
-    default='http://localhost:8000,http://127.0.0.1:8000',
+    default='http://localhost:8000,http://127.0.0.1:8000,https://resortwebsite-production.up.railway.app',
     cast=Csv()
 )
 
