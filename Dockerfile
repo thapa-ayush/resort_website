@@ -35,6 +35,9 @@ RUN chmod +x entrypoint.sh
 # Collect static files at build time
 RUN python manage.py collectstatic --noinput --clear 2>/dev/null || true
 
+# Create media directory with proper permissions (for persistent volume)
+RUN mkdir -p /app/media && chmod 777 /app/media
+
 # Expose port
 EXPOSE 8000
 
