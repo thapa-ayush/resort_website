@@ -3,6 +3,8 @@ FROM python:3.12-slim
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
+ENV PORT=8000
+ENV DJANGO_SETTINGS_MODULE=resort_website.settings
 
 # Set work directory
 WORKDIR /app
@@ -30,8 +32,11 @@ COPY . .
 # Make entrypoint script executable
 RUN chmod +x entrypoint.sh
 
+# Collect static files at build time
+RUN python manage.py collectstatic --noinput --clear 2>/dev/null || true
+
 # Expose port
 EXPOSE 8000
 
-# Run via shell to ensure proper environment variable expansion
-CMD ["/bin/sh", "-c", "./entrypoint.sh"]
+# Run entrypoint script
+CMD ["./entrypoint.sh"]
