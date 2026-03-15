@@ -27,8 +27,11 @@ RUN pip install --upgrade pip && \
 # Copy project files
 COPY . .
 
+# Make entrypoint script executable
+RUN chmod +x entrypoint.sh
+
 # Expose port
 EXPOSE 8000
 
-# Run migrations, collect static, and start gunicorn (using PORT env var for Railway compatibility)
-CMD sh -c "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn resort_website.wsgi --bind 0.0.0.0:\${PORT:-8000} --workers 4 --log-file -"
+# Run entrypoint script
+ENTRYPOINT ["./entrypoint.sh"]
