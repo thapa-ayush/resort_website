@@ -5,165 +5,82 @@
 {% block meta_description %}{{ page_description }}{% endblock %}
 
 {% block content %}
-<!-- Hero Section with Image Slideshow -->
-<section class="hero-section premium-hero position-relative overflow-hidden" style="height: 700px;">
-
-    <!-- Slideshow Container -->
-    <div class="hero-slideshow position-absolute top-0 start-0 w-100 h-100">
+<!-- ===== HERO SECTION ===== -->
+<section class="hero-section">
+    <div class="hero-content">
         {% if hero_slides %}
-        {% for slide in hero_slides %}
-        <!-- stylelint-disable-next-line -->
-        <div class="slide position-absolute top-0 start-0 w-100 h-100" data-slide-index="{{ forloop.counter0 }}"
-            style="opacity: {% if forloop.first %}1{% else %}0{% endif %}; transition: opacity 1s ease-in-out;">
-            {% if slide.image %}
-            <img src="{{ slide.image.url }}" alt="{{ slide.title }}" class="w-100 h-100" style="object-fit: cover;">
-            {% else %}
-            <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1400&h=900&fit=crop"
-                alt="{{ slide.title }}" class="w-100 h-100" style="object-fit: cover;">
-            {% endif %}
-        </div>
-        {% endfor %}
+            {% for slide in hero_slides %}
+                {% if forloop.first %}
+                    {% if slide.subtitle %}<span class="subtitle">{{ slide.subtitle }}</span>{% endif %}
+                    <h1>{{ slide.title }}</h1>
+                    <p>{{ slide.description }}</p>
+                {% endif %}
+            {% endfor %}
         {% else %}
-        <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1400&h=900&fit=crop"
-            alt="Diamond Hill Resort" class="w-100 h-100" style="object-fit: cover;">
+            <span class="subtitle">Blessed by Nature</span>
+            <h1>Welcome to Diamond Hill Resort</h1>
+            <p>Experience luxury and serenity in the heart of the Himalayas</p>
         {% endif %}
-    </div>
-
-    <!-- Solid Color Overlay (No Gradient) -->
-    <div class="hero-overlay position-absolute top-0 start-0 w-100 h-100"
-        style="background-color: rgba(0, 0, 0, 0.35); z-index: 1;"></div>
-
-    <!-- Hero Content (Dynamic from Database) -->
-    <div class="container h-100 d-flex align-items-center position-relative" style="z-index: 2;">
-        <div class="row w-100 align-items-center">
-            <div class="col-lg-6">
-                <div class="hero-content" data-aos="fade-up" data-aos-delay="100">
-                    {% if hero_slides %}
-                    <div class="hero-text-content">
-                        {% for slide in hero_slides %}
-                        <div class="hero-slide-text" data-slide-index="{{ forloop.counter0 }}"
-                            style="display: {% if forloop.first %}block{% else %}none{% endif %};">
-                            {% if slide.subtitle %}
-                            <span class="hero-subtitle text-uppercase letter-spacing animated-text" style="font-weight: 600; font-size: 0.95rem; letter-spacing: 2px; display: inline-block; animation: slideInDown 0.8s ease-out both;">{{ slide.subtitle }}</span>
-                            {% endif %}
-                            <h1 class="hero-title fw-bold text-white mb-4 animated-heading"
-                                style="font-size: 3.5rem; line-height: 1.2; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); animation: fadeInScale 1s ease-out 0.2s both;">
-                                {{ slide.title }}
-                            </h1>
-                            <p class="hero-description text-light mb-5 animated-text"
-                                style="font-size: 1.15rem; line-height: 1.6; max-width: 600px; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); animation: slideInUp 1s ease-out 0.4s both;">
-                                {{ slide.description }}
-                            </p>
-                        </div>
-                        {% endfor %}
-                    </div>
-                    {% else %}
-                    <span class="hero-subtitle text-uppercase letter-spacing"
-                        style="font-weight: 600; font-size: 0.95rem; letter-spacing: 2px;">Blessed by Nature</span>
-                    <h1 class="hero-title fw-bold text-white mb-4"
-                        style="font-size: 3.5rem; line-height: 1.2; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">
-                        Welcome to Diamond Hill Resort
-                    </h1>
-                    <p class="hero-description text-light mb-5"
-                        style="font-size: 1.15rem; line-height: 1.6; max-width: 600px; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);">
-                        An invitation for a truly unforgettable, lasting memory combining the very best of luxury and
-                        serenity.
-                        Experience panoramic Himalayan views, world-class hospitality, and authentic mountain retreat in
-                        Nagarkot, Nepal.
-                    </p>
-                    {% endif %}
-                    <div class="d-flex flex-wrap gap-3">
-                        <a href="{% url 'main:room_list' %}" class="btn btn-light btn-lg btn-hover-primary animated-btn"
-                            style="font-weight: 600; padding: 12px 32px; border-radius: 50px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); transition: all 0.3s ease; animation: slideInUp 0.8s ease-out 0.6s both;">
-                            <i class="fas fa-door-open me-2"></i>Explore Rooms
-                        </a>
-                        <a href="{% url 'main:booking' %}" class="btn btn-outline-light btn-lg animated-btn"
-                            style="font-weight: 600; padding: 12px 32px; border-radius: 50px; border-width: 2px; transition: all 0.3s ease; animation: slideInUp 0.8s ease-out 0.7s both;">
-                            <i class="fas fa-calendar-alt me-2"></i>Book Now
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Check Availability Widget -->
-            <div class="col-lg-6 ps-lg-4">
-                <div class="booking-widget bg-white rounded-3 p-4 shadow-lg" data-aos="fade-left" data-aos-delay="200"
-                    style="background: rgba(255, 255, 255, 0.97); margin-top: -60px; position: relative; z-index: 10;">
-                    <h5 class="mb-3 fw-bold text-dark" style="font-size: 1.25rem;">Check Availability</h5>
-
-                    <form method="GET" action="{% url 'main:booking' %}" class="booking-form">
-                        <!-- Check-in Date -->
-                        <div class="mb-2">
-                            <label for="checkin" class="form-label text-dark fw-600" style="font-size: 0.85rem;">Check
-                                In</label>
-                            <input type="date" class="form-control form-control-sm" id="checkin" name="checkin" required
-                                style="border-radius: 6px; border: 1px solid #ddd; padding: 8px 12px; font-size: 0.9rem;">
-                        </div>
-
-                        <!-- Check-out Date -->
-                        <div class="mb-2">
-                            <label for="checkout" class="form-label text-dark fw-600" style="font-size: 0.85rem;">Check
-                                Out</label>
-                            <input type="date" class="form-control form-control-sm" id="checkout" name="checkout"
-                                required
-                                style="border-radius: 6px; border: 1px solid #ddd; padding: 8px 12px; font-size: 0.9rem;">
-                        </div>
-
-                        <!-- Guests -->
-                        <div class="mb-2">
-                            <label for="guests" class="form-label text-dark fw-600"
-                                style="font-size: 0.85rem;">Guests</label>
-                            <select class="form-select form-select-sm" id="guests" name="guests" required
-                                style="border-radius: 6px; border: 1px solid #ddd; padding: 8px 12px; font-size: 0.9rem;">
-                                <option value="1">1 Guest</option>
-                                <option value="2" selected>2 Guests</option>
-                                <option value="3">3 Guests</option>
-                                <option value="4">4 Guests</option>
-                                <option value="5">5+ Guests</option>
-                            </select>
-                        </div>
-
-                        <!-- Rooms -->
-                        <div class="mb-3">
-                            <label for="rooms" class="form-label text-dark fw-600"
-                                style="font-size: 0.85rem;">Rooms</label>
-                            <select class="form-select form-select-sm" id="rooms" name="rooms" required
-                                style="border-radius: 6px; border: 1px solid #ddd; padding: 8px 12px; font-size: 0.9rem;">
-                                <option value="1" selected>1 Room</option>
-                                <option value="2">2 Rooms</option>
-                                <option value="3">3 Rooms</option>
-                            </select>
-                        </div>
-
-                        <!-- Check Availability Button -->
-                        <button type="submit" class="btn btn-sm w-100"
-                            style="background-color: #2d8a63; color: white; font-weight: 600; border-radius: 6px; padding: 10px; transition: all 0.3s ease; border: none;">
-                            <i class="fas fa-search me-2" style="font-size: 0.85rem;"></i>Check Availability
-                        </button>
-                    </form>
-
-                    <p class="text-muted text-center mt-2 mb-0" style="font-size: 0.75rem;">
-                        <i class="fas fa-info-circle me-1"></i>Prices vary by season
-                    </p>
-                </div>
-            </div>
+        
+        <div class="hero-buttons">
+            <a href="{% url 'main:room_list' %}" class="btn btn-light">
+                <i class="fas fa-door-open"></i> Explore Rooms
+            </a>
+            <a href="{% url 'main:booking' %}" class="btn btn-outline">
+                <i class="fas fa-calendar-alt"></i> Book Now
+            </a>
         </div>
     </div>
-    <!-- Slide Indicators - Inside Hero with Fixed Position -->
-    {% if hero_slides %}
-    <div class="slide-indicators position-absolute start-50"
-        style="bottom: 20px; z-index: 10; transform: translateX(-50%);">
-        {% for slide in hero_slides %}
-        {% if forloop.first %}
-        <button class="slide-dot active" data-slide-index="{{ forloop.counter0 }}"
-            aria-label="Go to slide {{ forloop.counter }}"></button>
-        {% else %}
-        <button class="slide-dot" data-slide-index="{{ forloop.counter0 }}"
-            aria-label="Go to slide {{ forloop.counter }}"></button>
-        {% endif %}
-        {% endfor %}
+</section>
+
+<!-- ===== BOOKING SECTION ===== -->
+<section class="section" style="background: var(--light);">
+    <div class="container" style="max-width: 600px;">
+        <div class="text-center mb-4">
+            <h2>Check Availability</h2>
+            <p style="color: var(--text-secondary);">Find your perfect stay with us</p>
+        </div>
+
+        <form method="GET" action="{% url 'main:booking' %}" class="booking-form">
+            <div class="form-group">
+                <label for="checkin" class="form-label">Check In</label>
+                <input type="date" class="form-control" id="checkin" name="checkin" required>
+            </div>
+
+            <div class="form-group">
+                <label for="checkout" class="form-label">Check Out</label>
+                <input type="date" class="form-control" id="checkout" name="checkout" required>
+            </div>
+
+            <div class="form-group">
+                <label for="guests" class="form-label">Guests</label>
+                <select class="form-select" id="guests" name="guests" required>
+                    <option value="1">1 Guest</option>
+                    <option value="2" selected>2 Guests</option>
+                    <option value="3">3 Guests</option>
+                    <option value="4">4 Guests</option>
+                    <option value="5">5+ Guests</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="rooms" class="form-label">Rooms</label>
+                <select class="form-select" id="rooms" name="rooms" required>
+                    <option value="1" selected>1 Room</option>
+                    <option value="2">2 Rooms</option>
+                    <option value="3">3 Rooms</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fas fa-search"></i> Check Availability
+            </button>
+
+            <p class="text-muted text-center mt-3" style="font-size: 0.9rem;">
+                <i class="fas fa-info-circle"></i> Prices vary by season
+            </p>
+        </form>
     </div>
-    {% endif %}
 </section>
 
 <!-- About Section with Features -->
