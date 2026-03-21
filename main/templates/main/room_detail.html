@@ -6,436 +6,350 @@
 
 {% block content %}
 <!-- Page Header -->
-<div class="page-header" style="background: linear-gradient(135deg, #2d8a63 0%, #1f6b4a 100%); color: white;">
+<div class="page-header">
     <div class="container page-header-content">
-        <nav aria-label="breadcrumb" class="mb-4">
-            <ol class="breadcrumb breadcrumb-light mb-0">
+        <nav aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{% url 'main:home' %}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{% url 'main:room_list' %}">Rooms</a></li>
-                <li class="breadcrumb-item active text-white" aria-current="page">{{ room.title }}</li>
+                <li class="breadcrumb-item active" aria-current="page" style="color: var(--clr-gold-light);">{{ room.title }}</li>
             </ol>
         </nav>
-        <h1 class="display-4 fw-900 mb-3 text-white">{{ room.title }}</h1>
-        <div class="d-flex align-items-center gap-3 flex-wrap">
-            <div class="rating-stars">
-                <i class="fas fa-star text-warning"></i>
-                <i class="fas fa-star text-warning"></i>
-                <i class="fas fa-star text-warning"></i>
-                <i class="fas fa-star text-warning"></i>
-                <i class="fas fa-star-half-alt text-warning"></i>
-                <span class="ms-2 text-white-50 small fw-bold">(4.5/5)</span>
+        <h1 class="mb-3" style="font-size: clamp(1.8rem, 4vw, 2.8rem);">{{ room.title }}</h1>
+        <div class="d-flex align-items-center gap-3 flex-wrap" style="color: rgba(255,255,255,0.7);">
+            <div class="d-flex gap-1">
+                <i class="fas fa-star" style="color: var(--clr-gold);"></i>
+                <i class="fas fa-star" style="color: var(--clr-gold);"></i>
+                <i class="fas fa-star" style="color: var(--clr-gold);"></i>
+                <i class="fas fa-star" style="color: var(--clr-gold);"></i>
+                <i class="fas fa-star-half-alt" style="color: var(--clr-gold);"></i>
+                <span class="ms-2 small fw-bold">4.5/5</span>
             </div>
         </div>
     </div>
 </div>
 
-<div class="container mb-5">
-    <div class="row g-5">
-        <!-- Room Image Gallery -->
-        <div class="col-lg-7">
-            <!-- Main Image Carousel -->
-            <div id="roomImageCarousel" class="carousel slide room-carousel shadow-lg" data-bs-ride="carousel"
-                data-bs-interval="6000">
-                <div class="carousel-inner rounded-2xl overflow-hidden" style="background: linear-gradient(135deg, #f0f0f0, #e8e8e8);">
-                    {% if gallery_images %}
-                    {% for image in gallery_images %}
-                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                        <img src="{{ image.image.url }}" alt="{{ image.caption }}" class="d-block w-100"
-                            style="min-height: 500px; max-height: 500px; object-fit: cover;">
-                        {% if image.caption %}
-                        <div class="carousel-caption d-none d-md-block" style="background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.7) 100%); bottom: 0; padding: 2rem;">
-                            <p class="mb-0 text-white"><strong>{{ image.caption }}</strong></p>
+<section class="py-6">
+    <div class="container">
+        <div class="row g-5">
+            <!-- Room Image Gallery -->
+            <div class="col-lg-7">
+                <!-- Main Carousel -->
+                <div id="roomImageCarousel" class="carousel slide mb-4" data-bs-ride="carousel" data-bs-interval="6000">
+                    <div class="carousel-inner" style="border-radius: var(--radius-lg); overflow: hidden;">
+                        {% if gallery_images %}
+                        {% for image in gallery_images %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <img src="{{ image.image.url }}" alt="{{ image.caption }}" class="d-block w-100"
+                                style="min-height: 500px; max-height: 500px; object-fit: cover;">
+                            {% if image.caption %}
+                            <div class="carousel-caption d-none d-md-block"
+                                style="background: linear-gradient(180deg, transparent, rgba(0,0,0,0.6)); bottom: 0; padding: 2rem;">
+                                <p class="mb-0 text-white"><strong>{{ image.caption }}</strong></p>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                        {% elif room.image %}
+                        <div class="carousel-item active">
+                            <img src="{{ room.image.url }}" alt="{{ room.title }}" class="d-block w-100"
+                                style="min-height: 500px; max-height: 500px; object-fit: cover;">
+                        </div>
+                        {% else %}
+                        <div class="carousel-item active">
+                            <div class="d-flex align-items-center justify-content-center"
+                                style="height: 500px; background: var(--clr-beige);">
+                                <i class="fas fa-image fa-4x" style="color: var(--clr-stone);"></i>
+                            </div>
                         </div>
                         {% endif %}
                     </div>
-                    {% endfor %}
-                    {% elif room.image %}
-                    <div class="carousel-item active">
-                        <img src="{{ room.image.url }}" alt="{{ room.title }}" class="d-block w-100"
-                            style="min-height: 500px; max-height: 500px; object-fit: cover;">
-                    </div>
-                    {% else %}
-                    <div class="carousel-item active">
-                        <div class="bg-light d-flex align-items-center justify-content-center" style="height: 500px;">
-                            <p class="text-muted"><i class="fas fa-image fa-4x"></i></p>
-                        </div>
-                    </div>
+
+                    {% if gallery_images|length > 1 %}
+                    <button class="carousel-control-prev" type="button" data-bs-target="#roomImageCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#roomImageCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                     {% endif %}
                 </div>
 
-                <!-- Carousel Controls -->
-                {% if gallery_images|length > 1 %}
-                <button class="carousel-control-prev carousel-control-custom" type="button" data-bs-target="#roomImageCarousel"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next carousel-control-custom" type="button" data-bs-target="#roomImageCarousel"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+                <!-- Thumbnail Gallery -->
+                {% if gallery_images %}
+                <div class="row g-3">
+                    {% for image in gallery_images %}
+                    <div class="col-4 col-md-3">
+                        <button class="p-0 border-0 w-100" style="background: none; cursor: pointer;"
+                            data-bs-target="#roomImageCarousel" data-bs-slide-to="{{ forloop.counter0 }}">
+                            <img src="{{ image.image.url }}" alt="{{ image.caption }}"
+                                class="img-fluid shadow-sm w-100"
+                                style="height: 100px; object-fit: cover; border-radius: var(--radius-sm); transition: opacity 0.3s ease;"
+                                onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
                 {% endif %}
-            </div>
 
-            <!-- Thumbnail Gallery -->
-            {% if gallery_images %}
-            <div class="row g-3 mt-4">
-                {% for image in gallery_images %}
-                <div class="col-4 col-md-3">
-                    <button class="gallery-thumbnail-btn p-0 border-0 w-100"
-                        data-bs-target="#roomImageCarousel" data-bs-slide-to="{{ forloop.counter0 }}"
-                        title="{{ image.caption }}">
-                        <img src="{{ image.image.url }}" alt="{{ image.caption }}"
-                            class="img-fluid rounded-lg shadow-sm gallery-thumbnail"
-                            style="height: 120px; object-fit: cover; width: 100%; display: block; cursor: pointer;">
-                    </button>
-                </div>
-                {% endfor %}
-            </div>
-            {% endif %}
-        </div>
-
-        <!-- Room Details Sidebar -->
-        <div class="col-lg-5">
-            <!-- Pricing Card -->
-            <div class="detail-card pricing-card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title text-primary fw-bold mb-3">
-                        <i class="fas fa-tag me-2"></i>Pricing
-                    </h5>
-                    <div class="price-display">
-                        <span class="price-label">Per Night</span>
-                        <div class="price-amount">
-                            {% if currency_symbol == 'Rs.' %}
-                            <span class="currency">{{ currency_symbol }}</span><span class="amount">{{ room.price|floatformat:0 }}</span>
-                            {% else %}
-                            <span class="currency">{{ currency_symbol }}</span><span class="amount">{{ room_price_in_user_currency|floatformat:2 }}</span>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <p class="text-muted small mt-3 mb-0">
-                        <i class="fas fa-info-circle me-1"></i>Seasonal pricing may apply
-                    </p>
-                </div>
-            </div>
-
-            <!-- Amenities Card -->
-            <div class="detail-card amenities-card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title text-primary fw-bold mb-4">
-                        <i class="fas fa-star me-2"></i>Amenities
-                    </h5>
-                    <div class="amenities-list">
-                        {% for amenity in amenities %}
-                        <div class="amenity-item">
-                            <i class="fas fa-check-circle text-primary"></i>
-                            <span>{{ amenity }}</span>
-                        </div>
-                        {% empty %}
-                        <p class="text-muted mb-0">No amenities listed</p>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-
-            <!-- Room Info Card -->
-            <div class="detail-card info-card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title text-primary fw-bold mb-4">
-                        <i class="fas fa-info-circle me-2"></i>Room Details
-                    </h5>
-                    <div class="room-specs">
-                        <div class="spec-item">
-                            <span class="spec-icon"><i class="fas fa-users"></i></span>
-                            <div>
-                                <div class="spec-label">Capacity</div>
-                                <div class="spec-value">Max {{ room.max_capacity }} {% if room.max_capacity == 1 %}Guest{% else %}Guests{% endif %}</div>
-                            </div>
-                        </div>
-                        <div class="spec-item">
-                            <span class="spec-icon"><i class="fas fa-ruler"></i></span>
-                            <div>
-                                <div class="spec-label">Room Size</div>
-                                <div class="spec-value">{{ room.size_sqft }} sq ft</div>
-                            </div>
-                        </div>
-                        <div class="spec-item">
-                            <span class="spec-icon"><i class="fas fa-mountain"></i></span>
-                            <div>
-                                <div class="spec-label">View</div>
-                                <div class="spec-value">Mountain View</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Booking CTA Card -->
-            <div class="detail-card booking-cta-card mb-4">
-                <div class="card-body text-center">
-                    <div class="mb-4">
-                        <i class="fas fa-calendar-check fa-3x text-primary"></i>
-                    </div>
-                    <h5 class="card-title text-dark fw-bold mb-2">Ready to Discover Luxury?</h5>
-                    <p class="text-muted small mb-4">
-                        Secure your stay at {{ room.title }} today. Best rates guaranteed!
-                    </p>
-                    <a href="{% url 'main:booking' %}?room_id={{ room.id }}" class="btn btn-primary btn-lg w-100 fw-bold shadow-md">
-                        <i class="fas fa-calendar-check me-2"></i>Book This Room
-                    </a>
-                    <p class="text-muted small mt-3 mb-0">
-                        <i class="fas fa-lock me-1"></i>100% Secure Booking
-                    </p>
-                </div>
-            </div>
-
-            <!-- Future Bookings Alert -->
-            {% if future_bookings > 0 %}
-            <div class="alert alert-info alert-custom" role="alert">
-                <i class="fas fa-calendar-times me-2"></i>
-                <small><strong>{{ future_bookings }} upcoming booking{{ future_bookings|pluralize }}</strong> - Choose your dates carefully!</small>
-            </div>
-            {% endif %}
-        </div>
-    </div>
+                <!-- Full Description -->
+                <div class="mt-5 reveal">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 style="font-family: var(--ff-serif); color: var(--clr-forest-dark);">About {{ room.title }}</h4>
+                        {% if user.is_staff %}
+                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editDescriptionModal">
+                            <i class="fas fa-edit"></i>
                         </button>
                         {% endif %}
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-6">
-                            <small class="text-muted">Capacity</small>
-                            <p class="mb-0"><strong>Max {{ room.max_capacity }} {% if room.max_capacity == 1 %}Guest{%
-                                    else %}Guests{% endif %}</strong></p>
-                        </div>
-                        <div class="col-6">
-                            <small class="text-muted">Room Size</small>
-                            <p class="mb-0"><strong>{{ room.size_sqft }} sq ft</strong></p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-6">
-                            <small class="text-muted">Price</small>
-                            <p class="mb-0"><strong>NPR {{ room.price|floatformat:0 }}/night</strong></p>
-                        </div>
-                        <div class="col-6">
-                            <small class="text-muted">View</small>
-                            <p class="mb-0"><strong>Mountain View</strong></p>
-                        </div>
-                    </div>
+                    <p class="lead text-muted" style="line-height: 1.9;">{{ room.description }}</p>
                 </div>
             </div>
 
-            <!-- Booking Section -->
-            <div class="card border-0 mb-4 shadow-sm" style="border-top: 4px solid #2d8a63 !important;">
-                <div class="card-body">
-                    <h5 class="card-title mb-3" style="color: #2d8a63;">Ready to Book?</h5>
-                    <p class="text-muted mb-3">
-                        Complete your reservation for this {{ room.title }}. Secure and easy checkout!
-                    </p>
-                    <a href="{% url 'main:booking' %}?room_id={{ room.id }}" class="btn btn-lg w-100"
-                        style="background-color: #2d8a63; border-color: #2d8a63; color: white; transition: all 0.3s ease;"
-                        onmouseover="this.style.backgroundColor='#1f6b4a'"
-                        onmouseout="this.style.backgroundColor='#2d8a63'">
-                        <i class="fas fa-calendar-check me-2"></i>Book Now
-                    </a>
-                    <p class="text-muted small text-center mt-2 mb-0">
-                        <i class="fas fa-shield-alt me-1"></i>100% Secure Booking
-                    </p>
+            <!-- Room Details Sidebar -->
+            <div class="col-lg-5">
+                <!-- Pricing Card -->
+                <div class="card border-0 mb-4 reveal" style="box-shadow: var(--shadow-lg); border-top: 3px solid var(--clr-gold) !important;">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-3" style="font-family: var(--ff-serif);">
+                            <i class="fas fa-tag me-2" style="color: var(--clr-gold);"></i>Pricing
+                        </h5>
+                        <span class="small text-uppercase fw-600 letter-spacing" style="color: var(--clr-gold-dark);">Per Night</span>
+                        <div class="mt-2">
+                            {% if currency_symbol == 'Rs.' %}
+                            <span class="text-muted">{{ currency_symbol }}</span>
+                            <span class="fw-bold" style="font-size: 2rem; font-family: var(--ff-serif); color: var(--clr-forest);">{{ room.price|floatformat:0 }}</span>
+                            {% else %}
+                            <span class="text-muted">{{ currency_symbol }}</span>
+                            <span class="fw-bold" style="font-size: 2rem; font-family: var(--ff-serif); color: var(--clr-forest);">{{ room_price_in_user_currency|floatformat:2 }}</span>
+                            {% endif %}
+                        </div>
+                        <p class="text-muted small mt-2 mb-0">
+                            <i class="fas fa-info-circle me-1"></i>Seasonal pricing may apply
+                        </p>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Future Bookings -->
-            {% if future_bookings > 0 %}
-            <div class="alert" style="background-color: #e8f5e9; border-left: 4px solid #2d8a63; color: #1f6b4a;"
-                role="alert">
-                <small>
-                    <i class="fas fa-info-circle me-2"></i>
-                    This room has {{ future_bookings }} upcoming bookings. Choose your dates carefully!
-                </small>
-            </div>
-            {% endif %}
-        </div>
-    </div>
+                <!-- Room Specs -->
+                <div class="card border-0 mb-4 reveal" style="box-shadow: var(--shadow-lg);">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-3" style="font-family: var(--ff-serif);">
+                            <i class="fas fa-info-circle me-2" style="color: var(--clr-gold);"></i>Room Details
+                        </h5>
+                        <div class="d-flex flex-column gap-3">
+                            <div class="d-flex align-items-center gap-3 p-3" style="background: var(--clr-beige); border-radius: var(--radius-sm);">
+                                <i class="fas fa-users" style="color: var(--clr-forest); font-size: 1.2rem; width: 25px; text-align: center;"></i>
+                                <div>
+                                    <span class="small text-muted d-block">Capacity</span>
+                                    <strong>Max {{ room.max_capacity }} {% if room.max_capacity == 1 %}Guest{% else %}Guests{% endif %}</strong>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center gap-3 p-3" style="background: var(--clr-beige); border-radius: var(--radius-sm);">
+                                <i class="fas fa-ruler" style="color: var(--clr-forest); font-size: 1.2rem; width: 25px; text-align: center;"></i>
+                                <div>
+                                    <span class="small text-muted d-block">Room Size</span>
+                                    <strong>{{ room.size_sqft }} sq ft</strong>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center gap-3 p-3" style="background: var(--clr-beige); border-radius: var(--radius-sm);">
+                                <i class="fas fa-mountain" style="color: var(--clr-forest); font-size: 1.2rem; width: 25px; text-align: center;"></i>
+                                <div>
+                                    <span class="small text-muted d-block">View</span>
+                                    <strong>Mountain View</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-    <!-- Full Description -->
-    <div class="row mt-5">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h3 style="color: #2d8a63;">About {{ room.title }}</h3>
-                {% if user.is_staff %}
-                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
-                    data-bs-target="#editDescriptionModal">
-                    <i class="fas fa-edit"></i>
-                </button>
+                <!-- Amenities -->
+                <div class="card border-0 mb-4 reveal" style="box-shadow: var(--shadow-lg);">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-3" style="font-family: var(--ff-serif);">
+                            <i class="fas fa-star me-2" style="color: var(--clr-gold);"></i>Amenities
+                        </h5>
+                        <div class="d-flex flex-wrap gap-2">
+                            {% for amenity in amenities %}
+                            <span class="badge px-3 py-2 fw-normal" style="background: rgba(45,106,79,0.08); color: var(--clr-forest); border-radius: var(--radius-sm);">
+                                <i class="fas fa-check-circle me-1" style="color: var(--clr-gold);"></i>{{ amenity }}
+                            </span>
+                            {% empty %}
+                            <p class="text-muted mb-0">No amenities listed</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Booking CTA -->
+                <div class="card border-0 mb-4 reveal" style="box-shadow: var(--shadow-lg); background: linear-gradient(135deg, var(--clr-forest) 0%, var(--clr-forest-dark) 100%) !important;">
+                    <div class="card-body p-4 text-center text-white">
+                        <i class="fas fa-calendar-check mb-3" style="font-size: 2.5rem; color: var(--clr-gold);"></i>
+                        <h5 class="fw-bold mb-2">Ready to Book?</h5>
+                        <p class="small mb-4" style="opacity: 0.8;">Secure your stay at {{ room.title }} today. Best rates guaranteed!</p>
+                        <a href="{% url 'main:booking' %}?room_id={{ room.id }}" class="btn btn-light btn-lg w-100 fw-bold">
+                            <i class="fas fa-calendar-check me-2"></i>Book This Room
+                        </a>
+                        <p class="small mt-3 mb-0" style="opacity: 0.6;">
+                            <i class="fas fa-shield-alt me-1"></i>100% Secure Booking
+                        </p>
+                    </div>
+                </div>
+
+                {% if future_bookings > 0 %}
+                <div class="alert alert-info reveal">
+                    <i class="fas fa-calendar-times me-2"></i>
+                    <small><strong>{{ future_bookings }} upcoming booking{{ future_bookings|pluralize }}</strong> — Choose your dates carefully!</small>
+                </div>
                 {% endif %}
             </div>
-            <p class="lead">{{ room.description }}</p>
         </div>
     </div>
-</div>
+</section>
 
 <!-- Related Rooms -->
-<section class="py-5" style="background: linear-gradient(135deg, #f8f9fa 0%, #e8f5e9 100%);">
+<section class="py-6" style="background: var(--clr-beige);">
     <div class="container">
-        <h3 class="mb-4" style="color: #2d8a63;">Other Rooms You Might Like</h3>
-        <div class="row g-4">
+        <div class="text-center mb-5 reveal">
+            <span class="section-label">More Options</span>
+            <h3 class="mt-2">Other Rooms You Might Like</h3>
+            <span class="gold-line"></span>
+        </div>
+
+        <div class="row g-4 stagger-children reveal">
             {% for other_room in other_rooms %}
             <div class="col-md-6 col-lg-4">
-                <div class="card border-0 shadow-sm h-100" style="overflow: hidden; transition: transform 0.3s ease;"
-                    onmouseover="this.style.transform='translateY(-5px)'"
-                    onmouseout="this.style.transform='translateY(0)'">
-                    {% if other_room.gallery_images.exists %}
-                    <img src="{{ other_room.gallery_images.first.image.url }}" alt="{{ other_room.title }}"
-                        class="card-img-top" style="height: 250px; object-fit: cover;">
-                    {% elif other_room.image %}
-                    <img src="{{ other_room.image.url }}" alt="{{ other_room.title }}" class="card-img-top"
-                        style="height: 250px; object-fit: cover;">
-                    {% else %}
-                    <div class="bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
-                        <i class="fas fa-image text-muted fa-3x"></i>
+                <div class="room-card card border-0 overflow-hidden h-100">
+                    <div class="position-relative overflow-hidden" style="height: 250px;">
+                        {% if other_room.gallery_images.exists %}
+                        <img src="{{ other_room.gallery_images.first.image.url }}" alt="{{ other_room.title }}"
+                            class="room-image w-100 h-100" style="object-fit: cover;">
+                        {% elif other_room.image %}
+                        <img src="{{ other_room.image.url }}" alt="{{ other_room.title }}"
+                            class="room-image w-100 h-100" style="object-fit: cover;">
+                        {% else %}
+                        <div class="d-flex align-items-center justify-content-center w-100 h-100"
+                            style="background: var(--clr-cream);">
+                            <i class="fas fa-image fa-3x" style="color: var(--clr-stone);"></i>
+                        </div>
+                        {% endif %}
+                        <div class="room-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+                            style="opacity: 0; transition: opacity 0.4s ease;">
+                            <a href="{{ other_room.get_absolute_url }}" class="btn btn-light fw-bold">
+                                <i class="fas fa-eye me-2"></i>View Details
+                            </a>
+                        </div>
                     </div>
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title" style="color: #2d8a63;">{{ other_room.title }}</h5>
-                        <p class="card-text text-muted">
+                    <div class="p-4">
+                        <h5 class="mb-2 fw-bold" style="font-family: var(--ff-serif);">{{ other_room.title }}</h5>
+                        <p class="text-muted small mb-3">
                             {% if currency_symbol == 'Rs.' %}
                             NPR {{ other_room.price|floatformat:0 }} per night
                             {% else %}
                             {{ currency_symbol }} {{ other_room.price_in_user_currency|floatformat:2 }} per night
                             {% endif %}
                         </p>
-                        <a href="{{ other_room.get_absolute_url }}" class="btn btn-sm"
-                            style="background-color: #2d8a63; border-color: #2d8a63; color: white;">View Details</a>
+                        <a href="{{ other_room.get_absolute_url }}" class="btn btn-outline-primary btn-sm">
+                            View Details <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
                     </div>
                 </div>
             </div>
             {% empty %}
-            <div class="col-12">
-                <p class="text-muted text-center">No other rooms available at this time.</p>
+            <div class="col-12 text-center">
+                <p class="text-muted">No other rooms available at this time.</p>
             </div>
             {% endfor %}
         </div>
     </div>
 </section>
 
-<!-- Edit Modals for Staff -->
+<!-- Staff Edit Modals -->
 {% if user.is_staff %}
-
-<!-- Edit Amenities Modal -->
-<div class="modal fade" id="editAmenitiesModal" tabindex="-1" aria-labelledby="editAmenitiesLabel" aria-hidden="true">
+<div class="modal fade" id="editAmenitiesModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header" style="background-color: #2d8a63; color: white;">
-                <h5 class="modal-title" id="editAmenitiesLabel">
-                    <i class="fas fa-edit me-2"></i>Edit Amenities
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
+        <div class="modal-content" style="border-radius: var(--radius-lg);">
+            <div class="modal-header" style="background: var(--clr-forest); color: white;">
+                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Edit Amenities</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form method="POST" action="{% url 'admin:main_room_change' room.id %}">
                 {% csrf_token %}
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="amenitiesInput" class="form-label">Amenities (comma-separated)</label>
-                        <textarea class="form-control" id="amenitiesInput" name="amenities"
-                            rows="4">{{ room.amenities }}</textarea>
-                        <small class="form-text text-muted">Enter amenities separated by commas. Example: WiFi, AC, TV,
-                            Hot Water</small>
-                    </div>
+                <div class="modal-body p-4">
+                    <label for="amenitiesInput" class="form-label">Amenities (comma-separated)</label>
+                    <textarea class="form-control" id="amenitiesInput" name="amenities" rows="4">{{ room.amenities }}</textarea>
+                    <small class="form-text text-muted">Enter amenities separated by commas.</small>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary"
-                        style="background-color: #2d8a63; border-color: #2d8a63;">Save Changes</button>
+                <div class="modal-footer" style="border-top: 1px solid var(--clr-sand);">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<!-- Edit Room Info Modal -->
-<div class="modal fade" id="editRoomInfoModal" tabindex="-1" aria-labelledby="editRoomInfoLabel" aria-hidden="true">
+<div class="modal fade" id="editRoomInfoModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header" style="background-color: #2d8a63; color: white;">
-                <h5 class="modal-title" id="editRoomInfoLabel">
-                    <i class="fas fa-edit me-2"></i>Edit Room Information
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
+        <div class="modal-content" style="border-radius: var(--radius-lg);">
+            <div class="modal-header" style="background: var(--clr-forest); color: white;">
+                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Edit Room Info</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form method="POST" action="{% url 'admin:main_room_change' room.id %}">
                 {% csrf_token %}
-                <div class="modal-body">
+                <div class="modal-body p-4">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="capacityInput" class="form-label">Max Capacity</label>
-                            <input type="number" class="form-control" id="capacityInput" name="max_capacity"
-                                value="{{ room.max_capacity }}" min="1">
+                            <input type="number" class="form-control" id="capacityInput" name="max_capacity" value="{{ room.max_capacity }}" min="1">
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="sizeInput" class="form-label">Room Size (sq ft)</label>
-                            <input type="number" class="form-control" id="sizeInput" name="size_sqft"
-                                value="{{ room.size_sqft }}" min="1">
+                            <input type="number" class="form-control" id="sizeInput" name="size_sqft" value="{{ room.size_sqft }}" min="1">
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary"
-                        style="background-color: #2d8a63; border-color: #2d8a63;">Save Changes</button>
+                <div class="modal-footer" style="border-top: 1px solid var(--clr-sand);">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<!-- Edit Description Modal -->
-<div class="modal fade" id="editDescriptionModal" tabindex="-1" aria-labelledby="editDescriptionLabel"
-    aria-hidden="true">
+<div class="modal fade" id="editDescriptionModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header" style="background-color: #2d8a63; color: white;">
-                <h5 class="modal-title" id="editDescriptionLabel">
-                    <i class="fas fa-edit me-2"></i>Edit Description
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
+        <div class="modal-content" style="border-radius: var(--radius-lg);">
+            <div class="modal-header" style="background: var(--clr-forest); color: white;">
+                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Edit Description</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form method="POST" action="{% url 'admin:main_room_change' room.id %}">
                 {% csrf_token %}
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="descriptionInput" class="form-label">Room Description</label>
-                        <textarea class="form-control" id="descriptionInput" name="description"
-                            rows="6">{{ room.description }}</textarea>
-                        <small class="form-text text-muted">Provide a detailed description of the room, its features,
-                            and amenities.</small>
-                    </div>
+                <div class="modal-body p-4">
+                    <label for="descriptionInput" class="form-label">Room Description</label>
+                    <textarea class="form-control" id="descriptionInput" name="description" rows="6">{{ room.description }}</textarea>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary"
-                        style="background-color: #2d8a63; border-color: #2d8a63;">Save Changes</button>
+                <div class="modal-footer" style="border-top: 1px solid var(--clr-sand);">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
 {% endif %}
+{% endblock %}
 
+{% block extra_js %}
 <script>
-    // Auto-advance carousel every 5 seconds
     document.addEventListener('DOMContentLoaded', function () {
         const carousel = document.getElementById('roomImageCarousel');
         if (carousel) {
-            new bootstrap.Carousel(carousel, {
-                interval: 5000,
-                wrap: true
-            });
+            new bootstrap.Carousel(carousel, { interval: 5000, wrap: true });
         }
     });
 </script>

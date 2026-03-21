@@ -6,201 +6,170 @@
 
 {% block content %}
 <!-- Page Header -->
-<div class="bg-light py-4 mb-5">
-    <div class="container">
-        <h1 class="mb-2">Booking Successful!</h1>
-        <p class="lead text-muted">Your reservation has been confirmed</p>
+<div class="page-header">
+    <div class="page-header-content text-center">
+        <i class="fas fa-check-circle mb-4" style="font-size: 4rem; color: var(--clr-gold-light);"></i>
+        <h1 class="mt-2 mb-3">Booking Confirmed!</h1>
+        <p class="lead" style="color: rgba(255,255,255,0.7);">Your reservation has been successfully created</p>
     </div>
 </div>
 
-<div class="container mb-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <!-- Success Message -->
-            <div class="alert alert-success" role="alert">
-                <div class="text-center mb-4">
-                    <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
-                    <h4>Thank you for your booking!</h4>
-                </div>
-                <p class="mb-0">
-                    Your reservation has been successfully created. A confirmation email has been sent to your
-                    registered email address with all the booking details.
-                </p>
-            </div>
-
-            <!-- Booking Summary Card -->
-            {% if booking_id %}
-            <div class="card shadow-lg mb-4">
-                <div class="card-header bg-success text-white">
-                    <h5 class="mb-0">Booking Summary</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <small class="text-muted">Booking ID</small>
-                            <p class="fs-6 fw-bold">
-                                <i class="fas fa-hashtag me-1"></i>{{ booking_id }}
-                            </p>
-                        </div>
-                        <div class="col-md-6">
-                            <small class="text-muted">Total Amount</small>
-                            <p class="fs-6 fw-bold text-success">NPR {{ total_amount }}</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <small class="text-muted">Status</small>
-                            <p class="mb-0">
-                                <span class="badge bg-warning text-dark">Pending Payment</span>
-                            </p>
-                        </div>
-                        <div class="col-md-6">
-                            <small class="text-muted">Confirmation Email</small>
-                            <p class="mb-0">
-                                <i class="fas fa-check text-success me-1"></i>Sent
-                            </p>
+<section class="py-6">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- Success Alert -->
+                <div class="alert alert-success mb-4 reveal" role="alert">
+                    <div class="d-flex align-items-start gap-3">
+                        <i class="fas fa-check-circle mt-1" style="font-size: 1.5rem;"></i>
+                        <div>
+                            <h5 class="mb-1 fw-bold">Thank you for your booking!</h5>
+                            <p class="mb-0">A confirmation email has been sent to your registered email address with all booking details.</p>
                         </div>
                     </div>
                 </div>
-            </div>
-            {% endif %}
 
-            <!-- Payment Options -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5 class="mb-0">Complete Your Payment</h5>
-                </div>
-                <div class="card-body">
-                    <p class="mb-4">Select your preferred payment method to complete the booking:</p>
-
-                    <div class="row g-3">
-                        <!-- Stripe -->
-                        <div class="col-md-6">
-                            <button class="btn btn-outline-primary w-100 p-3 text-start" data-bs-toggle="modal"
-                                data-bs-target="#stripeModal">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-credit-card fa-2x text-primary me-3"></i>
-                                    <div>
-                                        <strong>Credit/Debit Card</strong>
-                                        <br>
-                                        <small class="text-muted">Visa, Mastercard, Amex</small>
-                                    </div>
-                                </div>
-                            </button>
+                <!-- Booking Summary -->
+                {% if booking_id %}
+                <div class="card border-0 mb-4 reveal" style="box-shadow: var(--shadow-lg);">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="d-flex justify-content-between align-items-center mb-4 pb-3"
+                            style="border-bottom: 1px solid var(--clr-sand);">
+                            <h5 class="mb-0 fw-bold" style="font-family: var(--ff-serif);">
+                                <i class="fas fa-receipt me-2" style="color: var(--clr-gold);"></i>Booking Summary
+                            </h5>
+                            <span class="badge px-3 py-2" style="background: var(--clr-gold); color: var(--clr-forest-dark);">
+                                Pending Payment
+                            </span>
                         </div>
 
-                        <!-- eSewa -->
-                        <div class="col-md-6">
-                            <button class="btn btn-outline-info w-100 p-3 text-start" data-bs-toggle="modal"
-                                data-bs-target="#esewaModal">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-mobile-alt fa-2x text-info me-3"></i>
-                                    <div>
-                                        <strong>eSewa</strong>
-                                        <br>
-                                        <small class="text-muted">Digital Wallet</small>
-                                    </div>
-                                </div>
-                            </button>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <span class="small text-uppercase fw-600 letter-spacing" style="color: var(--clr-gold-dark);">Booking ID</span>
+                                <p class="fw-bold mt-1 mb-0">#{{ booking_id }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="small text-uppercase fw-600 letter-spacing" style="color: var(--clr-gold-dark);">Total Amount</span>
+                                <p class="fw-bold mt-1 mb-0" style="color: var(--clr-forest);">NPR {{ total_amount }}</p>
+                            </div>
                         </div>
 
-                        <!-- Khalti -->
-                        <div class="col-md-6">
-                            <button class="btn btn-outline-success w-100 p-3 text-start" data-bs-toggle="modal"
-                                data-bs-target="#khaltiModal">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-wallet fa-2x text-success me-3"></i>
-                                    <div>
-                                        <strong>Khalti</strong>
-                                        <br>
-                                        <small class="text-muted">Digital Wallet</small>
-                                    </div>
-                                </div>
-                            </button>
-                        </div>
-
-                        <!-- Bank Transfer -->
-                        <div class="col-md-6">
-                            <button class="btn btn-outline-secondary w-100 p-3 text-start" data-bs-toggle="modal"
-                                data-bs-target="#bankModal">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-bank fa-2x text-secondary me-3"></i>
-                                    <div>
-                                        <strong>Bank Transfer</strong>
-                                        <br>
-                                        <small class="text-muted">Direct Transfer</small>
-                                    </div>
-                                </div>
-                            </button>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <span class="small text-uppercase fw-600 letter-spacing" style="color: var(--clr-gold-dark);">Status</span>
+                                <p class="fw-bold mt-1 mb-0" style="color: var(--clr-warning);">Pending Payment</p>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="small text-uppercase fw-600 letter-spacing" style="color: var(--clr-gold-dark);">Confirmation Email</span>
+                                <p class="fw-bold mt-1 mb-0" style="color: var(--clr-success);"><i class="fas fa-check me-1"></i>Sent</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                {% endif %}
 
-            <!-- Next Steps -->
-            <div class="card bg-light">
-                <div class="card-body">
-                    <h5 class="card-title mb-3">What Happens Next?</h5>
-                    <ol class="mb-0">
-                        <li class="mb-2">
-                            <strong>Complete Payment:</strong> Choose your preferred payment method above and complete
-                            the transaction.
-                        </li>
-                        <li class="mb-2">
-                            <strong>Confirmation:</strong> Once payment is confirmed, your booking status will change to
-                            "Confirmed".
-                        </li>
-                        <li class="mb-2">
-                            <strong>Check-in:</strong> Our team will contact you before your arrival with check-in
-                            details and special instructions.
-                        </li>
-                        <li class="mb-2">
-                            <strong>Enjoy:</strong> Arrive at Diamond Hill Resort and enjoy your stay at "Own the Drip"!
-                        </li>
-                    </ol>
+                <!-- Payment Options -->
+                <div class="card border-0 mb-4 reveal" style="box-shadow: var(--shadow-lg);">
+                    <div class="card-body p-4 p-md-5">
+                        <h5 class="mb-4 fw-bold" style="font-family: var(--ff-serif);">
+                            <i class="fas fa-credit-card me-2" style="color: var(--clr-gold);"></i>Complete Your Payment
+                        </h5>
+                        <p class="text-muted mb-4">Select your preferred payment method:</p>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <button class="payment-method-btn w-100 p-4 text-start" data-bs-toggle="modal" data-bs-target="#stripeModal">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-credit-card fa-2x me-3" style="color: #635bff;"></i>
+                                        <div>
+                                            <strong>Credit/Debit Card</strong><br>
+                                            <small class="text-muted">Visa, Mastercard, Amex</small>
+                                        </div>
+                                    </div>
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="payment-method-btn w-100 p-4 text-start" data-bs-toggle="modal" data-bs-target="#esewaModal">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-mobile-alt fa-2x me-3" style="color: var(--clr-info);"></i>
+                                        <div>
+                                            <strong>eSewa</strong><br>
+                                            <small class="text-muted">Digital Wallet</small>
+                                        </div>
+                                    </div>
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="payment-method-btn w-100 p-4 text-start" data-bs-toggle="modal" data-bs-target="#khaltiModal">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-wallet fa-2x me-3" style="color: #5a2d82;"></i>
+                                        <div>
+                                            <strong>Khalti</strong><br>
+                                            <small class="text-muted">Digital Wallet</small>
+                                        </div>
+                                    </div>
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="payment-method-btn w-100 p-4 text-start" data-bs-toggle="modal" data-bs-target="#bankModal">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-university fa-2x me-3" style="color: var(--clr-slate);"></i>
+                                        <div>
+                                            <strong>Bank Transfer</strong><br>
+                                            <small class="text-muted">Direct Transfer</small>
+                                        </div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Support -->
-            <div class="alert alert-info mt-4" role="alert">
-                <i class="fas fa-question-circle me-2"></i>
-                <strong>Need Help?</strong><br>
-                Contact our support team at <a href="tel:+977-1-1234567">+977-1-1234567</a> or
-                <a href="mailto:info@diamondhillresort.com.np">info@diamondhillresort.com.np</a>
-            </div>
+                <!-- What's Next -->
+                <div class="card border-0 mb-4 reveal" style="border-left: 4px solid var(--clr-gold) !important;">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-3" style="font-family: var(--ff-serif);">What Happens Next?</h5>
+                        <ol class="mb-0">
+                            <li class="mb-2"><strong>Complete Payment:</strong> Choose your preferred payment method above.</li>
+                            <li class="mb-2"><strong>Confirmation:</strong> Your booking status will change to "Confirmed".</li>
+                            <li class="mb-2"><strong>Check-in:</strong> Our team will contact you with check-in details.</li>
+                            <li><strong>Enjoy:</strong> Arrive at Diamond Hill Resort and enjoy your stay!</li>
+                        </ol>
+                    </div>
+                </div>
 
-            <!-- Action Buttons -->
-            <div class="d-grid gap-2 mt-4">
-                <a href="{% url 'main:home' %}" class="btn btn-secondary">
-                    <i class="fas fa-home me-2"></i>Back to Home
-                </a>
+                <!-- Support -->
+                <div class="alert alert-info reveal">
+                    <i class="fas fa-headset me-2"></i>
+                    <strong>Need Help?</strong><br>
+                    Contact us at <a href="tel:+977-011-405145" style="color: var(--clr-forest); font-weight: 600;">+977 011-405145</a> or
+                    <a href="mailto:revs@diamondhillresort.com.np" style="color: var(--clr-forest); font-weight: 600;">revs@diamondhillresort.com.np</a>
+                </div>
+
+                <div class="text-center mt-4 reveal">
+                    <a href="{% url 'main:home' %}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-home me-2"></i>Back to Home
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
 <!-- Payment Modals -->
-<!-- Stripe Modal -->
 <div class="modal fade" id="stripeModal" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Pay with Card</h5>
+            <div class="modal-header" style="border-bottom: 1px solid var(--clr-sand);">
+                <h5 class="modal-title" style="font-family: var(--ff-serif);"><i class="fas fa-credit-card me-2" style="color: var(--clr-gold);"></i>Pay with Card</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
-                <p class="text-muted mb-3">This is a demo payment interface. In production, this would connect to Stripe
-                    payment gateway.</p>
-                <div class="alert alert-info" role="alert">
-                    <strong>Demo Card Number:</strong> 4242 4242 4242 4242<br>
-                    <strong>Exp:</strong> 12/25 | <strong>CVC:</strong> 123
-                </div>
-                <p class="text-danger"><i class="fas fa-exclamation-circle me-2"></i>This is a placeholder. No actual
-                    charge will be made.</p>
+            <div class="modal-body p-4">
+                <p class="text-muted mb-3">Demo payment interface. In production, this connects to Stripe.</p>
+                <div class="alert alert-info"><strong>Demo Card:</strong> 4242 4242 4242 4242<br><strong>Exp:</strong> 12/25 | <strong>CVC:</strong> 123</div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <div class="modal-footer" style="border-top: 1px solid var(--clr-sand);">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" onclick="completePayment('stripe')">
                     <i class="fas fa-credit-card me-2"></i>Proceed to Stripe
                 </button>
@@ -209,102 +178,74 @@
     </div>
 </div>
 
-<!-- eSewa Modal -->
 <div class="modal fade" id="esewaModal" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Pay with eSewa</h5>
+            <div class="modal-header" style="border-bottom: 1px solid var(--clr-sand);">
+                <h5 class="modal-title" style="font-family: var(--ff-serif);"><i class="fas fa-mobile-alt me-2" style="color: var(--clr-gold);"></i>Pay with eSewa</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
-                <p class="text-muted mb-3">This is a demo payment interface. In production, this would connect to eSewa
-                    payment gateway.</p>
-                <div class="alert alert-info" role="alert">
-                    <strong>eSewa Test Environment</strong><br>
-                    Username: demo_spu@gmail.com<br>
-                    Password: asdf@123
-                </div>
-                <p class="text-danger"><i class="fas fa-exclamation-circle me-2"></i>This is a placeholder. No actual
-                    charge will be made.</p>
+            <div class="modal-body p-4">
+                <p class="text-muted mb-3">Demo payment interface. In production, this connects to eSewa.</p>
+                <div class="alert alert-info"><strong>eSewa Test:</strong><br>Username: demo_spu@gmail.com<br>Password: asdf@123</div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-info" onclick="completePayment('esewa')">
-                    <i class="fas fa-mobile-alt me-2"></i>Proceed to eSewa
-                </button>
+            <div class="modal-footer" style="border-top: 1px solid var(--clr-sand);">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="completePayment('esewa')">Proceed to eSewa</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Khalti Modal -->
 <div class="modal fade" id="khaltiModal" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Pay with Khalti</h5>
+            <div class="modal-header" style="border-bottom: 1px solid var(--clr-sand);">
+                <h5 class="modal-title" style="font-family: var(--ff-serif);"><i class="fas fa-wallet me-2" style="color: var(--clr-gold);"></i>Pay with Khalti</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
-                <p class="text-muted mb-3">This is a demo payment interface. In production, this would connect to Khalti
-                    payment gateway.</p>
-                <div class="alert alert-info" role="alert">
-                    <strong>Khalti Test Environment</strong><br>
-                    Mobile: 9800000000<br>
-                    PIN: 1234
-                </div>
-                <p class="text-danger"><i class="fas fa-exclamation-circle me-2"></i>This is a placeholder. No actual
-                    charge will be made.</p>
+            <div class="modal-body p-4">
+                <p class="text-muted mb-3">Demo payment interface. In production, this connects to Khalti.</p>
+                <div class="alert alert-info"><strong>Khalti Test:</strong><br>Mobile: 9800000000<br>PIN: 1234</div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" onclick="completePayment('khalti')">
-                    <i class="fas fa-wallet me-2"></i>Proceed to Khalti
-                </button>
+            <div class="modal-footer" style="border-top: 1px solid var(--clr-sand);">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="completePayment('khalti')">Proceed to Khalti</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Bank Modal -->
 <div class="modal fade" id="bankModal" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Bank Transfer</h5>
+            <div class="modal-header" style="border-bottom: 1px solid var(--clr-sand);">
+                <h5 class="modal-title" style="font-family: var(--ff-serif);"><i class="fas fa-university me-2" style="color: var(--clr-gold);"></i>Bank Transfer</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
-                <p class="mb-3">Please transfer the amount to the following account:</p>
-                <div class="card bg-light mb-3">
-                    <div class="card-body">
-                        <p class="mb-2"><strong>Bank Name:</strong> Nepal Bank Limited</p>
-                        <p class="mb-2"><strong>Account Name:</strong> Diamond Hill Resort</p>
-                        <p class="mb-2"><strong>Account Number:</strong> 1234567890</p>
-                        <p class="mb-0"><strong>SWIFT Code:</strong> NBLNPKT</p>
-                    </div>
+            <div class="modal-body p-4">
+                <p class="mb-3">Please transfer the amount to:</p>
+                <div class="p-3" style="background: var(--clr-beige); border-radius: var(--radius-sm);">
+                    <p class="mb-2"><strong>Bank:</strong> Nepal Bank Limited</p>
+                    <p class="mb-2"><strong>Account:</strong> Diamond Hill Resort</p>
+                    <p class="mb-2"><strong>Account No:</strong> 1234567890</p>
+                    <p class="mb-0"><strong>SWIFT:</strong> NBLNPKT</p>
                 </div>
-                <p class="text-muted small">Please mention your Booking ID in the transfer reference for quick
-                    processing.</p>
+                <p class="text-muted small mt-3">Mention your Booking ID in the transfer reference.</p>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <div class="modal-footer" style="border-top: 1px solid var(--clr-sand);">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
-
 {% endblock %}
 
 {% block extra_js %}
 <script>
     function completePayment(gateway) {
-        // This is a placeholder for payment gateway integration
         console.log('Processing payment with: ' + gateway);
         alert('Payment processing with ' + gateway + ' is a demo feature.\nIn production, this would redirect to the actual payment gateway.');
-        // In production, redirect to actual payment gateway
-        // window.location.href = `/payment/callback/${gateway}/`;
     }
 </script>
 {% endblock %}

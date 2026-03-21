@@ -6,179 +6,142 @@
 
 {% block content %}
 <!-- Page Header -->
-<div class="page-header" style="background: transparent; position: relative;">
+<div class="page-header">
     <div class="page-header-content text-center">
-        <h1 class="text-white display-5 fw-900 mb-3 hero-title">Our Premium Rooms</h1>
-        <p class="text-muted lead hero-description">Discover luxury accommodation with breathtaking mountain views</p>
+        <span class="section-label" style="background: rgba(201,168,76,0.15); border-color: rgba(201,168,76,0.3); color: var(--clr-gold-light);">
+            Our Collection
+        </span>
+        <h1 class="mt-3 mb-3">Premium Rooms & Suites</h1>
+        <p class="lead" style="color: rgba(255,255,255,0.7); max-width: 500px; margin: 0 auto;">
+            Discover luxury accommodations with breathtaking mountain views
+        </p>
         <nav aria-label="breadcrumb" class="mt-4 d-flex justify-content-center">
-            <ol class="breadcrumb breadcrumb-light">
-                <li class="breadcrumb-item"><a href="{% url 'main:home' %}" class="text-muted">Home</a></li>
-                <li class="breadcrumb-item text-primary" aria-current="page">Rooms</li>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'main:home' %}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page" style="color: var(--clr-gold-light);">Rooms</li>
             </ol>
         </nav>
     </div>
 </div>
 
 <!-- Rooms Grid -->
-<div class="container mb-5">
-    {% if rooms %}
-    <div class="rooms-grid">
-        {% for room in rooms %}
-        <div class="room-card-wrapper">
-            <div class="room-card card border-0 shadow-sm overflow-hidden">
-                <!-- Room Image Container -->
-                <div class="room-image-container position-relative overflow-hidden" style="height: 320px;">
-                    {% if room.image %}
-                    <img src="{{ room.image.url }}" alt="{{ room.title }}" class="room-image w-100 h-100"
-                        style="object-fit: cover;">
-                    {% else %}
-                    <div class="bg-light d-flex align-items-center justify-content-center w-100 h-100">
-                        <i class="fas fa-image text-muted fa-4x"></i>
-                    </div>
-                    {% endif %}
-                    
-                    <!-- Room Overlay -->
-                    <div class="room-overlay position-absolute inset-0 d-flex align-items-center justify-content-center"
-                        style="background: rgba(30, 132, 73, 0.9); opacity: 0; transition: opacity 0.3s ease;">
-                        <div class="text-center">
-                            <a href="{% url 'main:room_detail' room.slug %}" class="btn btn-light btn-lg fw-bold shadow-lg">
+<section class="py-6">
+    <div class="container">
+        {% if rooms %}
+        <div class="rooms-grid stagger-children reveal">
+            {% for room in rooms %}
+            <div class="room-card-wrapper">
+                <div class="room-card card border-0 overflow-hidden h-100">
+                    <div class="room-image-container position-relative overflow-hidden" style="height: 320px;">
+                        {% if room.image %}
+                        <img src="{{ room.image.url }}" alt="{{ room.title }}" class="room-image w-100 h-100"
+                            style="object-fit: cover;" loading="lazy">
+                        {% else %}
+                        <div class="d-flex align-items-center justify-content-center w-100 h-100"
+                            style="background: var(--clr-beige);">
+                            <i class="fas fa-image fa-4x" style="color: var(--clr-stone);"></i>
+                        </div>
+                        {% endif %}
+
+                        <!-- Overlay -->
+                        <div class="room-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+                            style="opacity: 0; transition: opacity 0.4s ease;">
+                            <a href="{% url 'main:room_detail' room.slug %}" class="btn btn-light btn-lg fw-bold">
                                 <i class="fas fa-eye me-2"></i>View Details
                             </a>
                         </div>
-                    </div>
 
-                    <!-- Price Badge -->
-                    <div class="room-price-badge position-absolute top-0 end-0 m-4">
-                        <div class="price-content">
+                        <!-- Price Badge -->
+                        <div class="room-price-badge position-absolute top-0 end-0 m-4">
                             <span class="price-currency">NPR</span>
                             <span class="price-amount">{{ room.price|floatformat:0 }}</span>
                             <span class="price-period">/night</span>
                         </div>
-                    </div>
 
-                    <!-- Room Category Badge -->
-                    <div class="room-category-badge position-absolute bottom-0 start-0 m-4">
-                        <span class="badge fw-bold" style="background-color: rgba(30, 132, 73, 0.9);">
-                            <i class="fas fa-door-open me-1"></i>{{ room.title }}
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Room Content -->
-                <div class="card-body p-4 d-flex flex-column">
-                    <h5 class="card-title text-primary fw-bold mb-2 fs-5">{{ room.title }}</h5>
-                    <p class="card-text text-muted mb-4" style="font-weight: 500; line-height: 1.7;">
-                        {{ room.description|truncatewords:20 }}
-                    </p>
-                    
-                    <!-- Room Stats -->
-                    <div class="room-stats d-flex gap-3 mb-4 flex-wrap">
-                        <div class="stat-item">
-                            <i class="fas fa-users text-primary"></i>
-                            <span class="ms-2 small fw-600">{{ room.max_capacity }} Guests</span>
+                        <!-- Category Badge -->
+                        <div class="position-absolute bottom-0 start-0 m-4">
+                            <span class="badge fw-bold px-3 py-2"
+                                style="background: var(--clr-forest); color: var(--clr-white); border-radius: var(--radius-sm);">
+                                <i class="fas fa-door-open me-1"></i>{{ room.title }}
+                            </span>
                         </div>
-                        {% if room.size_sqft %}
-                        <div class="stat-item">
-                            <i class="fas fa-ruler text-primary"></i>
-                            <span class="ms-2 small fw-600">{{ room.size_sqft }} sqft</span>
-                        </div>
-                        {% endif %}
                     </div>
 
-                    <!-- Action Button -->
-                    <div class="mt-auto pt-3">
-                        <a href="{% url 'main:room_detail' room.slug %}" class="btn btn-outline-primary w-100 fw-bold py-2">
-                            <i class="fas fa-arrow-right me-2"></i>Explore
-                        </a>
+                    <div class="card-body p-4 d-flex flex-column">
+                        <h5 class="mb-2 fw-bold" style="font-family: var(--ff-serif);">{{ room.title }}</h5>
+                        <p class="text-muted mb-4" style="line-height: 1.7;">
+                            {{ room.description|truncatewords:20 }}
+                        </p>
+
+                        <!-- Room Stats -->
+                        <div class="d-flex gap-3 mb-4 flex-wrap">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="fas fa-users" style="color: var(--clr-gold);"></i>
+                                <span class="small fw-600">{{ room.max_capacity }} Guests</span>
+                            </div>
+                            {% if room.size_sqft %}
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="fas fa-ruler" style="color: var(--clr-gold);"></i>
+                                <span class="small fw-600">{{ room.size_sqft }} sqft</span>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Action -->
+                        <div class="mt-auto pt-3">
+                            <a href="{% url 'main:room_detail' room.slug %}" class="btn btn-outline-primary w-100">
+                                <i class="fas fa-arrow-right me-2"></i>Explore Room
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        {% endfor %}
-    </div>
-
-    <!-- Pagination -->
-    {% if is_paginated %}
-    <nav aria-label="Room pagination" class="mt-5">
-        <ul class="pagination justify-content-center">
-            {% if page_obj.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="?page=1">&laquo; First</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-            </li>
-            {% endif %}
-
-            {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-            <li class="page-item active">
-                <span class="page-link">{{ num }}</span>
-            </li>
-            {% else %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-            </li>
-            {% endif %}
             {% endfor %}
+        </div>
 
-            {% if page_obj.has_next %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
-            </li>
-            {% endif %}
-        </ul>
-    </nav>
-    {% endif %}
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <nav aria-label="Room pagination" class="mt-5">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
 
-    {% else %}
-    <div class="alert text-center py-5 rounded-3" role="alert"
-        style="background-color: #e8f5e9; border-left: 4px solid #2d8a63; color: #1f6b4a;">
-        <i class="fas fa-inbox fa-2x mb-3"></i>
-        <p class="mb-0">No rooms available at the moment. Please check back later!</p>
-    </div>
-    {% endif %}
-</div>
-
-<!-- Call to Action -->
-<section class="cta-section py-6" style="background: transparent; position: relative; overflow: hidden;">
-    <div class="cta-background"></div>
-    <div class="container text-center position-relative" style="z-index: 2;">
-        <h3 class="text-white mb-3" style="font-weight: 900; font-size: 2rem;">Can't find your perfect room?</h3>
-        <p class="text-white-50 lead mb-5">Our hospitality team is ready to assist with special requests or group bookings</p>
-        <a href="{% url 'main:contact' %}" class="btn btn-light btn-lg fw-bold shadow-lg px-5" 
-            style="transition: all 0.3s ease;">
-            <i class="fas fa-envelope me-2"></i>Contact Our Team
-        </a>
+        {% else %}
+        <div class="text-center py-5 reveal">
+            <i class="fas fa-inbox fa-3x mb-3" style="color: var(--clr-stone);"></i>
+            <p class="text-muted">No rooms available at the moment. Please check back later!</p>
+        </div>
+        {% endif %}
     </div>
 </section>
-{% endblock %}
 
-{% block extra_css %}
-<style>
-    .hover-lift {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .hover-lift:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
-    }
-
-    /* Room Card Hover Effect */
-    .card {
-        position: relative;
-    }
-
-    .card:hover .card-img-top {
-        transform: scale(1.05);
-    }
-
-    .card:hover .room-overlay {
-        opacity: 1 !important;
-    }
-</style>
+<!-- CTA -->
+<section class="cta-section py-6">
+    <div class="cta-background"></div>
+    <div class="container text-center position-relative" style="z-index: 2;">
+        <div class="reveal">
+            <h3 class="text-white mb-3">Can't find your perfect room?</h3>
+            <p class="mb-5" style="color: rgba(255,255,255,0.7);">Our hospitality team is ready to assist with special requests or group bookings</p>
+            <a href="{% url 'main:contact' %}" class="btn btn-light btn-lg px-5">
+                <i class="fas fa-envelope me-2"></i>Contact Our Team
+            </a>
+        </div>
+    </div>
+</section>
 {% endblock %}

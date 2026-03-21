@@ -6,332 +6,295 @@
 
 {% block content %}
 <!-- Page Header -->
-<div class="page-header" style="background: transparent; position: relative;">
+<div class="page-header">
     <div class="page-header-content text-center">
-        <h1 class="display-5 fw-900 mb-3 hero-title text-white">Get in Touch</h1>
-        <p class="hero-description lead text-muted">We'd love to hear from you. Send us a message and we'll respond as soon as possible</p>
+        <span class="section-label" style="background: rgba(201,168,76,0.15); border-color: rgba(201,168,76,0.3); color: var(--clr-gold-light);">
+            <i class="fas fa-envelope me-2"></i>Get in Touch
+        </span>
+        <h1 class="mt-3 mb-3">Contact Us</h1>
+        <p class="lead" style="color: rgba(255,255,255,0.7); max-width: 500px; margin: 0 auto;">
+            We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+        </p>
     </div>
 </div>
 
-<div class="container mb-5">
-    <div class="row g-5">
-        <!-- Contact Information -->
-        <div class="col-lg-5">
-            <!-- Location Card -->
-            <div class="contact-card mb-4">
-                <div class="contact-card-header">
-                    <h5 class="mb-0">
-                        <i class="fas fa-map-marker-alt me-2" style="color: var(--primary);"></i>Our Location
-                    </h5>
-                </div>
-                <div class="contact-card-body">
-                    <p class="text-muted mb-3">
-                        {{ resort_address }}
-                    </p>
-                    <a href="https://maps.google.com/?q=Nagarkot,+Nepal" target="_blank" rel="noopener"
-                        class="btn btn-outline-primary btn-sm">
-                        <i class="fas fa-map me-1"></i>View on Google Maps
-                    </a>
-                </div>
-            </div>
-
-            <!-- Contact Details Card -->
-            <div class="contact-card mb-4">
-                <div class="contact-card-header">
-                    <h5 class="mb-0">
-                        <i class="fas fa-phone me-2" style="color: var(--primary);"></i>Contact Details
-                    </h5>
-                </div>
-                <div class="contact-card-body">
-                    <div class="contact-detail-item mb-4">
-                        <strong class="text-primary small">PHONE</strong>
-                        <p class="mb-0 mt-2">
-                            <a href="tel:{{ resort_phone }}" class="text-decoration-none fw-bold">{{ resort_phone }}</a>
-                        </p>
+<section class="py-6">
+    <div class="container">
+        <div class="row g-5">
+            <!-- Contact Information -->
+            <div class="col-lg-5">
+                <!-- Location Card -->
+                <div class="contact-card mb-4 reveal">
+                    <div class="contact-card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-map-marker-alt me-2" style="color: var(--clr-gold);"></i>Our Location
+                        </h5>
                     </div>
-                    <div class="contact-detail-item mb-4">
-                        <strong class="text-primary small">EMAIL</strong>
-                        <p class="mb-0 mt-2">
-                            <a href="mailto:{{ resort_email }}" class="text-decoration-none fw-bold">{{ resort_email }}</a>
-                        </p>
-                    </div>
-                    <div class="contact-detail-item">
-                        <strong class="text-primary small">HOURS</strong>
-                        <p class="mb-0 mt-2">24/7 Front Desk Available</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Social Media Card -->
-            <div class="contact-card mb-4">
-                <div class="contact-card-header">
-                    <h5 class="mb-0">
-                        <i class="fas fa-share-alt me-2" style="color: var(--primary);"></i>Follow Us
-                    </h5>
-                </div>
-                <div class="contact-card-body">
-                    <div class="social-links d-flex gap-2 flex-wrap">
-                        <a href="{{ facebook_url }}" target="_blank" rel="noopener" class="btn btn-primary btn-sm fw-bold">
-                            <i class="fab fa-facebook-f me-1"></i>Facebook
-                        </a>
-                        <a href="https://instagram.com" target="_blank" rel="noopener" class="btn btn-primary btn-sm fw-bold" style="background-color: #E1306C;">
-                            <i class="fab fa-instagram me-1"></i>Instagram
-                        </a>
-                        <a href="https://twitter.com" target="_blank" rel="noopener" class="btn btn-primary btn-sm fw-bold" style="background-color: #1DA1F2;">
-                            <i class="fab fa-twitter me-1"></i>Twitter
+                    <div class="contact-card-body">
+                        <p class="text-muted mb-3">{{ resort_address }}</p>
+                        <a href="https://maps.google.com/?q=Nagarkot,+Nepal" target="_blank" rel="noopener"
+                            class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-map me-1"></i>View on Map
                         </a>
                     </div>
                 </div>
-            </div>
 
-            <!-- Quick Stats -->
-            <div class="stats-box">
-                <div class="stat-row">
-                    <div class="stat-col">
-                        <div class="stat-value">8+</div>
-                        <div class="stat-label">Years</div>
+                <!-- Contact Details -->
+                <div class="contact-card mb-4 reveal">
+                    <div class="contact-card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-phone me-2" style="color: var(--clr-gold);"></i>Contact Details
+                        </h5>
                     </div>
-                    <div class="stat-col">
-                        <div class="stat-value">50+</div>
-                        <div class="stat-label">Rooms</div>
-                    </div>
-                </div>
-                <div class="stat-row">
-                    <div class="stat-col">
-                        <div class="stat-value">24/7</div>
-                        <div class="stat-label">Support</div>
-                    </div>
-                    <div class="stat-col">
-                        <div class="stat-value">⭐4.5</div>
-                        <div class="stat-label">Rating</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Contact Form -->
-        <div class="col-lg-7">
-            <div class="contact-form-card shadow-lg">
-                <div class="form-header">
-                    <h4 class="mb-0 fw-bold text-primary">Send us a Message</h4>
-                    <p class="text-muted small mb-0 mt-2">We typically respond within 24 hours</p>
-                </div>
-
-                <form method="post" class="needs-validation" novalidate>
-                    {% csrf_token %}
-
-                    <div class="form-group">
-                        <label for="{{ form.name.id_for_label }}" class="form-label">
-                            <i class="fas fa-user me-1" style="color: var(--primary);"></i>Full Name
-                        </label>
-                        {{ form.name }}
-                        {% if form.name.errors %}
-                        <div class="invalid-feedback d-block">
-                            <i class="fas fa-exclamation-circle me-1"></i>{{ form.name.errors.0 }}
+                    <div class="contact-card-body">
+                        <div class="mb-4">
+                            <span class="small text-uppercase fw-600 letter-spacing" style="color: var(--clr-gold-dark);">Phone</span>
+                            <p class="mb-0 mt-2">
+                                <a href="tel:{{ resort_phone }}" class="fw-bold"
+                                    style="color: var(--clr-charcoal); text-decoration: none;">{{ resort_phone }}</a>
+                            </p>
                         </div>
-                        {% endif %}
+                        <div class="mb-4">
+                            <span class="small text-uppercase fw-600 letter-spacing" style="color: var(--clr-gold-dark);">Email</span>
+                            <p class="mb-0 mt-2">
+                                <a href="mailto:{{ resort_email }}" class="fw-bold"
+                                    style="color: var(--clr-charcoal); text-decoration: none;">{{ resort_email }}</a>
+                            </p>
+                        </div>
+                        <div>
+                            <span class="small text-uppercase fw-600 letter-spacing" style="color: var(--clr-gold-dark);">Hours</span>
+                            <p class="mb-0 mt-2 fw-bold">24/7 Front Desk Available</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Media -->
+                <div class="contact-card mb-4 reveal">
+                    <div class="contact-card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-share-alt me-2" style="color: var(--clr-gold);"></i>Follow Us
+                        </h5>
+                    </div>
+                    <div class="contact-card-body">
+                        <div class="d-flex gap-2 flex-wrap">
+                            <a href="{{ facebook_url }}" target="_blank" rel="noopener" class="btn btn-outline-primary btn-sm">
+                                <i class="fab fa-facebook-f me-1"></i>Facebook
+                            </a>
+                            <a href="https://instagram.com" target="_blank" rel="noopener" class="btn btn-outline-primary btn-sm">
+                                <i class="fab fa-instagram me-1"></i>Instagram
+                            </a>
+                            <a href="https://twitter.com" target="_blank" rel="noopener" class="btn btn-outline-primary btn-sm">
+                                <i class="fab fa-twitter me-1"></i>Twitter
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="stats-box reveal">
+                    <div class="stat-row">
+                        <div class="stat-col">
+                            <div class="stat-value" data-count="8" data-suffix="+">8+</div>
+                            <div class="stat-label">Years</div>
+                        </div>
+                        <div class="stat-col">
+                            <div class="stat-value" data-count="50" data-suffix="+">50+</div>
+                            <div class="stat-label">Rooms</div>
+                        </div>
+                    </div>
+                    <div class="stat-row">
+                        <div class="stat-col">
+                            <div class="stat-value">24/7</div>
+                            <div class="stat-label">Support</div>
+                        </div>
+                        <div class="stat-col">
+                            <div class="stat-value">⭐4.8</div>
+                            <div class="stat-label">Rating</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="col-lg-7">
+                <div class="contact-form-card reveal" style="box-shadow: var(--shadow-lg);">
+                    <div class="form-header">
+                        <h4 class="mb-0 fw-bold" style="font-family: var(--ff-serif);">
+                            <i class="fas fa-pencil-alt me-2" style="color: var(--clr-gold);"></i>Send us a Message
+                        </h4>
+                        <p class="text-muted small mb-0 mt-2">We typically respond within 24 hours</p>
                     </div>
 
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="{{ form.email.id_for_label }}" class="form-label">
-                                    <i class="fas fa-envelope me-1" style="color: var(--primary);"></i>Email Address
-                                </label>
-                                {{ form.email }}
-                                {% if form.email.errors %}
-                                <div class="invalid-feedback d-block">
-                                    <i class="fas fa-exclamation-circle me-1"></i>{{ form.email.errors.0 }}
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+
+                        <div class="form-group">
+                            <label for="{{ form.name.id_for_label }}" class="form-label">
+                                <i class="fas fa-user me-2" style="color: var(--clr-gold);"></i>Full Name
+                            </label>
+                            {{ form.name }}
+                            {% if form.name.errors %}
+                            <div class="invalid-feedback d-block">{{ form.name.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ form.email.id_for_label }}" class="form-label">
+                                        <i class="fas fa-envelope me-2" style="color: var(--clr-gold);"></i>Email Address
+                                    </label>
+                                    {{ form.email }}
+                                    {% if form.email.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.email.errors.0 }}</div>
+                                    {% endif %}
                                 </div>
-                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ form.phone.id_for_label }}" class="form-label">
+                                        <i class="fas fa-phone me-2" style="color: var(--clr-gold);"></i>Phone (Optional)
+                                    </label>
+                                    {{ form.phone }}
+                                    {% if form.phone.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.phone.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="{{ form.phone.id_for_label }}" class="form-label">
-                                    <i class="fas fa-phone me-1" style="color: var(--primary);"></i>Phone (Optional)
-                                </label>
-                                {{ form.phone }}
-                                {% if form.phone.errors %}
-                                <div class="invalid-feedback d-block">
-                                    <i class="fas fa-exclamation-circle me-1"></i>{{ form.phone.errors.0 }}
-                                </div>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="{{ form.subject.id_for_label }}" class="form-label">
-                            <i class="fas fa-heading me-1" style="color: var(--primary);"></i>Subject
-                        </label>
-                        {{ form.subject }}
-                        {% if form.subject.errors %}
-                        <div class="invalid-feedback d-block">
-                            <i class="fas fa-exclamation-circle me-1"></i>{{ form.subject.errors.0 }}
+                        <div class="form-group">
+                            <label for="{{ form.subject.id_for_label }}" class="form-label">
+                                <i class="fas fa-heading me-2" style="color: var(--clr-gold);"></i>Subject
+                            </label>
+                            {{ form.subject }}
+                            {% if form.subject.errors %}
+                            <div class="invalid-feedback d-block">{{ form.subject.errors.0 }}</div>
+                            {% endif %}
                         </div>
-                        {% endif %}
-                    </div>
 
-                    <div class="form-group">
-                        <label for="{{ form.message.id_for_label }}" class="form-label">
-                            <i class="fas fa-comment me-1" style="color: var(--primary);"></i>Message
-                        </label>
-                        {{ form.message }}
-                        {% if form.message.errors %}
-                        <div class="invalid-feedback d-block">
-                            <i class="fas fa-exclamation-circle me-1"></i>{{ form.message.errors.0 }}
+                        <div class="form-group">
+                            <label for="{{ form.message.id_for_label }}" class="form-label">
+                                <i class="fas fa-comment me-2" style="color: var(--clr-gold);"></i>Message
+                            </label>
+                            {{ form.message }}
+                            {% if form.message.errors %}
+                            <div class="invalid-feedback d-block">{{ form.message.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for error in form.non_field_errors %}
+                            <p class="mb-0">{{ error }}</p>
+                            {% endfor %}
                         </div>
                         {% endif %}
-                    </div>
 
-                    {% if form.non_field_errors %}
-                    <div class="alert alert-danger alert-custom" role="alert">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
-                        {% for error in form.non_field_errors %}
-                        <p class="mb-0">{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-
-                    <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold shadow-md">
-                        <i class="fas fa-paper-plane me-2"></i>Send Message
-                    </button>
-                </form>
+                        <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold">
+                            <i class="fas fa-paper-plane me-2"></i>Send Message
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<!-- Google Map Section -->
-<section class="map-section py-6">
+<!-- Map Section -->
+<section class="py-6" style="background: var(--clr-beige);">
     <div class="container-fluid px-0">
-        <div class="map-header mb-4">
-            <h2 class="display-6 fw-bold text-center mb-2">Find Us on the Map</h2>
-            <p class="text-center text-muted lead">Visit our stunning location with breathtaking Himalayan views</p>
+        <div class="text-center mb-5 reveal">
+            <span class="section-label">Find Us</span>
+            <h3 class="mt-3">Our Location</h3>
+            <span class="gold-line"></span>
+            <p class="text-muted mt-3">Visit our stunning location with breathtaking Himalayan views</p>
         </div>
-        <div class="map-container">
-            <iframe src="{{ map_embed }}" width="100%" height="500" style="border:none;" allowfullscreen="" 
+        <div class="map-container" style="border-radius: var(--radius-lg); overflow: hidden; margin: 0 1.5rem;">
+            <iframe src="{{ map_embed }}" width="100%" height="450" style="border:none;" allowfullscreen=""
                 loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
     </div>
 </section>
 
-<!-- FAQs Section -->
-<section class="faq-section py-6" style="background: transparent;">
+<!-- FAQ Section -->
+<section class="py-6">
     <div class="container">
-        <div class="faq-header text-center mb-5">
-            <h2 class="display-6 fw-bold mb-3">Frequently Asked Questions</h2>
-            <p class="text-muted lead mx-auto" style="max-width: 600px;">
-                Can't find the answer you're looking for? <a href="#contact-form" class="text-primary fw-bold">Contact us</a>
-            </p>
+        <div class="text-center mb-5 reveal">
+            <span class="section-label">FAQ</span>
+            <h3 class="mt-3">Frequently Asked Questions</h3>
+            <span class="gold-line"></span>
         </div>
 
         <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="accordion accordion-custom" id="contactFAQ">
-                    <!-- FAQ Item 1 -->
-                    <div class="accordion-item accordion-item-custom mb-3">
+            <div class="col-lg-8 reveal">
+                <div class="accordion" id="contactFAQ">
+                    <div class="accordion-item mb-3">
                         <h2 class="accordion-header">
-                            <button class="accordion-button accordion-button-custom" type="button" 
-                                data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true">
-                                <i class="fas fa-mountain me-2" style="color: var(--primary);"></i>
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#cfaq1" aria-expanded="true">
+                                <i class="fas fa-mountain me-2" style="color: var(--clr-gold);"></i>
                                 What is the best time to visit Nagarkot?
                             </button>
                         </h2>
-                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#contactFAQ">
-                            <div class="accordion-body accordion-body-custom">
-                                <p class="mb-0">
-                                    The best time to visit is <strong>September to November (autumn)</strong> and 
-                                    <strong>February to April (spring)</strong>. These seasons offer clear skies and 
-                                    excellent views of the Himalayas. December to January can be cold but are also 
-                                    popular for their serene beauty.
-                                </p>
+                        <div id="cfaq1" class="accordion-collapse collapse show" data-bs-parent="#contactFAQ">
+                            <div class="accordion-body">
+                                The best time to visit is <strong>September to November (autumn)</strong> and
+                                <strong>February to April (spring)</strong>. These seasons offer clear skies and
+                                excellent views of the Himalayas.
                             </div>
                         </div>
                     </div>
-
-                    <!-- FAQ Item 2 -->
-                    <div class="accordion-item accordion-item-custom mb-3">
+                    <div class="accordion-item mb-3">
                         <h2 class="accordion-header">
-                            <button class="accordion-button accordion-button-custom collapsed" type="button" 
-                                data-bs-toggle="collapse" data-bs-target="#faq2">
-                                <i class="fas fa-route me-2" style="color: var(--primary);"></i>
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cfaq2">
+                                <i class="fas fa-route me-2" style="color: var(--clr-gold);"></i>
                                 How far is the resort from Kathmandu?
                             </button>
                         </h2>
-                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#contactFAQ">
-                            <div class="accordion-body accordion-body-custom">
-                                <p class="mb-0">
-                                    Diamond Hill Resort is approximately <strong>32 km from Kathmandu</strong> city center, 
-                                    about <strong>1-1.5 hours drive</strong> depending on traffic conditions. We offer 
-                                    <strong>complimentary airport transfer</strong> services for your convenience.
-                                </p>
+                        <div id="cfaq2" class="accordion-collapse collapse" data-bs-parent="#contactFAQ">
+                            <div class="accordion-body">
+                                Approximately <strong>32 km from Kathmandu</strong>, about <strong>1-1.5 hours drive</strong>.
+                                We offer complimentary airport transfer services.
                             </div>
                         </div>
                     </div>
-
-                    <!-- FAQ Item 3 -->
-                    <div class="accordion-item accordion-item-custom mb-3">
+                    <div class="accordion-item mb-3">
                         <h2 class="accordion-header">
-                            <button class="accordion-button accordion-button-custom collapsed" type="button" 
-                                data-bs-toggle="collapse" data-bs-target="#faq3">
-                                <i class="fas fa-hiking me-2" style="color: var(--primary);"></i>
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cfaq3">
+                                <i class="fas fa-hiking me-2" style="color: var(--clr-gold);"></i>
                                 Do you arrange adventure activities?
                             </button>
                         </h2>
-                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#contactFAQ">
-                            <div class="accordion-body accordion-body-custom">
-                                <p class="mb-2">
-                                    Absolutely! We offer a variety of exciting experiences:
-                                </p>
-                                <ul class="mb-0 ps-3">
-                                    <li>Guided hiking tours with scenic trails</li>
-                                    <li>Paragliding adventures for thrill-seekers</li>
-                                    <li>Sunrise viewing from strategic vantage points</li>
-                                    <li>Local cultural experiences and village tours</li>
-                                </ul>
-                                <p class="mt-2 mb-0">Contact us to book your preferred activities!</p>
+                        <div id="cfaq3" class="accordion-collapse collapse" data-bs-parent="#contactFAQ">
+                            <div class="accordion-body">
+                                Yes! We offer guided hiking tours, paragliding, sunrise viewpoints, and local cultural experiences. Contact us to book!
                             </div>
                         </div>
                     </div>
-
-                    <!-- FAQ Item 4 -->
-                    <div class="accordion-item accordion-item-custom mb-3">
+                    <div class="accordion-item mb-3">
                         <h2 class="accordion-header">
-                            <button class="accordion-button accordion-button-custom collapsed" type="button" 
-                                data-bs-toggle="collapse" data-bs-target="#faq4">
-                                <i class="fas fa-wifi me-2" style="color: var(--primary);"></i>
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cfaq4">
+                                <i class="fas fa-wifi me-2" style="color: var(--clr-gold);"></i>
                                 Is WiFi available throughout the resort?
                             </button>
                         </h2>
-                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#contactFAQ">
-                            <div class="accordion-body accordion-body-custom">
-                                <p class="mb-0">
-                                    Yes! <strong>High-speed WiFi is complimentary</strong> in all rooms and common areas 
-                                    including the restaurant, lounge, and outdoor seating areas. Stay connected throughout 
-                                    your stay with us.
-                                </p>
+                        <div id="cfaq4" class="accordion-collapse collapse" data-bs-parent="#contactFAQ">
+                            <div class="accordion-body">
+                                Yes! <strong>High-speed WiFi is complimentary</strong> in all rooms and common areas.
                             </div>
                         </div>
                     </div>
-
-                    <!-- FAQ Item 5 -->
-                    <div class="accordion-item accordion-item-custom">
+                    <div class="accordion-item">
                         <h2 class="accordion-header">
-                            <button class="accordion-button accordion-button-custom collapsed" type="button" 
-                                data-bs-toggle="collapse" data-bs-target="#faq5">
-                                <i class="fas fa-utensils me-2" style="color: var(--primary);"></i>
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cfaq5">
+                                <i class="fas fa-utensils me-2" style="color: var(--clr-gold);"></i>
                                 What meal options are available?
                             </button>
                         </h2>
-                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#contactFAQ">
-                            <div class="accordion-body accordion-body-custom">
-                                <p class="mb-0">
-                                    We offer <strong>continental, local Nepali, and international cuisine</strong>. 
-                                    Our restaurant can accommodate dietary restrictions and preferences. Room service 
-                                    is available throughout the day for your convenience.
-                                </p>
+                        <div id="cfaq5" class="accordion-collapse collapse" data-bs-parent="#contactFAQ">
+                            <div class="accordion-body">
+                                We offer <strong>continental, local Nepali, and international cuisine</strong>. Dietary
+                                restrictions are accommodated. Room service is available.
                             </div>
                         </div>
                     </div>

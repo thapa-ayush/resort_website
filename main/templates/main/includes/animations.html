@@ -1,0 +1,128 @@
+<!-- ════════════════════════════════════════════════
+     Diamond Hill Resort — Nature Background Animations
+     Falling leaves · Floating particles · Parallax depth
+     ════════════════════════════════════════════════ -->
+
+<!-- Canvas Layer (behind all content) -->
+<canvas id="natureCanvas" class="nature-canvas" aria-hidden="true"></canvas>
+
+<!-- CSS-only Ambient Glow Orbs (very subtle depth) -->
+<div class="ambient-orbs" aria-hidden="true">
+    <div class="orb orb--green"></div>
+    <div class="orb orb--gold"></div>
+    <div class="orb orb--forest"></div>
+</div>
+
+<style>
+/* ─── Nature Canvas ─────────────────────────── */
+.nature-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    will-change: transform;
+}
+
+/* ─── Ambient Glow Orbs ─────────────────────── */
+.ambient-orbs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0;
+    animation: orbFloat 25s ease-in-out infinite;
+    will-change: transform, opacity;
+}
+
+.orb--green {
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(45, 107, 74, 0.07) 0%, transparent 70%);
+    top: 10%;
+    right: -5%;
+    animation-delay: 0s;
+}
+
+.orb--gold {
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(circle, rgba(201, 168, 76, 0.05) 0%, transparent 70%);
+    bottom: 20%;
+    left: -5%;
+    animation-delay: -8s;
+}
+
+.orb--forest {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(26, 60, 42, 0.06) 0%, transparent 70%);
+    top: 50%;
+    left: 40%;
+    animation-delay: -16s;
+}
+
+@keyframes orbFloat {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0;
+    }
+    15% {
+        opacity: 1;
+    }
+    50% {
+        transform: translate(40px, -30px) scale(1.15);
+        opacity: 1;
+    }
+    85% {
+        opacity: 1;
+    }
+}
+
+/* ─── Ensure all page content stays ABOVE animations ─── */
+.navbar-premium {
+    position: relative;
+    z-index: 1050;
+}
+
+main {
+    position: relative;
+    z-index: 1;
+}
+
+.footer-premium {
+    position: relative;
+    z-index: 1;
+}
+
+/* ─── Reduced Motion ──────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .nature-canvas,
+    .ambient-orbs {
+        display: none !important;
+    }
+}
+
+/* ─── Mobile: Reduce orb sizes ────────────────── */
+@media (max-width: 768px) {
+    .orb--green { width: 200px; height: 200px; }
+    .orb--gold  { width: 160px; height: 160px; }
+    .orb--forest { width: 220px; height: 220px; }
+
+    .orb {
+        filter: blur(60px);
+    }
+}
+</style>

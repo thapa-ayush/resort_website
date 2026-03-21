@@ -6,145 +6,118 @@
 
 {% block content %}
 <!-- Page Header -->
-<div class="page-header" style="background: transparent; position: relative;">
+<div class="page-header">
     <div class="page-header-content text-center">
-        <h1 class="display-5 fw-900 mb-3 hero-title text-white">Gallery</h1>
-        <p class="hero-description lead text-muted">Explore the natural beauty and luxury of Diamond Hill Resort</p>
+        <span class="section-label" style="background: rgba(201,168,76,0.15); border-color: rgba(201,168,76,0.3); color: var(--clr-gold-light);">
+            <i class="fas fa-images me-2"></i>Visual Gallery
+        </span>
+        <h1 class="mt-3 mb-3">Photo Gallery</h1>
+        <p class="lead" style="color: rgba(255,255,255,0.7); max-width: 500px; margin: 0 auto;">
+            Explore the natural beauty and luxury of Diamond Hill Resort
+        </p>
     </div>
 </div>
 
 <!-- Gallery Grid -->
-<div class="container mb-5">
-    {% if images %}
-    <div class="gallery-grid">
-        {% for image in images %}
-        <div class="gallery-item-wrapper">
-            <figure class="gallery-figure">
-                {% if image.image %}
-                <img src="{{ image.image.url }}" alt="{{ image.caption }}" class="gallery-img"
-                    data-bs-toggle="modal" data-bs-target="#imageModal"
-                    data-image="{{ image.image.url }}" data-caption="{{ image.caption }}"
-                    style="cursor: pointer;">
-                {% else %}
-                <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400&h=300&fit=crop"
-                    alt="{{ image.caption }}" class="gallery-img" style="cursor: pointer;"
-                    data-bs-toggle="modal" data-bs-target="#imageModal" data-caption="{{ image.caption }}">
-                {% endif %}
-                <figcaption class="gallery-caption">
-                    <div class="caption-content">
-                        <h5 class="caption-title">{{ image.caption }}</h5>
-                        <p class="caption-date text-white-50 small mb-0">{{ image.upload_date|date:"M d, Y" }}</p>
+<section class="py-6">
+    <div class="container">
+        {% if images %}
+        <div class="gallery-grid stagger-children reveal">
+            {% for image in images %}
+            <div class="gallery-item">
+                <div class="gallery-image-wrapper">
+                    {% if image.image %}
+                    <img src="{{ image.image.url }}" alt="{{ image.caption }}" class="gallery-img"
+                        loading="lazy" data-bs-toggle="modal" data-bs-target="#imageModal"
+                        data-image="{{ image.image.url }}" data-caption="{{ image.caption }}"
+                        style="cursor: pointer;">
+                    {% endif %}
+                    <div class="gallery-overlay" data-bs-toggle="modal" data-bs-target="#imageModal"
+                        data-image="{{ image.image.url }}" data-caption="{{ image.caption }}"
+                        style="cursor: pointer;">
+                        <i class="fas fa-search-plus text-white"></i>
                     </div>
-                </figcaption>
-            </figure>
-        </div>
-        {% endfor %}
-    </div>
-
-    <!-- Pagination -->
-    {% if is_paginated %}
-    <nav aria-label="Gallery pagination" class="mt-5">
-        <ul class="pagination justify-content-center">
-            {% if page_obj.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="?page=1">&laquo; First</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-            </li>
-            {% endif %}
-
-            {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-            <li class="page-item active">
-                <span class="page-link">{{ num }}</span>
-            </li>
-            {% else %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-            </li>
-            {% endif %}
+                </div>
+                <div class="gallery-caption">
+                    <h6 class="mb-1" style="font-family: var(--ff-serif); font-size: 0.95rem;">{{ image.caption }}</h6>
+                    <small class="text-muted">{{ image.upload_date|date:"M d, Y" }}</small>
+                </div>
+            </div>
             {% endfor %}
+        </div>
 
-            {% if page_obj.has_next %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
-            </li>
-            {% endif %}
-        </ul>
-    </nav>
-    {% endif %}
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <nav aria-label="Gallery pagination" class="mt-5 reveal">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
 
-    {% else %}
-    <div class="alert text-center py-5 rounded-3" role="alert"
-        style="background-color: #e8f5e9; border-left: 4px solid #2d8a63; color: #1f6b4a;">
-        <i class="fas fa-image fa-2x mb-3"></i>
-        <p class="mb-0">Gallery is being updated. Check back soon!</p>
+        {% else %}
+        <div class="text-center py-5 reveal" style="background: rgba(201,168,76,0.06); border-left: 4px solid var(--clr-gold); border-radius: var(--radius-md); padding: 3rem;">
+            <i class="fas fa-image fa-3x mb-3" style="color: var(--clr-gold);"></i>
+            <p class="mb-0 text-muted">Gallery is being updated. Check back soon!</p>
+        </div>
+        {% endif %}
     </div>
-    {% endif %}
-</div>
+</section>
 
 <!-- Image Modal -->
 <div class="modal fade" id="imageModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content bg-dark">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content" style="background: var(--clr-charcoal); border: none; border-radius: var(--radius-lg);">
             <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
-                data-bs-dismiss="modal" aria-label="Close"></button>
+                data-bs-dismiss="modal" aria-label="Close" style="z-index: 10;"></button>
             <div class="modal-body p-0">
-                <img src="" id="modalImage" class="img-fluid w-100" alt="">
+                <img src="" id="modalImage" class="img-fluid w-100" alt=""
+                    style="border-radius: var(--radius-lg) var(--radius-lg) 0 0;">
             </div>
-            <div class="modal-footer bg-dark border-secondary">
-                <p id="modalCaption" class="text-light mb-0"></p>
+            <div class="modal-footer justify-content-start" style="border-top: 1px solid rgba(255,255,255,0.1);">
+                <p id="modalCaption" class="text-light mb-0" style="font-family: var(--ff-serif);"></p>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Call to Action -->
-<section class="cta-section py-6" style="background: transparent; position: relative; overflow: hidden;">
+<!-- CTA -->
+<section class="cta-section py-6">
     <div class="cta-background"></div>
     <div class="container text-center position-relative" style="z-index: 2;">
-        <h3 class="text-white mb-4" style="font-weight: 900; font-size: 2rem;">Experience These Views in Person</h3>
-        <p class="text-white-50 lead mb-5">Book your stay at Diamond Hill Resort and create unforgettable memories surrounded by natural beauty</p>
-        <a href="{% url 'main:booking' %}" class="btn btn-light btn-lg fw-bold shadow-lg px-5" style="transition: all 0.3s ease;">
-            <i class="fas fa-calendar-check me-2"></i>Book Your Adventure
-        </a>
+        <div class="reveal">
+            <h3 class="text-white mb-4" style="font-family: var(--ff-serif);">Experience These Views in Person</h3>
+            <p class="lead mb-5" style="color: rgba(255,255,255,0.7);">Book your stay and create unforgettable memories surrounded by natural beauty</p>
+            <a href="{% url 'main:booking' %}" class="btn btn-light btn-lg px-5">
+                <i class="fas fa-calendar-check me-2"></i>Book Your Adventure
+            </a>
+        </div>
     </div>
 </section>
 {% endblock %}
 
-{% block extra_css %}
-<style>
-    .hover-scale {
-        transition: transform 0.3s ease;
-    }
-
-    .hover-scale:hover {
-        transform: scale(1.05);
-    }
-
-    .hover-scale:hover .translate-y-100 {
-        transform: translateY(0);
-    }
-
-    .transition {
-        transition: transform 0.3s ease;
-    }
-</style>
-{% endblock %}
-
 {% block extra_js %}
 <script>
-    // Handle image modal
     const imageModal = document.getElementById('imageModal');
     if (imageModal) {
         imageModal.addEventListener('show.bs.modal', function (event) {
-            const img = event.relatedTarget;
-            const image = img.getAttribute('data-image');
-            const caption = img.getAttribute('data-caption');
+            const trigger = event.relatedTarget;
+            const image = trigger.getAttribute('data-image');
+            const caption = trigger.getAttribute('data-caption');
             document.getElementById('modalImage').src = image;
             document.getElementById('modalCaption').textContent = caption;
         });

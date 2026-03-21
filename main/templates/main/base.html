@@ -6,257 +6,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="{% block meta_description %}Diamond Hill Resort – A stylish mountain retreat in Nagarkot, Nepal. Book deluxe rooms, enjoy panoramic views of Himalayas, rooftop pool, spa & premium service.{% endblock %}">
+        content="{% block meta_description %}Diamond Hill Resort – A luxury mountain retreat in Nagarkot, Nepal. Book premium rooms, enjoy panoramic Himalayan views, spa &amp; exceptional hospitality.{% endblock %}">
     <meta name="keywords"
-        content="Diamond Hill Resort, Nepal resort, Nagarkot accommodation, luxury rooms, mountain view">
+        content="Diamond Hill Resort, Nepal resort, Nagarkot accommodation, luxury rooms, mountain view, Himalayas">
     <meta name="author" content="Diamond Hill Resort">
-    <meta property="og:title" content="{% block og_title %}Diamond Hill Resort - Own the Drip{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}Diamond Hill Resort — Blessed by Nature{% endblock %}">
     <meta property="og:description"
-        content="{% block og_description %}A stylish mountain retreat in Nagarkot, Nepal{% endblock %}">
+        content="{% block og_description %}A luxury mountain retreat in Nagarkot, Nepal{% endblock %}">
 
-    <title>{% block title %}Diamond Hill Resort - Own the Drip{% endblock %}</title>
+    <title>{% block title %}Diamond Hill Resort — Blessed by Nature{% endblock %}</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=9999">
-    <!-- Premium Styles -->
-    <link rel="stylesheet" href="{% static 'css/style-premium.css' %}?v=9999">
-    <!-- Mobile Optimized -->
-    <link rel="stylesheet" href="{% static 'css/mobile-optimized.css' %}?v=9999">
-
-    <!-- CRITICAL MODERN OVERRIDES -->
-    <style id="modern-overrides">
-    /* Diamond Hill Resort - Modern Reactive Overrides */
-    
-    /* Globals & Component Resets */
-    body {
-        background-color: #0f172a !important;
-        background-image: 
-            radial-gradient(circle at 10% 20%, rgba(0, 210, 135, 0.05) 0%, transparent 40%),
-            radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 40%) !important;
-        color: #94a3b8 !important;
-        font-family: 'Outfit', 'Inter', -apple-system, sans-serif !important;
-    }
-    
-    h1, h2, h3, h4, h5, h6, .text-dark, .hero-title, .hero-description {
-        color: #f8fafc !important;
-    }
-    
-    p, .text-muted, .stat-item, .price-period {
-        color: #94a3b8 !important;
-    }
-    
-    /* Override Bootstrap Backgrounds for Dark Theme */
-    .bg-white, .bg-light, .bg-transparent, .card, .bg-primary-light {
-        background-color: transparent !important;
-    }
-    
-    /* Glassmorphism Cards */
-    .card, .review-card, .room-card, .event-card, .feature-box, .stat-card, .pricing-card, .blog-card, .room-card-wrapper {
-        background: rgba(30, 41, 59, 0.7) !important;
-        backdrop-filter: blur(16px) !important;
-        -webkit-backdrop-filter: blur(16px) !important;
-        border: 1px solid rgba(255,255,255,0.08) !important;
-        border-radius: 20px !important;
-        color: #f8fafc !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    }
-    
-    /* Text in Cards */
-    .card h5, .card h6, .review-card h6, .room-title, .event-header h5, .feature-box h5, .stat-card h5, .pricing-card h5, .blog-title {
-        color: #f8fafc !important;
-    }
-    
-    /* Navbar */
-    .navbar-premium {
-        background: rgba(15, 23, 42, 0.85) !important;
-        backdrop-filter: blur(20px) !important;
-        -webkit-backdrop-filter: blur(20px) !important;
-        border-bottom: 1px solid rgba(255,255,255,0.08) !important;
-    }
-    .navbar .nav-link {
-        color: #94a3b8 !important;
-    }
-    .navbar .nav-link:hover, .navbar .nav-link.active {
-        color: #00d287 !important;
-        text-shadow: 0 0 10px rgba(0, 210, 135, 0.5) !important;
-    }
-    .navbar-brand-text {color: #f8fafc !important;}
-    
-    /* Buttons */
-    .btn-primary {
-        background: linear-gradient(135deg, #00d287 0%, #00995c 100%) !important;
-        border: none !important;
-        color: #fff !important;
-        box-shadow: 0 4px 15px rgba(0, 210, 135, 0.3) !important;
-        border-radius: 8px !important;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    }
-    .btn-primary:hover {
-        transform: translateY(-2px) !important;
-        box-shadow: 0 8px 25px rgba(0, 210, 135, 0.5) !important;
-    }
-    
-    .btn-outline-primary {
-        background: transparent !important;
-        border: 1px solid #00d287 !important;
-        color: #00d287 !important;
-        box-shadow: 0 4px 15px rgba(0, 210, 135, 0.1) !important;
-    }
-    .btn-outline-primary:hover {
-        background: rgba(0, 210, 135, 0.1) !important;
-        box-shadow: 0 8px 25px rgba(0, 210, 135, 0.3) !important;
-    }
-    
-    /* Forms */
-    .form-control, .form-select, input, select, textarea {
-        background: rgba(30, 41, 59, 0.5) !important;
-        border: 1px solid rgba(255,255,255,0.08) !important;
-        color: #f8fafc !important;
-        border-radius: 8px !important;
-    }
-    .form-label, .input-group-text {
-        color: #94a3b8 !important;
-        background: transparent !important;
-        border: none !important;
-    }
-    
-    /* Footer */
-    .footer-premium {
-        background: rgba(15, 23, 42, 0.95) !important;
-        border-top: 1px solid rgba(255,255,255,0.08) !important;
-    }
-    .footer-description, .footer-link {
-        color: #94a3b8 !important;
-    }
-    
-    /* Sections */
-    section:not(.hero-section), .py-6, .py-5, .bg-light, .bg-primary {
-        background-color: transparent !important;
-        background-image: none !important;
-    }
-    
-    section.hero-section {
-        background-color: transparent !important;
-    }
-    
-    /* FORCE HERO BACKGROUND IMAGE TO DISPLAY */
-    .hero-section {
-        background-size: cover !important;
-        background-position: center !important;
-        background-repeat: no-repeat !important;
-        background-attachment: scroll !important;
-    }
-    
-    /* Modal */
-    .modal-content {
-        background: #1e293b !important;
-        border: 1px solid rgba(255,255,255,0.08) !important;
-        backdrop-filter: blur(20px) !important;
-    }
-    .modal-title {
-        color: #f8fafc !important;
-    }
-    
-    /* Carousel / Images */
-    .room-image-wrapper {
-        background: transparent !important;
-    }
-    .hero-subtitle {
-        background: rgba(0, 210, 135, 0.1) !important;
-        border: 1px solid rgba(0, 210, 135, 0.3) !important;
-        color: #2dfaab !important;
-    }
-    .hero-overlay {
-        background: none !important;
-    }
-    
-    /* Booking form wrapper */
-    .booking-form {
-        background: rgba(30, 41, 59, 0.6) !important;
-        backdrop-filter: blur(12px) !important;
-        border: 1px solid rgba(255,255,255,0.08) !important;
-        border-radius: 20px !important;
-        padding: 2rem !important;
-    }
-    .booking-section {
-        background: transparent !important;
-    }
-    .room-content {
-        background: rgba(30, 41, 59, 0.7) !important;
-    }
-    .room-price {
-        background: #00d287 !important;
-        color: #fff !important;
-    }
-    .review-card {
-        background: rgba(30, 41, 59, 0.7) !important;
-    }
-    </style>
-    <!-- Google Fonts -->
+    <!-- Preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Google Fonts: Playfair Display (serif) + Inter (sans) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Bootstrap CSS (grid + utilities only — our theme overrides everything visual) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Luxury Theme -->
+    <link rel="stylesheet" href="{% static 'css/luxury.css' %}?v=2.1">
+
     {% block extra_css %}{% endblock %}
 </head>
 
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top navbar-premium">
+    <!-- ════════ NATURE ANIMATIONS ════════ -->
+    {% include 'main/includes/animations.html' %}
+
+    <!-- ════════ NAVIGATION ════════ -->
+    <nav class="navbar navbar-expand-lg sticky-top navbar-premium" id="mainNav">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center fw-bold" href="{% url 'main:home' %}">
-                <div class="navbar-logo-wrapper" style="width: auto; height: 50px; background: transparent;">
-                    <img src="{% static 'images/logo.svg' %}" alt="Diamond Hill Resort" class="navbar-logo" style="height: 40px; width: auto; max-width: 200px; padding: 0;">
+            <a class="navbar-brand d-flex align-items-center" href="{% url 'main:home' %}">
+                <div class="navbar-logo-wrapper" style="height: 46px;">
+                    <img src="{% static 'images/logo.svg' %}" alt="Diamond Hill Resort" class="navbar-logo"
+                        style="height: 40px; width: auto; max-width: 200px;">
                 </div>
             </a>
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+
+            <button class="navbar-toggler border-0 ms-auto" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center gap-1">
+
+            <div class="collapse navbar-collapse mobile-menu-overlay" id="navbarNav">
+                <button type="button" class="btn-close-menu" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <i class="fas fa-times"></i>
+                </button>
+                <ul class="navbar-nav ms-auto align-items-center gap-1 mobile-menu-list" id="mobileMenu">
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %} px-3 py-2"
+                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
                             href="{% url 'main:home' %}" aria-label="Home">
-                            <i class="fas fa-home me-1"></i><span class="d-md-inline d-none">Home</span>
+                            <i class="fas fa-home me-2"></i><span>Home</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'room_list' %}active{% endif %} px-3 py-2"
+                        <a class="nav-link {% if request.resolver_match.url_name == 'room_list' %}active{% endif %}"
                             href="{% url 'main:room_list' %}" aria-label="Rooms">
-                            <i class="fas fa-door-open me-1"></i><span class="d-md-inline d-none">Rooms</span>
+                            <i class="fas fa-door-open me-2"></i><span>Rooms</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'gallery' %}active{% endif %} px-3 py-2"
+                        <a class="nav-link {% if request.resolver_match.url_name == 'gallery' %}active{% endif %}"
                             href="{% url 'main:gallery' %}" aria-label="Gallery">
-                            <i class="fas fa-images me-1"></i><span class="d-md-inline d-none">Gallery</span>
+                            <i class="fas fa-images me-2"></i><span>Gallery</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'blog' or request.resolver_match.url_name == 'blog_detail' %}active{% endif %} px-3 py-2"
+                        <a class="nav-link {% if request.resolver_match.url_name == 'blog' or request.resolver_match.url_name == 'blog_detail' %}active{% endif %}"
                             href="{% url 'main:blog' %}" aria-label="Blog">
-                            <i class="fas fa-newspaper me-1"></i><span class="d-md-inline d-none">Blog</span>
+                            <i class="fas fa-newspaper me-2"></i><span>Blog</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %} px-3 py-2"
-                            href="{% url 'main:contact' %}" aria-label="Contact">
-                            <i class="fas fa-envelope me-1"></i><span class="d-md-inline d-none">Contact</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %} px-3 py-2"
+                        <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}"
                             href="{% url 'main:about' %}" aria-label="About">
-                            <i class="fas fa-info-circle me-1"></i><span class="d-md-inline d-none">About</span>
+                            <i class="fas fa-info-circle me-2"></i><span>About</span>
                         </a>
                     </li>
-                    <li class="nav-item ms-md-2">
-                        <a class="nav-link btn btn-nav-book px-4 py-2 fw-600 rounded-pill" href="{% url 'main:booking' %}" aria-label="Book Now">
-                            <i class="fas fa-calendar-check me-1"></i><span class="d-md-inline d-sm-none">Book</span>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}"
+                            href="{% url 'main:contact' %}" aria-label="Contact">
+                            <i class="fas fa-envelope me-2"></i><span>Contact</span>
+                        </a>
+                    </li>
+                    <li class="nav-item ms-lg-3">
+                        <a class="nav-link btn btn-nav-book px-4 py-2"
+                            href="{% url 'main:booking' %}" aria-label="Book Now">
+                            <i class="fas fa-calendar-check me-2"></i><span>Book Now</span>
                         </a>
                     </li>
                 </ul>
@@ -264,7 +108,7 @@
         </div>
     </nav>
 
-    <!-- Messages/Alerts -->
+    <!-- ════════ MESSAGES ════════ -->
     {% if messages %}
     <div class="container mt-3">
         {% for message in messages %}
@@ -277,44 +121,49 @@
     </div>
     {% endif %}
 
-    <!-- Main Content -->
-    {% block content %}{% endblock %}
+    <!-- ════════ MAIN CONTENT ════════ -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
 
-    <!-- Footer -->
-    <footer class="footer-premium text-light mt-5 py-5">
+    <!-- ════════ FOOTER ════════ -->
+    <footer class="footer-premium text-light py-5">
         <div class="container">
             <div class="row g-5 mb-5">
-                <!-- Brand & Description -->
+                <!-- Brand -->
                 <div class="col-lg-3 col-md-6">
                     <div class="footer-brand mb-4">
-                        <img src="{% static 'images/logo.svg' %}" alt="Diamond Hill Resort" class="footer-logo mb-3" style="height: 50px; width: auto; max-width: 220px;">
+                        <img src="{% static 'images/logo.svg' %}" alt="Diamond Hill Resort" class="footer-logo mb-3"
+                            style="height: 45px; width: auto; max-width: 200px; filter: brightness(10);">
                     </div>
-                    <p class="footer-description text-light mb-4">
-                        Blessed by Nature—A luxury mountain retreat in Nagarkot, Nepal offering unforgettable experiences and world-class hospitality.
+                    <p class="footer-description mb-4" style="font-size: 0.9rem; line-height: 1.7;">
+                        Blessed by Nature — A luxury mountain retreat in Nagarkot, Nepal offering unforgettable
+                        experiences with world-class hospitality.
                     </p>
                     <div class="footer-social">
-                        <a href="https://www.facebook.com/diamondhillresort.com.np/" target="_blank" rel="noopener" 
-                            class="footer-social-link" title="Facebook" aria-label="Visit our Facebook page">
+                        <a href="https://www.facebook.com/diamondhillresort.com.np/" target="_blank" rel="noopener"
+                            class="footer-social-link" title="Facebook" aria-label="Facebook">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="https://instagram.com" target="_blank" rel="noopener"
-                            class="footer-social-link" title="Instagram" aria-label="Visit our Instagram page">
+                        <a href="https://instagram.com" target="_blank" rel="noopener" class="footer-social-link"
+                            title="Instagram" aria-label="Instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="https://twitter.com" target="_blank" rel="noopener"
-                            class="footer-social-link" title="Twitter" aria-label="Visit our Twitter page">
+                        <a href="https://twitter.com" target="_blank" rel="noopener" class="footer-social-link"
+                            title="Twitter" aria-label="Twitter">
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="https://youtube.com" target="_blank" rel="noopener"
-                            class="footer-social-link" title="YouTube" aria-label="Visit our YouTube channel">
+                        <a href="https://youtube.com" target="_blank" rel="noopener" class="footer-social-link"
+                            title="YouTube" aria-label="YouTube">
                             <i class="fab fa-youtube"></i>
                         </a>
                     </div>
                 </div>
 
-                <!-- Quick Navigation -->
+                <!-- Navigation -->
                 <div class="col-lg-2 col-md-6">
-                    <h6 class="text-white fw-bold mb-4 text-uppercase letter-spacing">Navigation</h6>
+                    <h6 class="text-white fw-bold mb-4 text-uppercase letter-spacing" style="font-size: 0.8rem;">
+                        Navigation</h6>
                     <ul class="list-unstyled footer-links">
                         <li class="mb-3"><a href="{% url 'main:home' %}" class="footer-link">Home</a></li>
                         <li class="mb-3"><a href="{% url 'main:room_list' %}" class="footer-link">Our Rooms</a></li>
@@ -327,49 +176,56 @@
 
                 <!-- Amenities -->
                 <div class="col-lg-2 col-md-6">
-                    <h6 class="text-white fw-bold mb-4 text-uppercase letter-spacing">Amenities</h6>
+                    <h6 class="text-white fw-bold mb-4 text-uppercase letter-spacing" style="font-size: 0.8rem;">
+                        Amenities</h6>
                     <ul class="list-unstyled footer-amenities">
                         <li class="mb-3"><i class="fas fa-wifi text-accent me-2"></i><span>Free WiFi</span></li>
                         <li class="mb-3"><i class="fas fa-utensils text-accent me-2"></i><span>Fine Dining</span></li>
-                        <li class="mb-3"><i class="fas fa-swimming-pool text-accent me-2"></i><span>Rooftop Pool</span></li>
+                        <li class="mb-3"><i class="fas fa-swimming-pool text-accent me-2"></i><span>Rooftop
+                                Pool</span></li>
                         <li class="mb-3"><i class="fas fa-spa text-accent me-2"></i><span>Spa Services</span></li>
                         <li class="mb-3"><i class="fas fa-hiking text-accent me-2"></i><span>Trekking Tours</span></li>
-                        <li class="mb-3"><i class="fas fa-mountain text-accent me-2"></i><span>Mountain Views</span></li>
+                        <li class="mb-3"><i class="fas fa-mountain text-accent me-2"></i><span>Mountain Views</span>
+                        </li>
                     </ul>
                 </div>
 
-                <!-- Contact Information -->
+                <!-- Contact -->
                 <div class="col-lg-3 col-md-6">
-                    <h6 class="text-white fw-bold mb-4 text-uppercase letter-spacing">Get in Touch</h6>
+                    <h6 class="text-white fw-bold mb-4 text-uppercase letter-spacing" style="font-size: 0.8rem;">Get in
+                        Touch</h6>
                     <div class="footer-contact-item mb-4">
-                        <p class="text-accent small text-uppercase fw-600 mb-1"><i class="fas fa-map-marker-alt me-2"></i>Address</p>
-                        <p class="text-light small">Panauti-4, Chamkhar, Nagarkot, Nepal</p>
+                        <p class="text-accent small text-uppercase fw-600 mb-1"><i
+                                class="fas fa-map-marker-alt me-2"></i>Address</p>
+                        <p class="text-light small" style="opacity: 0.7;">Panauti-4, Chamkhar, Nagarkot, Nepal</p>
                     </div>
                     <div class="footer-contact-item mb-4">
-                        <p class="text-accent small text-uppercase fw-600 mb-1"><i class="fas fa-phone me-2"></i>Phone</p>
+                        <p class="text-accent small text-uppercase fw-600 mb-1"><i class="fas fa-phone me-2"></i>Phone
+                        </p>
                         <a href="tel:+977-11-405145" class="footer-link d-block">+977 011-405145</a>
                         <a href="tel:+977-9851065001" class="footer-link d-block">+977 9851065001</a>
                     </div>
                     <div class="footer-contact-item">
-                        <p class="text-accent small text-uppercase fw-600 mb-1"><i class="fas fa-envelope me-2"></i>Email</p>
-                        <a href="mailto:revs@diamondhillresort.com.np" class="footer-link d-block">revs@diamondhillresort.com.np</a>
+                        <p class="text-accent small text-uppercase fw-600 mb-1"><i
+                                class="fas fa-envelope me-2"></i>Email</p>
+                        <a href="mailto:revs@diamondhillresort.com.np"
+                            class="footer-link d-block">revs@diamondhillresort.com.np</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Footer Divider -->
             <hr class="footer-divider">
 
-            <!-- Footer Bottom -->
             <div class="row align-items-center pt-4">
                 <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
                     <p class="footer-copyright mb-0">
-                        <small>&copy; <span id="year">{% now "Y" %}</span> Diamond Hill Resort. All rights reserved.</small>
+                        <small>&copy; <span id="year">{% now "Y" %}</span> Diamond Hill Resort. All rights
+                            reserved.</small>
                     </p>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <p class="footer-credit mb-0">
-                        <small>Crafted with <i class="fas fa-heart text-danger"></i> by Ayush Thapa</small>
+                        <small>Crafted with <i class="fas fa-heart" style="color: #c9a84c;"></i> by Ayush Thapa</small>
                     </p>
                 </div>
             </div>
@@ -378,10 +234,50 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- jQuery (optional, for additional functionality) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Custom JS -->
-    <script src="{% static 'js/main.js' %}"></script>
+    <!-- Luxury Interactions -->
+    <script src="{% static 'js/luxury.js' %}?v=1.0"></script>
+    <!-- Nature Background Animations -->
+    <script src="{% static 'js/nature-animations.js' %}?v=1.1"></script>
+
+    <!-- Mobile Menu Controller -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const navbarToggler = document.querySelector('.navbar-toggler');
+            const navbarCollapse = document.querySelector('.navbar-collapse');
+            const navLinks = document.querySelectorAll('#mobileMenu .nav-link');
+            const body = document.body;
+
+            if (navbarCollapse) {
+                const menuToggle = new bootstrap.Collapse(navbarCollapse, { toggle: false });
+
+                navbarCollapse.addEventListener('show.bs.collapse', function () {
+                    body.classList.add('menu-open');
+                });
+
+                navbarCollapse.addEventListener('hide.bs.collapse', function () {
+                    body.classList.remove('menu-open');
+                });
+
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function () {
+                        if (navbarCollapse.classList.contains('show')) {
+                            navbarToggler.click();
+                        }
+                    });
+                });
+
+                const closeButton = document.querySelector('.btn-close-menu');
+                if (closeButton) {
+                    closeButton.addEventListener('click', function () {
+                        if (navbarCollapse.classList.contains('show')) {
+                            navbarToggler.click();
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+
     {% block extra_js %}{% endblock %}
 </body>
 

@@ -7,7 +7,6 @@
 {% block content %}
 {% if hero_slides %}
 <script>
-    // Store hero slides data for JavaScript carousel
     window.heroSlidesData = [
         {% for slide in hero_slides %}
         {
@@ -19,73 +18,53 @@
         {% endfor %}
     ];
 </script>
-
-<style>
-    /* Hero Slideshow Styling */
-    .hero-slideshow {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-    }
-    
-    .hero-slideshow .slide {
-        position: absolute;
-        inset: 0;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        opacity: 0;
-        transition: opacity 1s ease-in-out;
-    }
-    
-    .hero-slideshow .slide.active {
-        opacity: 1;
-    }
-</style>
 {% endif %}
 
-<!-- ===== HERO SECTION ===== -->
+<!-- ═══════════════════════════════════════════════
+     HERO SECTION
+     ═══════════════════════════════════════════════ -->
 <section class="hero-section hero-premium">
     {% if hero_slides %}
-        <!-- Hero Slideshow Background Images -->
-        <div class="hero-slideshow">
-            {% for slide in hero_slides %}
-            <div class="slide" style="background-image: url('{{ slide.image.url }}')"></div>
-            {% endfor %}
-        </div>
+    <div class="hero-slideshow">
+        {% for slide in hero_slides %}
+        <div class="slide {% if forloop.first %}active{% endif %}"
+            style="background-image: url('{{ slide.image.url }}')"></div>
+        {% endfor %}
+    </div>
     {% endif %}
-    
+
     <div class="hero-overlay"></div>
+
     <div class="hero-content text-center">
         <div class="hero-inner" data-animate="true">
             {% if hero_slides %}
-                <!-- Text Content Container for Slideshow -->
-                {% for slide in hero_slides %}
-                <div class="hero-slide-text" style="display: {% if forloop.first %}block{% else %}none{% endif %};">
-                    {% if slide.subtitle %}
-                    <span class="hero-subtitle">
-                        <i class="fas fa-sparkles me-2"></i>{{ slide.subtitle }}<i class="fas fa-sparkles ms-2"></i>
-                    </span>
-                    {% endif %}
-                    <h1 class="hero-title display-4 fw-900 mb-4">{{ slide.title }}</h1>
-                    <p class="hero-description lead fs-5 text-light mb-5">{{ slide.description }}</p>
-                </div>
-                {% endfor %}
-            {% else %}
+            {% for slide in hero_slides %}
+            <div class="hero-slide-text"
+                style="display: {% if forloop.first %}block{% else %}none{% endif %};">
+                {% if slide.subtitle %}
                 <span class="hero-subtitle">
-                    <i class="fas fa-sparkles me-2"></i>Blessed by Nature<i class="fas fa-sparkles ms-2"></i>
+                    <i class="fas fa-gem me-2"></i>{{ slide.subtitle }}<i class="fas fa-gem ms-2"></i>
                 </span>
-                <h1 class="hero-title display-4 fw-900 mb-4">Welcome to Diamond Hill Resort</h1>
-                <p class="hero-description lead fs-5 text-light mb-5">Experience luxury and serenity in the heart of the Himalayas</p>
+                {% endif %}
+                <h1 class="hero-title display-3 fw-bold mb-4">{{ slide.title }}</h1>
+                <p class="hero-description lead mb-5">{{ slide.description }}</p>
+            </div>
+            {% endfor %}
+            {% else %}
+            <span class="hero-subtitle">
+                <i class="fas fa-gem me-2"></i>Blessed by Nature<i class="fas fa-gem ms-2"></i>
+            </span>
+            <h1 class="hero-title display-3 fw-bold mb-4">Welcome to Diamond Hill Resort</h1>
+            <p class="hero-description lead mb-5">Experience luxury and serenity in the heart of the
+                Himalayas</p>
             {% endif %}
-            
+
             <div class="hero-buttons d-flex gap-3 justify-content-center flex-wrap">
-                <a href="{% url 'main:room_list' %}" class="btn btn-light btn-lg shadow-lg hover-scale">
+                <a href="{% url 'main:room_list' %}" class="btn btn-light btn-lg px-4 py-3">
                     <i class="fas fa-door-open me-2"></i> Explore Rooms
                 </a>
-                <a href="{% url 'main:booking' %}" class="btn btn-outline-light btn-lg shadow-lg hover-scale">
-                    <i class="fas fa-calendar-check me-2"></i> Book Now
+                <a href="{% url 'main:booking' %}" class="btn btn-outline-light btn-lg px-4 py-3">
+                    <i class="fas fa-calendar-check me-2"></i> Book Your Stay
                 </a>
             </div>
 
@@ -97,172 +76,158 @@
     </div>
 </section>
 
-<!-- ===== BOOKING SECTION ===== -->
-<section class="booking-section py-6" style="background: linear-gradient(135deg, rgba(30, 132, 73, 0.02) 0%, rgba(22, 160, 133, 0.02) 100%);">
-    <div class="container" style="max-width: 700px;">
-        <div class="text-center mb-5">
-            <span class="badge bg-primary-light px-4 py-2 mb-3" style="background-color: rgba(30, 132, 73, 0.15) !important; color: var(--primary) !important;">
-                <i class="fas fa-check-circle me-2"></i>Easy Booking
-            </span>
+<!-- ═══════════════════════════════════════════════
+     CHECK AVAILABILITY
+     ═══════════════════════════════════════════════ -->
+<section class="py-6" style="background: var(--clr-beige);">
+    <div class="container" style="max-width: 760px;">
+        <div class="text-center mb-5 reveal">
+            <span class="section-label"><i class="fas fa-check-circle me-2"></i>Easy Booking</span>
             <h2 class="mt-3 mb-2">Check Availability</h2>
-            <p class="lead text-muted">Find your perfect stay and book your room in just a few clicks</p>
+            <span class="gold-line"></span>
+            <p class="lead text-muted mt-3">Find your perfect stay and reserve in just a few clicks</p>
         </div>
 
-        <form method="GET" action="{% url 'main:booking' %}" class="booking-form shadow-lg">
+        <form method="GET" action="{% url 'main:booking' %}" class="booking-form reveal">
             <div class="row g-3 g-md-4">
                 <div class="col-md-6">
-                    <div class="form-group mb-0">
-                        <label for="checkin" class="form-label">
-                            <i class="fas fa-calendar-check me-2" style="color: var(--primary);"></i>Check In
-                        </label>
-                        <input type="date" class="form-control" id="checkin" name="checkin" required>
-                    </div>
+                    <label for="checkin" class="form-label">
+                        <i class="fas fa-calendar-check me-2" style="color: var(--clr-gold);"></i>Check In
+                    </label>
+                    <input type="date" class="form-control" id="checkin" name="checkin" required>
                 </div>
-
                 <div class="col-md-6">
-                    <div class="form-group mb-0">
-                        <label for="checkout" class="form-label">
-                            <i class="fas fa-calendar-times me-2" style="color: var(--primary);"></i>Check Out
-                        </label>
-                        <input type="date" class="form-control" id="checkout" name="checkout" required>
-                    </div>
+                    <label for="checkout" class="form-label">
+                        <i class="fas fa-calendar-times me-2" style="color: var(--clr-gold);"></i>Check Out
+                    </label>
+                    <input type="date" class="form-control" id="checkout" name="checkout" required>
                 </div>
-
                 <div class="col-md-6">
-                    <div class="form-group mb-0">
-                        <label for="guests" class="form-label">
-                            <i class="fas fa-users me-2" style="color: var(--primary);"></i>Guests
-                        </label>
-                        <select class="form-select" id="guests" name="guests" required>
-                            <option value="1">1 Guest</option>
-                            <option value="2" selected>2 Guests</option>
-                            <option value="3">3 Guests</option>
-                            <option value="4">4 Guests</option>
-                            <option value="5">5+ Guests</option>
-                        </select>
-                    </div>
+                    <label for="guests" class="form-label">
+                        <i class="fas fa-users me-2" style="color: var(--clr-gold);"></i>Guests
+                    </label>
+                    <select class="form-select" id="guests" name="guests" required>
+                        <option value="1">1 Guest</option>
+                        <option value="2" selected>2 Guests</option>
+                        <option value="3">3 Guests</option>
+                        <option value="4">4 Guests</option>
+                        <option value="5">5+ Guests</option>
+                    </select>
                 </div>
-
                 <div class="col-md-6">
-                    <div class="form-group mb-0">
-                        <label for="rooms" class="form-label">
-                            <i class="fas fa-door-open me-2" style="color: var(--primary);"></i>Rooms
-                        </label>
-                        <select class="form-select" id="rooms" name="rooms" required>
-                            <option value="1" selected>1 Room</option>
-                            <option value="2">2 Rooms</option>
-                            <option value="3">3 Rooms</option>
-                        </select>
-                    </div>
+                    <label for="rooms" class="form-label">
+                        <i class="fas fa-door-open me-2" style="color: var(--clr-gold);"></i>Rooms
+                    </label>
+                    <select class="form-select" id="rooms" name="rooms" required>
+                        <option value="1" selected>1 Room</option>
+                        <option value="2">2 Rooms</option>
+                        <option value="3">3 Rooms</option>
+                    </select>
                 </div>
-
                 <div class="col-12">
-                    <button type="submit" class="btn btn-primary btn-lg w-100 shadow-md hover-lift">
+                    <button type="submit" class="btn btn-primary btn-lg w-100">
                         <i class="fas fa-search me-2"></i> Check Availability
                     </button>
                 </div>
             </div>
-
             <p class="text-center text-muted mt-4 small">
-                <i class="fas fa-info-circle me-1" style="color: var(--primary);"></i> 
-                <strong>Best rates guaranteed</strong> • Free cancellation up to 48 hours • Prices vary by season
+                <i class="fas fa-shield-alt me-1" style="color: var(--clr-gold);"></i>
+                <strong>Best rates guaranteed</strong> · Free cancellation up to 48 hours · Prices vary by season
             </p>
         </form>
     </div>
 </section>
 
-<!-- About Section with Features -->
-<section class="py-6 bg-light">
+<!-- ═══════════════════════════════════════════════
+     ABOUT / FEATURES
+     ═══════════════════════════════════════════════ -->
+<section class="py-6">
     <div class="container">
         <!-- Features Grid -->
-        <div class="row mb-5 g-4 text-center">
-            <div class="col-md-6 col-lg-3">
-                <div class="feature-box animated-feature" style="animation: slideInUp 0.8s ease-out both;">
+        <div class="row mb-5 g-4 text-center stagger-children reveal">
+            <div class="col-6 col-lg-3">
+                <div class="feature-box h-100">
                     <div class="feature-icon mb-3">
-                        <i class="fas fa-mountain text-primary"
-                            style="font-size: 2.5rem; transition: all 0.3s ease;"></i>
+                        <i class="fas fa-mountain" style="font-size: 2.5rem;"></i>
                     </div>
-                    <h5 class="fw-bold">Mountain Views</h5>
-                    <p class="text-muted small">Panoramic Himalayan vistas from every room</p>
+                    <h5>Mountain Views</h5>
+                    <p class="text-muted small mb-0">Panoramic Himalayan vistas from every suite</p>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="feature-box animated-feature" style="animation: slideInUp 0.8s ease-out 0.1s both;">
+            <div class="col-6 col-lg-3">
+                <div class="feature-box h-100">
                     <div class="feature-icon mb-3">
-                        <i class="fas fa-hiking text-primary" style="font-size: 2.5rem; transition: all 0.3s ease;"></i>
+                        <i class="fas fa-spa" style="font-size: 2.5rem;"></i>
                     </div>
-                    <h5 class="fw-bold">Trekking & Tours</h5>
-                    <p class="text-muted small">Guided mountain adventures and nature exploration</p>
+                    <h5>Spa & Wellness</h5>
+                    <p class="text-muted small mb-0">Rejuvenating treatments for body and soul</p>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="feature-box animated-feature" style="animation: slideInUp 0.8s ease-out 0.2s both;">
+            <div class="col-6 col-lg-3">
+                <div class="feature-box h-100">
                     <div class="feature-icon mb-3">
-                        <i class="fas fa-utensils text-primary"
-                            style="font-size: 2.5rem; transition: all 0.3s ease;"></i>
+                        <i class="fas fa-utensils" style="font-size: 2.5rem;"></i>
                     </div>
-                    <h5 class="fw-bold">Fine Dining</h5>
-                    <p class="text-muted small">Authentic cuisine and culinary experiences</p>
+                    <h5>Fine Dining</h5>
+                    <p class="text-muted small mb-0">Authentic cuisine and culinary masterpieces</p>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="feature-box animated-feature" style="animation: slideInUp 0.8s ease-out 0.3s both;">
+            <div class="col-6 col-lg-3">
+                <div class="feature-box h-100">
                     <div class="feature-icon mb-3">
-                        <i class="fas fa-concierge-bell text-primary"
-                            style="font-size: 2.5rem; transition: all 0.3s ease;"></i>
+                        <i class="fas fa-hiking" style="font-size: 2.5rem;"></i>
                     </div>
-                    <h5 class="fw-bold">24/7 Service</h5>
-                    <p class="text-muted small">Personal concierge for event arrangements</p>
+                    <h5>Trekking Tours</h5>
+                    <p class="text-muted small mb-0">Guided mountain adventures and exploration</p>
                 </div>
             </div>
         </div>
 
         <!-- Welcome Content -->
-        <div class="row align-items-center mt-5">
-            <div class="col-lg-6 mb-4 mb-lg-0">
-                <div class="about-image-wrapper" style="position: relative; display: inline-block; width: 100%;">
+        <div class="row align-items-center mt-5 g-5">
+            <div class="col-lg-6 reveal-left">
+                <div class="about-image-wrapper position-relative">
                     {% if about and about.image %}
                     <img src="{{ about.image.url }}" alt="{{ about.title }}"
-                        class="img-fluid rounded-3 shadow-lg about-image-animated"
-                        style="border-radius: 20px; transition: transform 0.6s ease, box-shadow 0.6s ease; animation: floatImage 4s ease-in-out infinite;">
+                        class="img-fluid shadow-lg"
+                        style="border-radius: var(--radius-lg); animation: floatImage 5s ease-in-out infinite;">
                     {% else %}
                     <img src="/media/gallery/reception.JPG" alt="Diamond Hill Resort Reception"
-                        class="img-fluid rounded-3 shadow-lg about-image-animated"
-                        style="border-radius: 20px; transition: transform 0.6s ease, box-shadow 0.6s ease; animation: floatImage 4s ease-in-out infinite;">
+                        class="img-fluid shadow-lg"
+                        style="border-radius: var(--radius-lg); animation: floatImage 5s ease-in-out infinite;">
                     {% endif %}
                 </div>
             </div>
-            <div class="col-lg-6 ps-lg-5">
-                <span class="text-primary text-uppercase small fw-bold letter-spacing">About Us</span>
-                <h2 class="mb-4 mt-2 fw-bold">More Than a Stay</h2>
+            <div class="col-lg-6 reveal-right">
+                <span class="section-label">About Us</span>
+                <h2 class="mb-4 mt-2">More Than a Stay</h2>
+                <span class="gold-line" style="margin: 0 0 1.5rem;"></span>
                 <p class="lead text-muted mb-4">
                     An invitation for a truly unforgettable, lasting memory combining the very best of luxury and
-                    serenity.
-                    Located in Panauti-4, Chamkhar, Diamond Hill Resort offers an unparalleled mountain experience with
-                    stunning views and exceptional service.
+                    serenity. Located in Panauti-4, Chamkhar, Diamond Hill Resort offers an unparalleled mountain
+                    experience with stunning views and exceptional service.
                 </p>
                 <div class="benefits-list">
-                    <div class="benefit-item mb-3">
-                        <i class="fas fa-check-circle text-primary me-3 fs-5"></i>
+                    <div class="d-flex align-items-start mb-3">
+                        <i class="fas fa-gem me-3 mt-1" style="color: var(--clr-gold); font-size: 1.1rem;"></i>
                         <span><strong>Stunning Location:</strong> Panoramic Himalayan views and scenic valley
                             landscape</span>
                     </div>
-                    <div class="benefit-item mb-3">
-                        <i class="fas fa-check-circle text-primary me-3 fs-5"></i>
-                        <span><strong>Premium Amenities:</strong> Fine dining, trekking, and recreational
+                    <div class="d-flex align-items-start mb-3">
+                        <i class="fas fa-gem me-3 mt-1" style="color: var(--clr-gold); font-size: 1.1rem;"></i>
+                        <span><strong>Premium Amenities:</strong> Fine dining, spa, and recreational
                             facilities</span>
                     </div>
-                    <div class="benefit-item mb-3">
-                        <i class="fas fa-check-circle text-primary me-3 fs-5"></i>
+                    <div class="d-flex align-items-start mb-3">
+                        <i class="fas fa-gem me-3 mt-1" style="color: var(--clr-gold); font-size: 1.1rem;"></i>
                         <span><strong>Adventure Ready:</strong> Guided mountain tours and nature exploration</span>
                     </div>
-                    <div class="benefit-item mb-3">
-                        <i class="fas fa-check-circle text-primary me-3 fs-5"></i>
-                        <span><strong>Events & Celebrations:</strong> Perfect venue for weddings and corporate
-                            events</span>
+                    <div class="d-flex align-items-start mb-3">
+                        <i class="fas fa-gem me-3 mt-1" style="color: var(--clr-gold); font-size: 1.1rem;"></i>
+                        <span><strong>Events & Celebrations:</strong> Perfect venue for weddings and events</span>
                     </div>
                 </div>
-                <div class="mt-5 pt-3 d-flex gap-3 justify-content-center">
+                <div class="mt-4 d-flex gap-3 flex-wrap">
                     <a href="{% url 'main:booking' %}" class="btn btn-primary">
                         <i class="fas fa-calendar-alt me-2"></i>Book Your Stay
                     </a>
@@ -275,82 +240,179 @@
     </div>
 </section>
 
-<!-- Premium Rooms Section -->
-<section class="py-6">
+<!-- ═══════════════════════════════════════════════
+     PREMIUM ROOMS
+     ═══════════════════════════════════════════════ -->
+<section class="py-6" style="background: var(--clr-beige);">
     <div class="container">
-        <div class="row mb-5">
-            <div class="col-12 text-center">
-                <span class="text-primary text-uppercase small fw-bold letter-spacing">Our Collection</span>
-                <h2 class="mt-2 mb-3 fw-bold">Premium Room Types</h2>
-                <p class="lead text-muted max-w-md mx-auto">Choose from our curated selection of luxurious
-                    accommodations, each designed for maximum comfort and style</p>
-            </div>
+        <div class="text-center mb-5 reveal">
+            <span class="section-label">Our Collection</span>
+            <h2 class="mt-2 mb-2">Premium Accommodations</h2>
+            <span class="gold-line"></span>
+            <p class="lead text-muted mt-3 mx-auto" style="max-width: 600px;">Luxurious rooms designed for
+                maximum comfort, each with curated amenities and breathtaking views</p>
         </div>
-        <div class="row g-4">
+
+        <div class="row g-4 stagger-children reveal">
             {% for room in featured_rooms %}
             <div class="col-md-6 col-lg-3">
-                <div class="room-card shadow-lg border-0 rounded-3 overflow-hidden h-100 transition-transform">
+                <div class="room-card card border-0 overflow-hidden h-100">
                     <div class="room-image-wrapper position-relative overflow-hidden" style="height: 280px;">
                         {% if room.image %}
                         <img src="{{ room.image.url }}" alt="{{ room.title }}" class="room-image w-100 h-100"
-                            style="object-fit: cover; transition: transform 0.4s ease;">
+                            style="object-fit: cover;">
                         {% else %}
-                        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=500&h=350&fit=crop"
-                            alt="{{ room.title }}" class="room-image w-100 h-100"
-                            style="object-fit: cover; transition: transform 0.4s ease;">
+                        <div class="d-flex align-items-center justify-content-center w-100 h-100"
+                            style="background: var(--clr-beige);">
+                            <i class="fas fa-image fa-3x" style="color: var(--clr-stone);"></i>
+                        </div>
                         {% endif %}
                         <div class="room-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
-                            style="background: rgba(37, 150, 190, 0.85); opacity: 0; transition: opacity 0.3s ease;">
-                            <a href="{% url 'main:room_detail' room.slug %}" class="btn btn-light btn-lg fw-bold">
+                            style="opacity: 0; transition: opacity 0.4s ease;">
+                            <a href="{% url 'main:room_detail' room.slug %}"
+                                class="btn btn-light btn-lg fw-bold">
                                 <i class="fas fa-eye me-2"></i>View Details
                             </a>
                         </div>
-                        <span class="room-price badge fw-bold position-absolute top-0 end-0 m-3 fs-6"
-                            style="background-color: #2d8a63;">NPR {{ room.price|floatformat:0 }}<span
-                                class="small">/night</span></span>
+                        <span
+                            class="position-absolute top-0 end-0 m-3 px-3 py-2 fw-bold"
+                            style="background: var(--clr-gold); color: var(--clr-forest-dark); border-radius: var(--radius-sm); font-size: 0.85rem;">
+                            NPR {{ room.price|floatformat:0 }}<span class="small fw-normal">/night</span>
+                        </span>
                     </div>
-                    <div class="room-content p-4">
-                        <h5 class="room-title mb-2 fw-bold" style="color: #2d8a63; font-size: 1.2rem;">{{ room.title }}</h5>
-                        <p class="room-description text-muted small mb-0" style="line-height: 1.6;">{{ room.description|truncatewords:12 }}</p>
+                    <div class="p-4">
+                        <h5 class="mb-2 fw-bold" style="font-family: var(--ff-serif);">{{ room.title }}</h5>
+                        <p class="text-muted small mb-0" style="line-height: 1.6;">
+                            {{ room.description|truncatewords:12 }}
+                        </p>
                     </div>
                 </div>
             </div>
             {% empty %}
             <div class="col-12 text-center">
-                <p class="text-muted">No rooms available at the moment.</p>
+                <p class="text-muted">Our rooms are being prepared for you. Please check back soon.</p>
             </div>
             {% endfor %}
         </div>
-        <div class="row mt-5">
-            <div class="col-12 text-center">
-                <a href="{% url 'main:room_list' %}" class="btn btn-primary btn-lg btn-hover">
-                    View All Rooms <i class="fas fa-arrow-right ms-2"></i>
-                </a>
+
+        <div class="text-center mt-5 reveal">
+            <a href="{% url 'main:room_list' %}" class="btn btn-primary btn-lg">
+                View All Rooms <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     AMENITIES SHOWCASE
+     ═══════════════════════════════════════════════ -->
+<section class="py-6">
+    <div class="container">
+        <div class="text-center mb-5 reveal">
+            <span class="section-label">Resort Experience</span>
+            <h2 class="mt-2 mb-2">World-Class Amenities</h2>
+            <span class="gold-line"></span>
+            <p class="lead text-muted mt-3 mx-auto" style="max-width: 600px;">Every detail has been
+                thoughtfully curated for your comfort and delight</p>
+        </div>
+
+        <div class="row g-4 stagger-children reveal">
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-box h-100 text-start d-flex gap-3" style="padding: 1.5rem;">
+                    <div class="feature-icon" style="min-width: 50px;">
+                        <i class="fas fa-spa" style="font-size: 2rem; color: var(--clr-forest);"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-2" style="font-size: 1.05rem;">Spa & Wellness</h5>
+                        <p class="text-muted small mb-0">Rejuvenate with holistic treatments, signature massages,
+                            and serene relaxation spaces</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-box h-100 text-start d-flex gap-3" style="padding: 1.5rem;">
+                    <div class="feature-icon" style="min-width: 50px;">
+                        <i class="fas fa-wifi" style="font-size: 2rem; color: var(--clr-forest);"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-2" style="font-size: 1.05rem;">Free High-Speed WiFi</h5>
+                        <p class="text-muted small mb-0">Stay connected throughout the resort with complimentary
+                            high-speed internet</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-box h-100 text-start d-flex gap-3" style="padding: 1.5rem;">
+                    <div class="feature-icon" style="min-width: 50px;">
+                        <i class="fas fa-utensils" style="font-size: 2rem; color: var(--clr-forest);"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-2" style="font-size: 1.05rem;">Restaurant & Bar</h5>
+                        <p class="text-muted small mb-0">Savor exquisite Nepali and international cuisine with
+                            panoramic mountain views</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-box h-100 text-start d-flex gap-3" style="padding: 1.5rem;">
+                    <div class="feature-icon" style="min-width: 50px;">
+                        <i class="fas fa-hiking" style="font-size: 2rem; color: var(--clr-forest);"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-2" style="font-size: 1.05rem;">Trekking & Adventure</h5>
+                        <p class="text-muted small mb-0">Guided mountain treks, paragliding, and nature
+                            exploration with expert guides</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-box h-100 text-start d-flex gap-3" style="padding: 1.5rem;">
+                    <div class="feature-icon" style="min-width: 50px;">
+                        <i class="fas fa-glass-cheers" style="font-size: 2rem; color: var(--clr-forest);"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-2" style="font-size: 1.05rem;">Events & Weddings</h5>
+                        <p class="text-muted small mb-0">A breathtaking venue for memorable celebrations,
+                            weddings, and corporate events</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-box h-100 text-start d-flex gap-3" style="padding: 1.5rem;">
+                    <div class="feature-icon" style="min-width: 50px;">
+                        <i class="fas fa-swimming-pool" style="font-size: 2rem; color: var(--clr-forest);"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-2" style="font-size: 1.05rem;">Rooftop Pool</h5>
+                        <p class="text-muted small mb-0">Swim under the stars with stunning views of the
+                            Himalayan landscape</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Gallery Preview Section -->
-<section class="py-6 bg-light">
+<!-- ═══════════════════════════════════════════════
+     GALLERY PREVIEW
+     ═══════════════════════════════════════════════ -->
+<section class="py-6" style="background: var(--clr-beige);">
     <div class="container">
-        <div class="row mb-5 text-center">
-            <div class="col-12">
-                <span class="text-primary text-uppercase small fw-bold letter-spacing">Visual Gallery</span>
-                <h2 class="mt-2 mb-3 fw-bold">Experience the Elegance</h2>
-                <p class="lead text-muted max-w-md mx-auto">Explore the stunning beauty of our resort through our
-                    curated collection</p>
-            </div>
+        <div class="text-center mb-5 reveal">
+            <span class="section-label">Visual Gallery</span>
+            <h2 class="mt-2 mb-2">Experience the Elegance</h2>
+            <span class="gold-line"></span>
+            <p class="lead text-muted mt-3 mx-auto" style="max-width: 600px;">Explore the stunning beauty of
+                our resort through our curated collection</p>
         </div>
-        <div class="gallery-grid">
+
+        <div class="gallery-grid stagger-children reveal">
             {% for image in featured_images %}
             <div class="gallery-item">
-                <div class="gallery-image-wrapper position-relative overflow-hidden">
+                <div class="gallery-image-wrapper">
                     {% if image.image %}
-                    <img src="{{ image.image.url }}" alt="{{ image.caption }}" class="gallery-img">
-                    {% else %}
-                    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&h=400&fit=crop"
-                        alt="{{ image.caption }}" class="gallery-img">
+                    <img src="{{ image.image.url }}" alt="{{ image.caption }}" class="gallery-img"
+                        loading="lazy">
                     {% endif %}
                     <div class="gallery-overlay">
                         <i class="fas fa-search-plus text-white"></i>
@@ -361,216 +423,207 @@
                 </div>
             </div>
             {% empty %}
-            <div class="col-12 text-center">
+            <div class="text-center py-4">
                 <p class="text-muted">Gallery coming soon!</p>
             </div>
             {% endfor %}
         </div>
-        <div class="row mt-5">
-            <div class="col-12 text-center">
-                <a href="{% url 'main:gallery' %}" class="btn btn-primary btn-lg btn-hover">
-                    Explore Full Gallery <i class="fas fa-arrow-right ms-2"></i>
-                </a>
-            </div>
+
+        <div class="text-center mt-5 reveal">
+            <a href="{% url 'main:gallery' %}" class="btn btn-primary btn-lg">
+                Explore Full Gallery <i class="fas fa-arrow-right ms-2"></i>
+            </a>
         </div>
     </div>
 </section>
 
-<!-- Blog & Events Section -->
+<!-- ═══════════════════════════════════════════════
+     BLOG & EVENTS
+     ═══════════════════════════════════════════════ -->
 <section class="py-6">
     <div class="container">
-        <div class="row mb-5 text-center">
-            <div class="col-12">
-                <span class="text-primary text-uppercase small fw-bold letter-spacing">Our Blog & Events</span>
-                <h2 class="mt-2 mb-3 fw-bold">Latest News & Celebrations</h2>
-                <p class="lead text-muted max-w-md mx-auto">Discover the memorable moments and experiences shared at
-                    Diamond Hill Resort</p>
-            </div>
+        <div class="text-center mb-5 reveal">
+            <span class="section-label">Stories & Events</span>
+            <h2 class="mt-2 mb-2">Latest News & Celebrations</h2>
+            <span class="gold-line"></span>
+            <p class="lead text-muted mt-3 mx-auto" style="max-width: 600px;">Discover memorable moments and
+                experiences shared at Diamond Hill Resort</p>
         </div>
-        <div class="row g-4">
+
+        <div class="row g-4 stagger-children reveal">
             {% for event in event_images %}
-            <!-- Event Card -->
             <div class="col-md-6 col-lg-4">
-                <div class="event-card rounded-3 overflow-hidden shadow-sm hover-lift"
-                    style="background: #fff; transition: all 0.3s ease;">
+                <div class="card border-0 overflow-hidden h-100 hover-lift">
                     {% if event.image %}
-                    <div class="event-image" style="height: 200px; overflow: hidden; background: #f0f0f0;">
+                    <div style="height: 220px; overflow: hidden;">
                         <img src="{{ event.image.url }}" alt="{{ event.caption }}"
-                            style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;">
+                            class="w-100 h-100"
+                            style="object-fit: cover; transition: transform 0.5s var(--ease-out);">
                     </div>
                     {% endif %}
-                    <div class="event-header p-4"
-                        style="background: linear-gradient(135deg, #2d8a63 0%, #1f6b4a 100%);">
-                        <h5 class="text-white mb-0" style="font-size: 1.1rem;">{{ event.caption }}</h5>
-                    </div>
-                    <div class="event-body p-4">
+                    <div class="p-4">
                         <p class="text-muted small mb-2">
-                            <i class="fas fa-calendar-alt me-2 text-primary"></i>{{ event.upload_date|date:"j F Y" }}
+                            <i class="fas fa-calendar-alt me-2"
+                                style="color: var(--clr-gold);"></i>{{ event.upload_date|date:"j F Y" }}
                         </p>
-                        <p class="mb-3">Experience the vibrant culture and celebrations hosted at Diamond Hill Resort.
-                        </p>
-                        <a href="#" class="text-primary text-decoration-none" style="font-weight: 600;">Read More <i
-                                class="fas fa-arrow-right ms-1"></i></a>
+                        <h5 class="mb-3" style="font-family: var(--ff-serif); font-size: 1.1rem;">
+                            {{ event.caption }}
+                        </h5>
+                        <p class="text-muted small mb-3">Experience the vibrant culture and celebrations
+                            hosted at Diamond Hill Resort.</p>
+                        <a href="{% url 'main:gallery' %}" class="fw-bold small"
+                            style="color: var(--clr-gold-dark);">
+                            View More <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
-        <div class="row mt-5">
-            <div class="col-12 text-center">
-                <a href="{% url 'main:gallery' %}" class="btn btn-primary btn-lg btn-hover">
-                    View All Events <i class="fas fa-arrow-right ms-2"></i>
-                </a>
-            </div>
+
+        {% if event_images %}
+        <div class="text-center mt-5 reveal">
+            <a href="{% url 'main:gallery' %}" class="btn btn-primary btn-lg">
+                View All Events <i class="fas fa-arrow-right ms-2"></i>
+            </a>
         </div>
+        {% endif %}
     </div>
 </section>
 
-<!-- Reviews Section -->
-<section class="py-6 bg-light reviews-section">
+<!-- ═══════════════════════════════════════════════
+     REVIEWS SECTION
+     ═══════════════════════════════════════════════ -->
+<section class="py-6 reviews-section">
     <div class="container">
-        <div class="row mb-5 text-center">
-            <div class="col-12">
-                <span class="text-primary text-uppercase small fw-bold letter-spacing">Guest Reviews</span>
-                <h2 class="mt-2 mb-3 fw-bold">What Our Guests Say</h2>
-                <p class="lead text-muted max-w-md mx-auto">Discover authentic experiences and stories shared by our
-                    valued guests</p>
-                <div class="mt-4">
-                    <div class="d-flex justify-content-center align-items-center gap-2">
-                        <span class="fs-5 fw-bold">4.8</span>
-                        <div class="d-flex gap-1">
-                            <i class="fas fa-star text-warning" style="font-size: 1.3rem;"></i>
-                            <i class="fas fa-star text-warning" style="font-size: 1.3rem;"></i>
-                            <i class="fas fa-star text-warning" style="font-size: 1.3rem;"></i>
-                            <i class="fas fa-star text-warning" style="font-size: 1.3rem;"></i>
-                            <i class="fas fa-star-half-alt text-warning" style="font-size: 1.3rem;"></i>
-                        </div>
-                        <span class="text-muted small ms-2">(250+ reviews)</span>
+        <div class="text-center mb-5 reveal">
+            <span class="section-label">Guest Reviews</span>
+            <h2 class="mt-2 mb-2">What Our Guests Say</h2>
+            <span class="gold-line"></span>
+            <div class="mt-4">
+                <div class="d-flex justify-content-center align-items-center gap-2">
+                    <span class="fs-4 fw-bold" style="font-family: var(--ff-serif);">4.8</span>
+                    <div class="d-flex gap-1">
+                        <i class="fas fa-star" style="font-size: 1.2rem; color: var(--clr-gold);"></i>
+                        <i class="fas fa-star" style="font-size: 1.2rem; color: var(--clr-gold);"></i>
+                        <i class="fas fa-star" style="font-size: 1.2rem; color: var(--clr-gold);"></i>
+                        <i class="fas fa-star" style="font-size: 1.2rem; color: var(--clr-gold);"></i>
+                        <i class="fas fa-star-half-alt" style="font-size: 1.2rem; color: var(--clr-gold);"></i>
                     </div>
+                    <span class="text-muted small ms-2">(250+ reviews)</span>
                 </div>
             </div>
         </div>
 
-        <!-- Reviews Grid -->
-        <div class="reviews-carousel-wrapper position-relative">
+        <div class="reviews-carousel-wrapper position-relative reveal">
             <div class="row g-4" id="reviewsCarousel"
                 style="transition: transform 0.5s ease; display: flex; flex-wrap: nowrap; overflow: hidden;">
                 {% for review in reviews %}
-                <!-- Review from Database -->
                 <div class="col-md-6 col-lg-4 review-slide" style="flex: 0 0 33.333%;">
-                    <div class="review-card bg-white p-4 rounded-3 shadow-sm h-100">
+                    <div class="review-card p-4 h-100">
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <div>
-                                <h6 class="mb-0 fw-bold">{{ review.guest_name }}</h6>
+                                <h6 class="mb-0 fw-bold" style="font-family: var(--ff-serif);">
+                                    {{ review.guest_name }}</h6>
                                 <small class="text-muted">{{ review.location }}</small>
                             </div>
                             <div class="d-flex gap-1">
                                 {% for i in "12345" %}
-                                {% if i|add:0 <= review.rating %} <i class="fas fa-star text-warning"
-                                    style="font-size: 0.9rem;"></i>
-                                    {% else %}
-                                    <i class="fas fa-star text-warning" style="font-size: 0.9rem; opacity: 0.3;"></i>
-                                    {% endif %}
-                                    {% endfor %}
+                                {% if i|add:0 <= review.rating %}
+                                <i class="fas fa-star" style="font-size: 0.85rem; color: var(--clr-gold);"></i>
+                                {% else %}
+                                <i class="fas fa-star" style="font-size: 0.85rem; color: var(--clr-gold); opacity: 0.3;"></i>
+                                {% endif %}
+                                {% endfor %}
                             </div>
                         </div>
-                        <p class="text-muted mb-3 small">
+                        <p class="text-muted mb-3 small" style="font-style: italic;">
                             "{{ review.review_text }}"
                         </p>
                         {% if review.visited_date %}
                         <small class="text-muted d-block">
-                            <i class="fas fa-calendar-alt me-1"></i>
+                            <i class="fas fa-calendar-alt me-1" style="color: var(--clr-gold);"></i>
                             Visited: {{ review.visited_date|date:"j M Y" }}
                         </small>
                         {% else %}
                         <small class="text-muted d-block">
-                            <i class="fas fa-calendar-alt me-1"></i>
+                            <i class="fas fa-calendar-alt me-1" style="color: var(--clr-gold);"></i>
                             Visited: {{ review.created_at|date:"j M Y" }}
                         </small>
                         {% endif %}
                     </div>
                 </div>
                 {% empty %}
-                <!-- Review 1 -->
+                <!-- Fallback reviews -->
                 <div class="col-md-6 col-lg-4 review-slide" style="flex: 0 0 33.333%;">
-                    <div class="review-card bg-white p-4 rounded-3 shadow-sm h-100">
+                    <div class="review-card p-4 h-100">
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <div>
-                                <h6 class="mb-0 fw-bold">Sarah Johnson</h6>
+                                <h6 class="mb-0 fw-bold" style="font-family: var(--ff-serif);">Sarah Johnson</h6>
                                 <small class="text-muted">London, UK</small>
                             </div>
                             <div class="d-flex gap-1">
-                                <i class="fas fa-star text-warning" style="font-size: 0.9rem;"></i>
-                                <i class="fas fa-star text-warning" style="font-size: 0.9rem;"></i>
-                                <i class="fas fa-star text-warning" style="font-size: 0.9rem;"></i>
-                                <i class="fas fa-star text-warning" style="font-size: 0.9rem;"></i>
-                                <i class="fas fa-star text-warning" style="font-size: 0.9rem;"></i>
+                                <i class="fas fa-star" style="font-size: 0.85rem; color: var(--clr-gold);"></i>
+                                <i class="fas fa-star" style="font-size: 0.85rem; color: var(--clr-gold);"></i>
+                                <i class="fas fa-star" style="font-size: 0.85rem; color: var(--clr-gold);"></i>
+                                <i class="fas fa-star" style="font-size: 0.85rem; color: var(--clr-gold);"></i>
+                                <i class="fas fa-star" style="font-size: 0.85rem; color: var(--clr-gold);"></i>
                             </div>
                         </div>
-                        <p class="text-muted mb-3 small">
+                        <p class="text-muted mb-3 small" style="font-style: italic;">
                             "An absolutely stunning resort with breathtaking mountain views. The staff was incredibly
-                            hospitable and the rooms were immaculate. Highly recommend for anyone visiting Nepal!"
+                            hospitable and the rooms were immaculate."
                         </p>
-                        <small class="text-muted d-block"><i class="fas fa-calendar-alt me-1"></i>Visited: March
-                            2024</small>
+                        <small class="text-muted"><i class="fas fa-calendar-alt me-1" style="color: var(--clr-gold);"></i>Visited: March 2024</small>
                     </div>
                 </div>
-
-                <!-- Review 2 -->
                 <div class="col-md-6 col-lg-4 review-slide" style="flex: 0 0 33.333%;">
-                    <div class="review-card bg-white p-4 rounded-3 shadow-sm h-100">
+                    <div class="review-card p-4 h-100">
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <div>
-                                <h6 class="mb-0 fw-bold">Rajesh Patel</h6>
+                                <h6 class="mb-0 fw-bold" style="font-family: var(--ff-serif);">Rajesh Patel</h6>
                                 <small class="text-muted">New Delhi, India</small>
                             </div>
                             <div class="d-flex gap-1">
-                                <i class="fas fa-star text-warning" style="font-size: 0.9rem;"></i>
-                                <i class="fas fa-star text-warning" style="font-size: 0.9rem;"></i>
-                                <i class="fas fa-star text-warning" style="font-size: 0.9rem;"></i>
-                                <i class="fas fa-star text-warning" style="font-size: 0.9rem;"></i>
-                                <i class="fas fa-star text-warning" style="font-size: 0.9rem;"></i>
+                                <i class="fas fa-star" style="font-size: 0.85rem; color: var(--clr-gold);"></i>
+                                <i class="fas fa-star" style="font-size: 0.85rem; color: var(--clr-gold);"></i>
+                                <i class="fas fa-star" style="font-size: 0.85rem; color: var(--clr-gold);"></i>
+                                <i class="fas fa-star" style="font-size: 0.85rem; color: var(--clr-gold);"></i>
+                                <i class="fas fa-star" style="font-size: 0.85rem; color: var(--clr-gold);"></i>
                             </div>
                         </div>
-                        <p class="text-muted mb-3 small">
+                        <p class="text-muted mb-3 small" style="font-style: italic;">
                             "The best resort experience in Nagarkot! Perfect location for sunrise views, excellent food,
-                            and
-                            amazing service. Our family had an unforgettable honeymoon."
+                            and amazing service."
                         </p>
-                        <small class="text-muted d-block"><i class="fas fa-calendar-alt me-1"></i>Visited: February
-                            2024</small>
+                        <small class="text-muted"><i class="fas fa-calendar-alt me-1" style="color: var(--clr-gold);"></i>Visited: February 2024</small>
                     </div>
                 </div>
-
-                <!-- Review 3 -->
                 <div class="col-md-6 col-lg-4 review-slide" style="flex: 0 0 33.333%;">
-                    <div class="review-card bg-white p-4 rounded-3 shadow-sm h-100">
+                    <div class="review-card p-4 h-100">
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <div>
-                                <h6 class="mb-0 fw-bold">Emma Wilson</h6>
+                                <h6 class="mb-0 fw-bold" style="font-family: var(--ff-serif);">Emma Wilson</h6>
                                 <small class="text-muted">Sydney, Australia</small>
                             </div>
                             <div class="d-flex gap-1">
-                                <i class="fas fa-star text-warning" style="font-size: 0.9rem;"></i>
-                                <i class="fas fa-star text-warning" style="font-size: 0.9rem;"></i>
-                                <i class="fas fa-star text-warning" style="font-size: 0.9rem;"></i>
-                                <i class="fas fa-star text-warning" style="font-size: 0.9rem;"></i>
-                                <i class="fas fa-star-half-alt text-warning" style="font-size: 0.9rem;"></i>
+                                <i class="fas fa-star" style="font-size: 0.85rem; color: var(--clr-gold);"></i>
+                                <i class="fas fa-star" style="font-size: 0.85rem; color: var(--clr-gold);"></i>
+                                <i class="fas fa-star" style="font-size: 0.85rem; color: var(--clr-gold);"></i>
+                                <i class="fas fa-star" style="font-size: 0.85rem; color: var(--clr-gold);"></i>
+                                <i class="fas fa-star-half-alt" style="font-size: 0.85rem; color: var(--clr-gold);"></i>
                             </div>
                         </div>
-                        <p class="text-muted mb-3 small">
+                        <p class="text-muted mb-3 small" style="font-style: italic;">
                             "Wonderful stay with exceptional amenities. The mountain trekking guides were knowledgeable,
-                            and
-                            the rooftop dining experience was incredible. Will definitely come back!"
+                            and the rooftop dining was incredible."
                         </p>
-                        <small class="text-muted d-block"><i class="fas fa-calendar-alt me-1"></i>Visited: January
-                            2024</small>
+                        <small class="text-muted"><i class="fas fa-calendar-alt me-1" style="color: var(--clr-gold);"></i>Visited: January 2024</small>
                     </div>
                 </div>
                 {% endfor %}
             </div>
 
-            <!-- Carousel Indicators (Dots) - Only show if there are multiple pages of reviews -->
             {% if review_pages %}
             <div class="review-carousel-indicators mt-4 d-flex justify-content-center gap-2">
                 {% for _ in review_pages %}
@@ -582,29 +635,28 @@
             {% endif %}
         </div>
 
-        <div class="row mt-5">
-            <div class="col-12 text-center">
-                <button class="btn btn-outline-primary btn-lg me-2" data-bs-toggle="modal"
-                    data-bs-target="#reviewModal">
-                    <i class="fas fa-pencil-alt me-2"></i>Write a Review
-                </button>
-                <a href="{% url 'main:contact' %}" class="btn btn-primary btn-lg">
-                    <i class="fas fa-comments me-2"></i>Contact Us
-                </a>
-            </div>
+        <div class="text-center mt-5 reveal">
+            <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#reviewModal">
+                <i class="fas fa-pencil-alt me-2"></i>Write a Review
+            </button>
+            <a href="{% url 'main:contact' %}" class="btn btn-primary">
+                <i class="fas fa-comments me-2"></i>Contact Us
+            </a>
         </div>
     </div>
 </section>
 
 <!-- Review Modal -->
 <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="reviewModalLabel">Write a Review</h5>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: var(--radius-lg);">
+            <div class="modal-header" style="border-bottom: 1px solid var(--clr-sand);">
+                <h5 class="modal-title" id="reviewModalLabel">
+                    <i class="fas fa-star me-2" style="color: var(--clr-gold);"></i>Write a Review
+                </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body p-4">
                 <form id="reviewForm">
                     <div class="mb-3">
                         <label for="reviewName" class="form-label">Your Name</label>
@@ -633,8 +685,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="reviewText" class="form-label">Your Review</label>
-                        <textarea class="form-control" id="reviewText" rows="4" placeholder="Share your experience..."
-                            required></textarea>
+                        <textarea class="form-control" id="reviewText" rows="4"
+                            placeholder="Share your experience..." required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Submit Review</button>
                 </form>
@@ -643,720 +695,26 @@
     </div>
 </div>
 
-<!-- Call to Action -->
-<section class="py-5 bg-primary text-white">
-    <div class="container text-center">
-        <h2 class="mb-4 text-white">Ready for Your Mountain Escape?</h2>
-        <p class="lead mb-5 text-light">Book your unforgettable stay at Diamond Hill Resort. Experience luxury, comfort,
-            and
-            the natural beauty of Nagarkot's breathtaking landscapes.</p>
-        <a href="{% url 'main:booking' %}" class="btn btn-light btn-lg">
-            <i class="fas fa-calendar-check me-2"></i>Start Your Booking
-        </a>
+<!-- ═══════════════════════════════════════════════
+     CALL TO ACTION
+     ═══════════════════════════════════════════════ -->
+<section class="cta-section py-6">
+    <div class="cta-background"></div>
+    <div class="container text-center position-relative" style="z-index: 2;">
+        <div class="reveal">
+            <span class="section-label"
+                style="background: rgba(201,168,76,0.15); border-color: rgba(201,168,76,0.3); color: var(--clr-gold-light);">
+                <i class="fas fa-gem me-2"></i>Begin Your Journey
+            </span>
+            <h2 class="text-white mt-3 mb-4" style="font-family: var(--ff-serif);">Ready for Your Mountain Escape?</h2>
+            <p class="lead mb-5" style="color: rgba(255,255,255,0.75); max-width: 600px; margin: 0 auto;">
+                Book your unforgettable stay at Diamond Hill Resort. Experience luxury, comfort, and the natural beauty
+                of Nagarkot's breathtaking landscapes.
+            </p>
+            <a href="{% url 'main:booking' %}" class="btn btn-light btn-lg px-5 py-3">
+                <i class="fas fa-calendar-check me-2"></i>Start Your Booking
+            </a>
+        </div>
     </div>
 </section>
-{% endblock %}
-
-{% block extra_css %}
-<style>
-    .hover-lift {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .hover-lift:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
-    }
-
-    /* Room Card Hover Effect */
-    .room-card {
-        position: relative;
-        overflow: hidden;
-    }
-
-    .room-card:hover .room-image {
-        transform: scale(1.05);
-    }
-
-    .room-card:hover .room-overlay {
-        opacity: 1 !important;
-    }
-
-    /* Hero Slideshow Styles */
-    .slide-indicators {
-        display: flex;
-        gap: 12px;
-        align-items: center;
-    }
-
-    .slide-dot {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background-color: rgba(255, 255, 255, 0.5);
-        border: none;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        padding: 0;
-        position: relative;
-        z-index: 15;
-    }
-
-    .slide-dot:hover {
-        background-color: rgba(255, 255, 255, 0.8);
-        transform: scale(1.2);
-    }
-
-    .slide-dot.active {
-        background-color: #fff;
-        transform: scale(1.3);
-    }
-
-    .hero-slideshow {
-        z-index: 0;
-    }
-
-    .slide {
-        z-index: 0;
-    }
-
-    /* About Section Image Animation */
-    @keyframes floatImage {
-
-        0%,
-        100% {
-            transform: translateY(0px);
-        }
-
-        50% {
-            transform: translateY(-15px);
-        }
-    }
-
-    /* Animated Text Keyframes */
-    @keyframes slideInDown {
-        from {
-            opacity: 0;
-            transform: translateY(-30px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes slideInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes fadeInScale {
-        from {
-            opacity: 0;
-            transform: scale(0.95);
-        }
-
-        to {
-            opacity: 1;
-            transform: scale(1);
-        }
-    }
-
-    @keyframes pulse {
-
-        0%,
-        100% {
-            opacity: 1;
-        }
-
-        50% {
-            opacity: 0.7;
-        }
-    }
-
-    @keyframes textGlow {
-
-        0%,
-        100% {
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(45, 138, 99, 0);
-        }
-
-        50% {
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(45, 138, 99, 0.4);
-        }
-    }
-
-    .animated-text {
-        animation: slideInUp 0.8s ease-out;
-    }
-
-    .animated-heading {
-        animation: fadeInScale 1s ease-out 0.2s both;
-        animation-fill-mode: both;
-    }
-
-    .animated-btn {
-        position: relative;
-        overflow: hidden;
-    }
-
-    .animated-btn::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.3);
-        transform: translate(-50%, -50%);
-        transition: width 0.6s, height 0.6s;
-    }
-
-    .animated-btn:hover::before {
-        width: 300px;
-        height: 300px;
-    }
-
-    .animated-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
-    }
-
-    .animated-feature {
-        transition: all 0.3s ease;
-        padding: 20px;
-        border-radius: 8px;
-    }
-
-    .animated-feature:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 10px 30px rgba(45, 138, 99, 0.15);
-    }
-
-    .animated-feature .feature-icon i:hover {
-        transform: scale(1.2) rotate(5deg);
-        color: #2d8a63 !important;
-    }
-
-    .about-image-animated {
-        animation: floatImage 4s ease-in-out infinite;
-        transition: transform 0.6s ease, box-shadow 0.6s ease;
-    }
-
-    .about-image-animated:hover {
-        transform: scale(1.05) translateY(-10px);
-        box-shadow: 0 20px 50px rgba(45, 138, 99, 0.3) !important;
-    }
-
-    .about-image-wrapper {
-        overflow: hidden;
-        border-radius: 20px;
-    }
-
-    /* Review Card Styles */
-    .review-card {
-        transition: all 0.3s ease;
-        border: 1px solid #f0f0f0;
-    }
-
-    .review-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
-    }
-
-    /* Review Card Styles */
-    .review-card {
-        transition: all 0.3s ease;
-        border: 1px solid #f0f0f0;
-    }
-
-    .review-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
-    }
-
-    .star-rating i {
-        transition: all 0.2s ease;
-    }
-
-    .star-rating i:hover,
-    .star-rating i.active {
-        color: #ffc107 !important;
-        transform: scale(1.2);
-    }
-
-    /* Review Carousel Styles */
-    .reviews-carousel-wrapper {
-        position: relative;
-        width: 100%;
-        overflow: hidden;
-    }
-
-    #reviewsCarousel {
-        display: flex;
-        flex-wrap: nowrap;
-        transition: transform 0.5s ease;
-    }
-
-    .review-slide {
-        flex: 0 0 33.333%;
-        padding: 0 12px;
-        min-width: 0;
-    }
-
-    /* Carousel Dot Indicators */
-    .review-carousel-indicators {
-        padding: 20px 0;
-    }
-
-    .carousel-dot {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background-color: #ddd;
-        border: none;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        padding: 0;
-        font-size: 0;
-    }
-
-    .carousel-dot:hover {
-        background-color: #bbb;
-        transform: scale(1.2);
-    }
-
-    .carousel-dot.active {
-        background-color: #2d8a63;
-        transform: scale(1.4);
-    }
-
-    @media (max-width: 992px) {
-        .review-slide {
-            flex: 0 0 50%;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .review-slide {
-            flex: 0 0 100%;
-        }
-
-        .review-carousel-indicators {
-            margin-top: 20px !important;
-        }
-
-        .carousel-dot {
-            width: 10px;
-            height: 10px;
-        }
-
-        .carousel-dot.active {
-            transform: scale(1.3);
-        }
-    }
-
-    /* Responsive Adjustments */
-    @media (max-width: 768px) {
-        .about-image-animated {
-            animation: floatImage 3s ease-in-out infinite;
-        }
-
-        .about-image-animated:hover {
-            transform: scale(1.03) translateY(-5px);
-        }
-    }
-
-    /* Mobile Optimization */
-    @media (max-width: 576px) {
-        .booking-widget {
-            margin-top: -40px !important;
-        }
-
-        .hero-content h1 {
-            font-size: 2.5rem !important;
-        }
-
-        .hero-content p {
-            font-size: 1rem !important;
-        }
-
-        .btn-lg {
-            padding: 10px 20px !important;
-            font-size: 0.9rem !important;
-        }
-
-        .room-card {
-            margin-bottom: 1rem;
-        }
-
-        .event-card {
-            margin-bottom: 1.5rem;
-        }
-
-        .about-image-wrapper {
-            margin-bottom: 2rem;
-        }
-    }
-</style>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-    // Hero Slideshow Functionality with Dynamic Text
-    document.addEventListener('DOMContentLoaded', function () {
-        const slides = document.querySelectorAll('.slide');
-        const indicators = document.querySelectorAll('.slide-dot');
-        const textSlides = document.querySelectorAll('.hero-slide-text');
-        let currentSlide = 0;
-        const slideInterval = 5000; // 5 seconds
-
-        if (slides.length > 1) {
-            function showSlide(index) {
-                // Change slide images
-                slides.forEach((slide, i) => {
-                    slide.style.opacity = i === index ? '1' : '0';
-                });
-
-                // Change slide text
-                textSlides.forEach((text, i) => {
-                    text.style.display = i === index ? 'block' : 'none';
-                });
-
-                // Update indicators
-                indicators.forEach((dot, i) => {
-                    dot.classList.toggle('active', i === index);
-                });
-            }
-
-            function nextSlide() {
-                currentSlide = (currentSlide + 1) % slides.length;
-                showSlide(currentSlide);
-            }
-
-            // Auto-advance slides
-            setInterval(nextSlide, slideInterval);
-
-            // Allow manual navigation via indicators
-            indicators.forEach((dot, index) => {
-                dot.addEventListener('click', () => {
-                    currentSlide = index;
-                    showSlide(currentSlide);
-                });
-            });
-        }
-
-        // Review Carousel Functionality with Dot Indicators
-        const reviewCarousel = document.getElementById('reviewsCarousel');
-        const reviewSlides = document.querySelectorAll('.review-slide');
-        const carouselDots = document.querySelectorAll('.carousel-dot');
-        let currentReviewIndex = 0;
-        let autoRotateInterval;
-
-        function getItemsPerView() {
-            if (window.innerWidth <= 768) return 1;
-            if (window.innerWidth <= 992) return 2;
-            return 3;
-        }
-
-        function updateCarousel() {
-            const itemsPerView = getItemsPerView();
-            const slideWidth = 100 / itemsPerView;
-            const offset = -(currentReviewIndex * slideWidth);
-            reviewCarousel.style.transform = `translateX(${offset}%)`;
-
-            // Update dot indicators
-            carouselDots.forEach((dot, index) => {
-                if (index === currentReviewIndex) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
-            });
-        }
-
-        function startAutoRotate() {
-            // Clear existing interval
-            if (autoRotateInterval) {
-                clearInterval(autoRotateInterval);
-            }
-
-            // Auto-rotate reviews every 5 seconds
-            autoRotateInterval = setInterval(() => {
-                const itemsPerView = getItemsPerView();
-                const maxIndex = Math.max(0, Math.ceil(reviewSlides.length / itemsPerView) - 1);
-
-                if (currentReviewIndex < maxIndex) {
-                    currentReviewIndex++;
-                } else {
-                    currentReviewIndex = 0;
-                }
-                updateCarousel();
-            }, 5000);
-        }
-
-        if (reviewSlides.length > 0 && carouselDots.length > 0) {
-            // Dot click handlers
-            carouselDots.forEach((dot, index) => {
-                dot.addEventListener('click', () => {
-                    currentReviewIndex = index;
-                    updateCarousel();
-                    // Restart auto-rotate when user clicks
-                    startAutoRotate();
-                });
-            });
-
-            // Update on window resize
-            window.addEventListener('resize', () => {
-                const itemsPerView = getItemsPerView();
-                const maxIndex = Math.max(0, Math.ceil(reviewSlides.length / itemsPerView) - 1);
-                if (currentReviewIndex > maxIndex) {
-                    currentReviewIndex = maxIndex;
-                }
-                updateCarousel();
-            });
-
-            // Start auto-rotation
-            startAutoRotate();
-
-            // Pause on hover
-            reviewCarousel.addEventListener('mouseenter', () => {
-                if (autoRotateInterval) {
-                    clearInterval(autoRotateInterval);
-                }
-            });
-
-            // Resume on mouse leave
-            reviewCarousel.addEventListener('mouseleave', () => {
-                startAutoRotate();
-            });
-
-            updateCarousel();
-        }
-
-        // Star Rating System
-        const stars = document.querySelectorAll('#starRating i');
-        const ratingInput = document.getElementById('reviewRatingValue');
-
-        stars.forEach(star => {
-            star.addEventListener('click', function () {
-                const rating = this.getAttribute('data-rating');
-                ratingInput.value = rating;
-                updateStarDisplay(rating);
-            });
-
-            star.addEventListener('mouseover', function () {
-                const rating = this.getAttribute('data-rating');
-                updateStarDisplay(rating);
-            });
-        });
-
-        document.getElementById('starRating')?.addEventListener('mouseleave', function () {
-            const currentRating = ratingInput.value;
-            updateStarDisplay(currentRating);
-        });
-
-        function updateStarDisplay(rating) {
-            stars.forEach(star => {
-                const starRating = star.getAttribute('data-rating');
-                if (starRating <= rating) {
-                    star.classList.add('active');
-                    star.style.color = '#ffc107';
-                } else {
-                    star.classList.remove('active');
-                    star.style.color = '#ddd';
-                }
-            });
-        }
-
-        // Check Availability Button Handler
-        const checkAvailBtn = document.getElementById('checkAvailBtn');
-        console.log('Check Avail Button found:', !!checkAvailBtn);
-
-        if (checkAvailBtn) {
-            checkAvailBtn.addEventListener('click', async function (e) {
-                console.log('Check Availability button clicked');
-                e.preventDefault();
-                e.stopPropagation();
-
-                const checkIn = document.getElementById('checkin').value;
-                const checkOut = document.getElementById('checkout').value;
-                const roomsNeeded = parseInt(document.getElementById('rooms').value);
-                const guests = document.getElementById('guests').value;
-
-                console.log('Dates:', checkIn, checkOut, 'Rooms:', roomsNeeded);
-
-                // Validation
-                if (!checkIn || !checkOut) {
-                    alert('Please select both check-in and check-out dates');
-                    return;
-                }
-
-                const checkInDate = new Date(checkIn);
-                const checkOutDate = new Date(checkOut);
-
-                if (checkInDate >= checkOutDate) {
-                    alert('Check-out date must be after check-in date');
-                    return;
-                }
-
-                // Show spinner, hide results
-                document.getElementById('availabilitySpinner').style.display = 'block';
-                document.getElementById('availabilityResults').style.display = 'none';
-
-                try {
-                    console.log('Calling check availability API...');
-                    // Call API to check availability
-                    const response = await fetch('{% url "main:check_availability" %}', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRFToken': '{{ csrf_token }}'
-                        },
-                        body: JSON.stringify({
-                            check_in: checkIn,
-                            check_out: checkOut,
-                            rooms_needed: roomsNeeded
-                        })
-                    });
-
-                    const data = await response.json();
-                    console.log('API Response:', data);
-
-                    // Hide spinner
-                    document.getElementById('availabilitySpinner').style.display = 'none';
-
-                    if (!response.ok) {
-                        alert('Error checking availability: ' + (data.error || 'Unknown error'));
-                        return;
-                    }
-
-                    // Show results
-                    const resultsDiv = document.getElementById('availabilityResults');
-                    const messageDiv = document.getElementById('resultMessage');
-                    const roomsListDiv = document.getElementById('roomsList');
-                    const proceedBtn = document.getElementById('proceedBookingBtn');
-                    const noAvailableDiv = document.getElementById('noAvailableMessage');
-
-                    resultsDiv.style.display = 'block';
-
-                    // Scroll to results
-                    setTimeout(() => {
-                        resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    }, 100);
-
-                    // Calculate nights
-                    const nights = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
-                    const checkInFormatted = new Date(checkInDate).toLocaleDateString('en-US', {
-                        year: 'numeric', month: 'short', day: 'numeric'
-                    });
-                    const checkOutFormatted = new Date(checkOutDate).toLocaleDateString('en-US', {
-                        year: 'numeric', month: 'short', day: 'numeric'
-                    });
-
-                    // Count available rooms
-                    const availableRooms = data.results.filter(r => r.available);
-                    console.log('Available rooms:', availableRooms.length);
-
-                    if (data.available && availableRooms.length > 0) {
-                        // Show available rooms
-                        messageDiv.innerHTML = `
-                            <div style="color: #2d8a63; font-weight: 600; font-size: 1.1rem;">
-                                <i class="fas fa-check-circle me-2"></i>✓ Rooms Available!
-                            </div>
-                            <small style="color: #666; display: block; margin-top: 5px;">
-                                📅 ${checkInFormatted} → ${checkOutFormatted} (${nights} night${nights > 1 ? 's' : ''}) | 👥 ${guests} guest${guests > 1 ? 's' : ''}
-                            </small>
-                        `;
-
-                        // Build rooms list with better styling
-                        let roomsHtml = '<div style="font-size: 0.95rem; margin-top: 12px;">';
-                        roomsHtml += '<div style="font-weight: 600; color: #2d8a63; margin-bottom: 8px; font-size: 0.9rem;">Available Rooms:</div>';
-
-                        availableRooms.forEach((room, index) => {
-                            roomsHtml += `
-                                <div style="padding: 10px; margin-bottom: 8px; background-color: #ffffff; border-left: 3px solid #2d8a63; border-radius: 4px;">
-                                    <div style="font-weight: 600; color: #2d8a63;">${index + 1}. ${room.room_title}</div>
-                                    <div style="color: #666; font-size: 0.85rem; margin-top: 4px;">
-                                        <i class="fas fa-door-open" style="margin-right: 5px;"></i>${room.available_count} room${room.available_count > 1 ? 's' : ''} available
-                                        <span style="margin-left: 10px;"><i class="fas fa-tag" style="margin-right: 5px;"></i>NPR ${room.price.toLocaleString()}</span>
-                                    </div>
-                                </div>
-                            `;
-                        });
-                        roomsHtml += '</div>';
-                        roomsListDiv.innerHTML = roomsHtml;
-
-                        proceedBtn.style.display = 'block';
-                        noAvailableDiv.style.display = 'none';
-
-                        // Store data for booking
-                        proceedBtn.onclick = () => {
-                            window.location.href = `{% url 'main:booking' %}?checkin=${checkIn}&checkout=${checkOut}&guests=${guests}&rooms=${roomsNeeded}`;
-                        };
-                    } else {
-                        // No rooms available
-                        messageDiv.innerHTML = `
-                            <div style="color: #dc3545; font-weight: 600; font-size: 1.1rem;">
-                                <i class="fas fa-times-circle me-2"></i>✗ No Rooms Available
-                            </div>
-                            <small style="color: #666; display: block; margin-top: 5px;">
-                                📅 ${checkInFormatted} → ${checkOutFormatted} (${nights} night${nights > 1 ? 's' : ''})
-                            </small>
-                        `;
-                        roomsListDiv.innerHTML = '';
-                        proceedBtn.style.display = 'none';
-                        noAvailableDiv.style.display = 'block';
-                        noAvailableDiv.innerHTML = `
-                            <div style="color: #dc3545; font-size: 0.9rem; margin-top: 8px;">
-                                <i class="fas fa-info-circle me-2"></i>Sorry, no rooms available for these dates. Please try different dates or contact us.
-                            </div>
-                        `;
-                    }
-
-                } catch (error) {
-                    console.error('Error:', error);
-                    document.getElementById('availabilitySpinner').style.display = 'none';
-                    alert('Error checking availability. Please try again.');
-                }
-
-                return false;
-            });
-        }        // Review Form Submission
-        const reviewForm = document.getElementById('reviewForm');
-        if (reviewForm) {
-            reviewForm.addEventListener('submit', function (e) {
-                e.preventDefault();
-                const name = document.getElementById('reviewName').value;
-                const city = document.getElementById('reviewCity').value;
-                const rating = document.getElementById('reviewRatingValue').value;
-                const text = document.getElementById('reviewText').value;
-
-                if (rating === '0') {
-                    alert('Please select a rating');
-                    return;
-                }
-
-                // Show success message
-                alert('Thank you for your review! We appreciate your feedback.');
-                this.reset();
-                ratingInput.value = '0';
-                updateStarDisplay('0');
-
-                // Close modal
-                const modal = bootstrap.Modal.getInstance(document.getElementById('reviewModal'));
-                modal.hide();
-            });
-        }
-    });
-</script>
 {% endblock %}
