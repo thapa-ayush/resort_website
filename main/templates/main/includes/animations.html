@@ -21,7 +21,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 0;
+    z-index: 1040;
     pointer-events: none;
     will-change: transform;
 }
@@ -33,7 +33,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 0;
+    z-index: 1039;
     pointer-events: none;
     overflow: hidden;
 }
@@ -91,7 +91,7 @@
     }
 }
 
-/* ─── Ensure all page content stays ABOVE animations ─── */
+/* ─── Ensure all page content stays below the navbar ─── */
 .navbar-premium {
     position: relative;
     z-index: 1050;
@@ -99,7 +99,7 @@
 
 main {
     position: relative;
-    z-index: 1;
+    /* let main be underneath the 1040 canvas */
 }
 
 .footer-premium {

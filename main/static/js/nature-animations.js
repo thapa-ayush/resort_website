@@ -18,7 +18,7 @@
       maxSpeed: 0.9,
       drift: 0.4,           // Horizontal sway amplitude
       rotationSpeed: 0.008,
-      opacity: { min: 0.15, max: 0.40 },
+      opacity: { min: 0.25, max: 0.55 },
     },
     particles: {
       count: 22,
