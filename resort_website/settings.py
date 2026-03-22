@@ -15,6 +15,12 @@ from decouple import config, Csv
 import dj_database_url
 import cloudinary
 
+# Load .env file if it exists
+from dotenv import load_dotenv
+ENV_FILE = Path(__file__).resolve().parent.parent / '.env'
+if ENV_FILE.exists():
+    load_dotenv(ENV_FILE)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -147,9 +153,9 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.2/topics/files/
 
 # Cloudinary Configuration - Load from environment variables
-CLOUDINARY_CLOUD_NAME = config('CLOUDINARY_CLOUD_NAME', default='')
-CLOUDINARY_API_KEY = config('CLOUDINARY_API_KEY', default='')
-CLOUDINARY_API_SECRET = config('CLOUDINARY_API_SECRET', default='')
+CLOUDINARY_CLOUD_NAME = os.environ.get('CLOUDINARY_CLOUD_NAME', '')
+CLOUDINARY_API_KEY = os.environ.get('CLOUDINARY_API_KEY', '')
+CLOUDINARY_API_SECRET = os.environ.get('CLOUDINARY_API_SECRET', '')
 
 # Cloudinary Storage Configuration (required by django-cloudinary-storage)
 CLOUDINARY_STORAGE = {
@@ -172,7 +178,7 @@ if CLOUDINARY_CLOUD_NAME:
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = None  # Not used with Cloudinary storage
+MEDIA_ROOT = BASE_DIR / 'media'  # Local media folder for development/migration
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
