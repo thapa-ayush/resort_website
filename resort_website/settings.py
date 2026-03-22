@@ -13,6 +13,7 @@ import sys
 from pathlib import Path
 from decouple import config, Csv
 import dj_database_url
+import cloudinary
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -49,6 +50,8 @@ INSTALLED_APPS = [
     # Third-party apps
     'django_extensions',  # Optional: for shell_plus and other utilities
     'tinymce',  # Rich text editor
+    'cloudinary_storage',  # Cloudinary storage backend
+    'cloudinary',  # Cloudinary API
     
     # Local apps
     'main.apps.MainConfig',
@@ -140,16 +143,27 @@ STATICFILES_DIRS = [
     BASE_DIR / 'main' / 'static',
 ]
 
-# Media files (User uploads)
+# Media files (User uploads) - Using Cloudinary
 # https://docs.djangoproject.com/en/4.2/topics/files/
+
+# Cloudinary Configuration
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME', default=''),
+    'API_KEY': config('CLOUDINARY_API_KEY', default=''),
+    'API_SECRET': config('CLOUDINARY_API_SECRET', default=''),
+}
+
+# Configure cloudinary library
+cloudinary.config(
+    cloud_name=config('CLOUDINARY_CLOUD_NAME', default=''),
+    api_key=config('CLOUDINARY_API_KEY', default=''),
+    api_secret=config('CLOUDINARY_API_SECRET', default=''),
+)
+
+# Use Cloudinary for media storage
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 MEDIA_URL = '/media/'
-# Use persistent volume on Railway
-if 'DATABASE_URL' in os.environ:
-    # Production: Railway persistent volume
-    MEDIA_ROOT = '/app/media'
-else:
-    # Development: Local directory
-    MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = None  # Not used with Cloudinary
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

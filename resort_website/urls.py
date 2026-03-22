@@ -32,12 +32,15 @@ urlpatterns = [
     # Main app URLs
     path('', include('main.urls')),
     
-    # Media files serving (works in production)
+    # Media files serving (only used with local storage, not Cloudinary)
+    # When using Cloudinary, files are served directly via CDN
     re_path(r'^media/(?P<filepath>.*)$', serve_media, name='serve_media'),
 ]
 
-# Also keep Django's static() for development fallback
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Add static file serving for development/local media storage
+# When using Cloudinary storage, MEDIA_ROOT is None and this is skipped
+if settings.MEDIA_ROOT:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Serve static files during development only
 if settings.DEBUG:
