@@ -182,8 +182,7 @@ if CLOUDINARY_CLOUD_NAME:
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Serve static files locally from staticfiles/ (collected by collectstatic)
-# This is the default, but explicitly setting it for clarity
-STATICFILES_STORAGE = 'django.core.files.storage.FileSystemStorage'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'  # Local media folder for development/migration
