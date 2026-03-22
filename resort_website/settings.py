@@ -192,8 +192,8 @@ else:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media URL for Cloudinary storage
-# django-cloudinary-storage needs a proper prefix to generate complete URLs
-MEDIA_URL = '/media/'
+# django-cloudinary-storage generates complete URLs directly, no prefix needed
+MEDIA_URL = ''
 MEDIA_ROOT = BASE_DIR / 'media'  # Local media folder for development/migration
 
 # Default primary key field type
