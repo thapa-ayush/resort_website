@@ -62,13 +62,30 @@ Your Django settings now include:
 - `DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'`
 - Cloudinary library is configured in `INSTALLED_APPS`
 
-### 6. Test Image Uploads
+### 6. Automatic Image Compression
+
+✨ **NEW**: The system automatically compresses large images before upload!
+
+- **Free tier limit**: 10MB per file
+- **Auto compression**: Images exceeding this size are automatically compressed
+- **How it works**: 
+  - Admin uploads an image > 10MB
+  - System automatically compresses it to ~9MB
+  - Maintains quality while staying within limits
+  - No manual action needed!
+
+**Compression happens for**:
+- All model image uploads (Rooms, Blog Posts, Gallery, Hero slides, etc.)
+- Any ImageField in any model
+- Both admin and programmatic uploads
+
+### 7. Test Image Uploads
 
 Upload a test image through Django Admin:
 1. Run `python manage.py runserver`
 2. Go to `/admin/`
 3. Add a new item with an image (e.g., Room, Review, Blog Post)
-4. Images should upload directly to Cloudinary
+4. Images should upload directly to Cloudinary (auto-compressed if needed)
 5. Check your [Cloudinary Media Library](https://console.cloudinary.com/media_library) to confirm
 
 ## Important Notes
@@ -78,6 +95,43 @@ Upload a test image through Django Admin:
 ⚠️ **For Railway deployment**, add the Cloudinary credentials as environment variables in Railway dashboard:
    - Go to your Railway project settings
    - Add the three Cloudinary environment variables
+
+## Migrating Existing Images to Cloudinary
+
+If you already have images stored locally (in `/media/` folder), use the migration scripts:
+
+### Option 1: Simple Migration (Recommended)
+
+```bash
+# Compresses large images and uploads all to Cloudinary
+python migrate_images.py
+```
+
+This script:
+- ✅ Finds all images in `/media/` folder
+- ✅ Auto-compresses any files larger than 10MB
+- ✅ Uploads everything to Cloudinary
+- ✅ Shows progress and any errors
+
+### Option 2: Compress First (If needed)
+
+```bash
+# Only compress images, don't upload
+python compress_images.py
+
+# Then upload manually
+python migrate_images.py
+```
+
+### Results
+
+After migration, images are:
+- ✅ Stored in Cloudinary (not on server)
+- ✅ Served via CDN
+- ✅ Automatically optimized
+- 🗑️ Local `/media/` folder can be deleted/ignored
+
+---
 
 ## Troubleshooting
 
@@ -90,6 +144,10 @@ Upload a test image through Django Admin:
 - Make sure you ran `pip install -r requirements.txt`
 - Restart your Django development server
 - Clear any cached imports
+
+### Image Too Large?
+- Automatic compression handles files up to 10MB
+- If an image still fails, try manually compressing with `compress_images.py`
 
 ## Benefits of Cloudinary
 
