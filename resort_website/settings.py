@@ -178,13 +178,15 @@ if CLOUDINARY_CLOUD_NAME:
         secure=True,
     )
 
-# Use Cloudinary for media storage (always, config handles empty credentials)
+# Use Cloudinary for media storage
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Serve static files locally from staticfiles/ (collected by collectstatic)
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
-MEDIA_URL = '/media/'
+# When using Cloudinary storage, let it handle the media URL
+# Don't set MEDIA_URL - Cloudinary storage will generate URLs automatically
+MEDIA_URL = ''
 MEDIA_ROOT = BASE_DIR / 'media'  # Local media folder for development/migration
 
 # Default primary key field type
