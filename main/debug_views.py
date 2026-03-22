@@ -11,39 +11,46 @@ import os
 
 def cloudinary_debug(request):
     """Debug endpoint to check Cloudinary configuration."""
-    debug_info = {
-        'cloudinary_configured': bool(settings.CLOUDINARY_CLOUD_NAME),
-        'cloud_name': settings.CLOUDINARY_CLOUD_NAME or 'NOT SET',
-        'api_key_set': bool(settings.CLOUDINARY_API_KEY),
-        'api_secret_set': bool(settings.CLOUDINARY_API_SECRET),
-        'default_file_storage': settings.DEFAULT_FILE_STORAGE,
-        'media_url': settings.MEDIA_URL,
-        'media_root': str(settings.MEDIA_ROOT) if settings.MEDIA_ROOT else None,
-        'cloudinary_config': {
-            'cloud_name': cloudinary.config().cloud_name or 'NOT SET',
-            'api_key_set': bool(cloudinary.config().api_key),
-            'api_secret_set': bool(cloudinary.config().api_secret),
-        },
-        'environment_variables': {
-            'CLOUDINARY_CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', 'NOT SET'),
-            'CLOUDINARY_API_KEY': 'SET' if os.environ.get('CLOUDINARY_API_KEY') else 'NOT SET',
-            'CLOUDINARY_API_SECRET': 'SET' if os.environ.get('CLOUDINARY_API_SECRET') else 'NOT SET',
+    try:
+        debug_info = {
+            'cloudinary_configured': bool(settings.CLOUDINARY_CLOUD_NAME),
+            'cloud_name': settings.CLOUDINARY_CLOUD_NAME or 'NOT SET',
+            'api_key_set': bool(settings.CLOUDINARY_API_KEY),
+            'api_secret_set': bool(settings.CLOUDINARY_API_SECRET),
+            'default_file_storage': settings.DEFAULT_FILE_STORAGE,
+            'media_url': settings.MEDIA_URL,
+            'media_root': str(settings.MEDIA_ROOT) if settings.MEDIA_ROOT else None,
+            'cloudinary_config': {
+                'cloud_name': cloudinary.config().cloud_name or 'NOT SET',
+                'api_key_set': bool(cloudinary.config().api_key),
+                'api_secret_set': bool(cloudinary.config().api_secret),
+            },
+            'environment_variables': {
+                'CLOUDINARY_CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', 'NOT SET'),
+                'CLOUDINARY_API_KEY': 'SET' if os.environ.get('CLOUDINARY_API_KEY') else 'NOT SET',
+                'CLOUDINARY_API_SECRET': 'SET' if os.environ.get('CLOUDINARY_API_SECRET') else 'NOT SET',
+            }
         }
-    }
+    except Exception as e:
+        debug_info = {
+            'error': str(e),
+            'error_type': type(e).__name__,
+        }
     
     return JsonResponse(debug_info, indent=2)
 
 
 def image_urls_debug(request):
     """Debug endpoint to check image URLs for all models."""
-    from main.models import Room, GalleryImage, BlogPost, HeroSection, AboutSection
+    from main.models import Room, RoomImage, GalleryImage, BlogPost, HeroSection, About
     
     debug_info = {
         'rooms': [],
+        'room_images': [],
         'gallery_images': [],
         'blog_posts': [],
         'hero_slides': [],
-        'about_section': None,
+        'about': None,
     }
     
     # Check Rooms
@@ -58,6 +65,18 @@ def image_urls_debug(request):
             })
     except Exception as e:
         debug_info['rooms'].append({'error': str(e)})
+    
+    # Check Room Images
+    try:
+        for image in RoomImage.objects.all()[:5]:  # First 5
+            debug_info['room_images'].append({
+                'room': str(image.room),
+                'has_image': bool(image.image),
+                'image_url': image.image.url if image.image else None,
+                'image_name': image.image.name if image.image else None,
+            })
+    except Exception as e:
+        debug_info['room_images'].append({'error': str(e)})
     
     # Check Gallery Images
     try:
@@ -97,14 +116,14 @@ def image_urls_debug(request):
     
     # Check About Section
     try:
-        about = AboutSection.objects.first()
+        about = About.objects.first()
         if about:
-            debug_info['about_section'] = {
+            debug_info['about'] = {
                 'has_image': bool(about.image),
                 'image_url': about.image.url if about.image else None,
                 'image_name': about.image.name if about.image else None,
             }
     except Exception as e:
-        debug_info['about_section'] = {'error': str(e)}
+        debug_info['about'] = {'error': str(e)}
     
     return JsonResponse(debug_info, indent=2)
