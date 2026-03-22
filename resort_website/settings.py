@@ -163,6 +163,7 @@ CLOUDINARY_API_KEY = os.environ.get('CLOUDINARY_API_KEY', '')
 CLOUDINARY_API_SECRET = os.environ.get('CLOUDINARY_API_SECRET', '')
 
 # Cloudinary Storage Configuration (required by django-cloudinary-storage)
+# This configuration is used by the storage backend to generate URLs
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': CLOUDINARY_CLOUD_NAME,
     'API_KEY': CLOUDINARY_API_KEY,
@@ -177,9 +178,11 @@ if CLOUDINARY_CLOUD_NAME:
         api_secret=CLOUDINARY_API_SECRET,
         secure=True,
     )
-
-# Use Cloudinary for media storage
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    # Only use Cloudinary storage if credentials are properly configured
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+else:
+    # Fall back to local storage if Cloudinary not configured
+    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
 # Serve static files locally from staticfiles/ (collected by collectstatic)
 # Use WhiteNoise compression for efficient static file serving in production
@@ -188,9 +191,9 @@ if DEBUG:
 else:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# When using Cloudinary storage, let it handle the media URL
-# Don't set MEDIA_URL - Cloudinary storage will generate URLs automatically
-MEDIA_URL = ''
+# Media URL for Cloudinary storage
+# django-cloudinary-storage needs a proper prefix to generate complete URLs
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'  # Local media folder for development/migration
 
 # Default primary key field type
