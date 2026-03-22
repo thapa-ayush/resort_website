@@ -15,11 +15,16 @@ from decouple import config, Csv
 import dj_database_url
 import cloudinary
 
-# Load .env file if it exists
-from dotenv import load_dotenv
-ENV_FILE = Path(__file__).resolve().parent.parent / '.env'
-if ENV_FILE.exists():
-    load_dotenv(ENV_FILE)
+# Load .env file if it exists (optional, only for local development)
+try:
+    from dotenv import load_dotenv
+    ENV_FILE = Path(__file__).resolve().parent.parent / '.env'
+    if ENV_FILE.exists():
+        load_dotenv(ENV_FILE)
+except ImportError:
+    # python-dotenv not installed, which is fine for production
+    # Environment variables are set directly on the platform
+    pass
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
