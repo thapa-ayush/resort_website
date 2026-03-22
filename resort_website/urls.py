@@ -42,7 +42,9 @@ urlpatterns = [
 if settings.MEDIA_ROOT:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# Serve static files (needed for all environments)
+# Serve static files ONLY in development
+# In production, WhiteNoise middleware handles static file serving
 # staticfiles/ directory is created during 'collectstatic' in Docker build
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

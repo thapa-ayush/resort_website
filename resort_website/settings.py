@@ -182,7 +182,11 @@ if CLOUDINARY_CLOUD_NAME:
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Serve static files locally from staticfiles/ (collected by collectstatic)
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+# Use WhiteNoise compression for efficient static file serving in production
+if DEBUG:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+else:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # When using Cloudinary storage, let it handle the media URL
 # Don't set MEDIA_URL - Cloudinary storage will generate URLs automatically
