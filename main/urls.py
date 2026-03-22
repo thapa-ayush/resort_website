@@ -21,6 +21,7 @@ URL Patterns:
 from django.urls import path
 from . import views
 from .cloudinary_test import test_cloudinary
+from .debug_views import cloudinary_debug, image_urls_debug
 
 app_name = 'main'
 
@@ -60,6 +61,8 @@ urlpatterns = [
     # Payment callbacks (legacy)
     path('payment/callback/<str:gateway>/', views.PaymentCallbackView.as_view(), name='payment_callback'),
     
-    # Debug endpoints (only in DEBUG mode)
+    # Debug endpoints
+    path('debug/cloudinary/', cloudinary_debug, name='cloudinary_debug'),
+    path('debug/image-urls/', image_urls_debug, name='image_urls_debug'),
     path('debug/test-cloudinary/', test_cloudinary, name='test_cloudinary'),
 ]
