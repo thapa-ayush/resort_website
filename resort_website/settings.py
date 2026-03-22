@@ -151,25 +151,28 @@ CLOUDINARY_CLOUD_NAME = config('CLOUDINARY_CLOUD_NAME', default='')
 CLOUDINARY_API_KEY = config('CLOUDINARY_API_KEY', default='')
 CLOUDINARY_API_SECRET = config('CLOUDINARY_API_SECRET', default='')
 
-# Only configure cloudinary if credentials are available
-if CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
+# Cloudinary Storage Configuration (required by django-cloudinary-storage)
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': CLOUDINARY_CLOUD_NAME,
+    'API_KEY': CLOUDINARY_API_KEY,
+    'API_SECRET': CLOUDINARY_API_SECRET,
+    'STATICFILES_STORAGE': 'cloudinary_storage.storage.StaticHashedCloudinaryStorage',
+}
+
+# Configure cloudinary library with credentials
+if CLOUDINARY_CLOUD_NAME:
     cloudinary.config(
         cloud_name=CLOUDINARY_CLOUD_NAME,
         api_key=CLOUDINARY_API_KEY,
         api_secret=CLOUDINARY_API_SECRET,
+        secure=True,
     )
-    # Use Cloudinary for media storage
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-else:
-    # Fallback to local storage if credentials not available
-    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
+# Use Cloudinary for media storage (always, config handles empty credentials)
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 MEDIA_URL = '/media/'
-# Only set MEDIA_ROOT for local storage fallback
-if DEFAULT_FILE_STORAGE == 'django.core.files.storage.FileSystemStorage':
-    MEDIA_ROOT = BASE_DIR / 'media'
-else:
-    MEDIA_ROOT = None
+MEDIA_ROOT = None  # Not used with Cloudinary storage
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

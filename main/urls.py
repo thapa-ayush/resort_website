@@ -20,6 +20,7 @@ URL Patterns:
 
 from django.urls import path
 from . import views
+from .cloudinary_test import test_cloudinary
 
 app_name = 'main'
 
@@ -58,4 +59,7 @@ urlpatterns = [
     
     # Payment callbacks (legacy)
     path('payment/callback/<str:gateway>/', views.PaymentCallbackView.as_view(), name='payment_callback'),
+    
+    # Debug endpoints (only in DEBUG mode)
+    path('debug/test-cloudinary/', test_cloudinary, name='test_cloudinary'),
 ]
