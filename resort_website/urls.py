@@ -42,7 +42,7 @@ urlpatterns = [
 if settings.MEDIA_ROOT:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# Serve static files during development only
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# Serve static files (needed for all environments)
+# staticfiles/ directory is created during 'collectstatic' in Docker build
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

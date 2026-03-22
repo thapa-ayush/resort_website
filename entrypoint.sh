@@ -1,8 +1,11 @@
 #!/bin/bash
 set -e
 
+echo "Collecting static files..."
+python manage.py collectstatic --noinput --clear
+
 echo "Running migrations..."
-python manage.py migrate --noinput 2>&1 || true
+python manage.py migrate --noinput
 
 echo "Starting gunicorn on port ${PORT:-8000}..."
 exec gunicorn \
