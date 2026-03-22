@@ -2,9 +2,11 @@
  * Diamond Hill Resort — Nature Background Animations
  * Falling leaves + floating particles via HTML5 Canvas
  * Highly optimized with off-screen rendering
+ * Cursor Physics + Parallax Ready
  */
 
-console.log('[Nature Animations] Script loading...');
+console.log('[Nature Animations] 📜 Script loading...');
+console.log('[Nature Animations] Current time:', new Date().toLocaleTimeString());
 
 (function () {
   'use strict';
@@ -16,8 +18,8 @@ console.log('[Nature Animations] Script loading...');
       mobileCount: 8,
       minSize: 18,
       maxSize: 32,
-      minSpeed: 1.5,
-      maxSpeed: 3.5,
+      minSpeed: 1.0,
+      maxSpeed: 1.2,
       drift: 1.0,
       rotationSpeed: 0.02,
       opacity: { min: 0.4, max: 0.8 },
@@ -30,6 +32,11 @@ console.log('[Nature Animations] Script loading...');
       minSpeed: 0.5,
       maxSpeed: 1.8,
       opacity: { min: 0.3, max: 0.7 },
+    },
+    physics: {
+      radius: 120, // Distance within which the cursor repels items
+      force: 6, // Base ejection power
+      friction: 0.94, // Inertia decay (1 = slippery, 0 = immediate stop)
     },
     colors: {
       leaves: [
@@ -68,43 +75,64 @@ console.log('[Nature Animations] Script loading...');
   function initSprites() {
     const baseSize = 60; // Render at high res
     
-    CONFIG.colors.leaves.forEach(color => {
-      const canvas = document.createElement('canvas');
-      canvas.width = baseSize;
-      canvas.height = baseSize;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
-      
-      const cx = baseSize / 2;
-      const cy = baseSize / 2;
-      const size = baseSize * 0.8; // Leave margin
-      
-      ctx.translate(cx, cy);
-      
-      ctx.beginPath();
-      ctx.moveTo(0, -size * 0.5);
-      ctx.bezierCurveTo(
-        size * 0.35, -size * 0.45,
-        size * 0.4,  -size * 0.05,
-        0,            size * 0.5
-      );
-      ctx.bezierCurveTo(
-        -size * 0.4,  -size * 0.05,
-        -size * 0.35, -size * 0.45,
-        0,            -size * 0.5
-      );
-      ctx.fillStyle = `rgb(${color.r}, ${color.g}, ${color.b})`;
-      ctx.fill();
+    if (leafSprites.length > 0) {
+      console.log('[Sprites] Already initialized with', leafSprites.length, 'sprites');
+      return; // Already initialized
+    }
+    
+    console.log('[Sprites] 🎨 Starting sprite initialization...');
+    console.log('[Sprites] CONFIG.colors.leaves =', CONFIG.colors.leaves);
+    
+    CONFIG.colors.leaves.forEach((color, idx) => {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = baseSize;
+        canvas.height = baseSize;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          console.warn('[Sprites] Failed to get 2D context for sprite', idx);
+          return;
+        }
+        
+        const cx = baseSize / 2;
+        const cy = baseSize / 2;
+        const size = baseSize * 0.8; // Leave margin
+        
+        ctx.translate(cx, cy);
+        
+        ctx.beginPath();
+        ctx.moveTo(0, -size * 0.5);
+        ctx.bezierCurveTo(
+          size * 0.35, -size * 0.45,
+          size * 0.4,  -size * 0.05,
+          0,            size * 0.5
+        );
+        ctx.bezierCurveTo(
+          -size * 0.4,  -size * 0.05,
+          -size * 0.35, -size * 0.45,
+          0,            -size * 0.5
+        );
+        ctx.fillStyle = `rgb(${color.r}, ${color.g}, ${color.b})`;
+        ctx.fill();
 
-      ctx.beginPath();
-      ctx.moveTo(0, -size * 0.4);
-      ctx.lineTo(0, size * 0.4);
-      ctx.strokeStyle = `rgba(${Math.min(255, color.r + 30)}, ${Math.min(255, color.g + 30)}, ${Math.min(255, color.b + 20)}, 0.8)`;
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-      
-      leafSprites.push(canvas);
+        ctx.beginPath();
+        ctx.moveTo(0, -size * 0.4);
+        ctx.lineTo(0, size * 0.4);
+        ctx.strokeStyle = `rgba(${Math.min(255, color.r + 30)}, ${Math.min(255, color.g + 30)}, ${Math.min(255, color.b + 20)}, 0.8)`;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        
+        leafSprites.push(canvas);
+        console.log('[Sprites] ✓ Sprite', idx, 'created:', canvas);
+      } catch (e) {
+        console.error('[Sprites] ❌ Error creating sprite', idx, ':', e);
+      }
     });
+    
+    console.log(`[Sprites] ✅ Sprites initialized: ${leafSprites.length} leaf sprites created`);
+    if (leafSprites.length === 0) {
+      console.error('[Sprites] 🔴 CRITICAL: No leaf sprites were created! CONFIG.colors.leaves.length =', CONFIG.colors.leaves.length);
+    }
   }
 
   // ── Particle Classes ───────────────────────────────
@@ -118,8 +146,9 @@ console.log('[Nature Animations] Script loading...');
     reset(initial = false) {
       const cfg = CONFIG.leaves;
       this.x = rand(-50, this.canvasW + 50);
-      // Spawn somewhat evenly across screen initially so they are immediately visible
       this.y = initial ? rand(-50, this.canvasH) : rand(-150, -50);
+      this.vx = 0; // Kinetic velocity X
+      this.vy = 0; // Kinetic velocity Y
       this.size = rand(cfg.minSize, cfg.maxSize);
       this.speed = rand(cfg.minSpeed, cfg.maxSpeed);
       this.drift = rand(-cfg.drift, cfg.drift);
@@ -128,31 +157,88 @@ console.log('[Nature Animations] Script loading...');
       this.sway = rand(0.5, 1.5);
       this.swayOffset = rand(0, Math.PI * 2);
       this.opacity = rand(cfg.opacity.min, cfg.opacity.max);
-      this.sprite = leafSprites[Math.floor(Math.random() * leafSprites.length)];
+      
+      // Assign sprite with error checking
+      if (leafSprites.length > 0) {
+        this.sprite = leafSprites[Math.floor(Math.random() * leafSprites.length)];
+      } else {
+        console.error('[Leaf] No sprites available! leafSprites array is empty.');
+        this.sprite = null;
+      }
     }
 
-    update(time, frameDelta) {
-      // Normalize speed based on 60fps (16.66ms per frame)
+    update(time, frameDelta, mouse, parallaxOffset) {
       const timeScale = Math.min(frameDelta / 16.66, 3);
       
-      this.y += this.speed * timeScale;
-      this.x += Math.sin(time * 0.002 * this.sway + this.swayOffset) * this.drift * timeScale;
-      this.rotation += this.rotSpeed * timeScale;
+      // Calculate true visual position on screen given parallax rendering offset
+      const exactScreenY = this.y + parallaxOffset;
+      
+      // Mouse Interaction Physics
+      if (mouse.x > 0 && mouse.y > 0) {
+        const dx = this.x - mouse.x;
+        const dy = exactScreenY - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        if (dist < CONFIG.physics.radius) {
+          // Add reactive push force based on mouse coordinates closing in
+          const push = (CONFIG.physics.radius - dist) / CONFIG.physics.radius; // Scale 0 to 1
+          this.vx += (dx / dist) * push * CONFIG.physics.force;
+          this.vy += (dy / dist) * push * CONFIG.physics.force;
+        }
+      }
 
+      // Apply frictional decay to momentum
+      this.vx *= CONFIG.physics.friction;
+      this.vy *= CONFIG.physics.friction;
+
+      // Base translation + Physics momentum
+      this.y += (this.speed * timeScale) + (this.vy * timeScale);
+      this.x += (Math.sin(time * 0.002 * this.sway + this.swayOffset) * this.drift * timeScale) + (this.vx * timeScale);
+      
+      // Induce dramatic spin when blown aggressively
+      const extraSpin = (this.vx * 0.05) + (this.vy * 0.02);
+      this.rotation += (this.rotSpeed * timeScale) + extraSpin;
+
+      // Wrap Bounds
       if (this.y > this.canvasH + 50 || this.x < -100 || this.x > this.canvasW + 100) {
         this.reset();
       }
     }
 
     draw(ctx) {
-      if (!this.sprite) return;
-      ctx.save();
-      ctx.translate(this.x, this.y);
-      ctx.rotate(this.rotation);
-      ctx.globalAlpha = this.opacity;
-      // draw bounds centered
-      ctx.drawImage(this.sprite, -this.size / 2, -this.size / 2, this.size, this.size);
-      ctx.restore();
+      if (!this.sprite) {
+        // Fallback: draw simple circle if sprite is missing
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.globalAlpha = this.opacity;
+        ctx.fillStyle = 'rgba(45, 107, 74, 0.6)';
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+        return;
+      }
+      
+      // Draw sprite
+      try {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        ctx.globalAlpha = this.opacity;
+        ctx.drawImage(this.sprite, -this.size / 2, -this.size / 2, this.size, this.size);
+        ctx.restore();
+      } catch (e) {
+        console.error('[Leaf.draw] Error drawing sprite:', e);
+        // Fall back to circle on error
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.globalAlpha = this.opacity;
+        ctx.fillStyle = 'rgba(45, 107, 74, 0.6)';
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
     }
   }
 
@@ -167,6 +253,8 @@ console.log('[Nature Animations] Script loading...');
       const cfg = CONFIG.particles;
       this.x = rand(0, this.canvasW);
       this.y = initial ? rand(0, this.canvasH) : rand(-20, -5);
+      this.vx = 0;
+      this.vy = 0;
       this.size = rand(cfg.minSize, cfg.maxSize);
       this.speed = rand(cfg.minSpeed, cfg.maxSpeed);
       this.driftX = rand(-0.3, 0.3);
@@ -176,12 +264,29 @@ console.log('[Nature Animations] Script loading...');
       this.color = CONFIG.colors.particles[Math.floor(Math.random() * CONFIG.colors.particles.length)];
     }
 
-    update(time, frameDelta) {
+    update(time, frameDelta, mouse, parallaxOffset) {
       const timeScale = Math.min(frameDelta / 16.66, 3);
-      this.y += this.speed * timeScale;
-      this.x += this.driftX * timeScale;
+      
+      const exactScreenY = this.y + parallaxOffset;
+      if (mouse.x > 0 && mouse.y > 0) {
+        const dx = this.x - mouse.x;
+        const dy = exactScreenY - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        if (dist < CONFIG.physics.radius * 0.8) {
+          const push = (CONFIG.physics.radius * 0.8 - dist) / (CONFIG.physics.radius * 0.8);
+          this.vx += (dx / dist) * push * (CONFIG.physics.force * 0.6);
+          this.vy += (dy / dist) * push * (CONFIG.physics.force * 0.6);
+        }
+      }
 
-      if (this.y > this.canvasH + 20) {
+      this.vx *= CONFIG.physics.friction;
+      this.vy *= CONFIG.physics.friction;
+
+      this.y += (this.speed * timeScale) + this.vy;
+      this.x += (this.driftX * timeScale) + this.vx;
+
+      if (this.y > this.canvasH + 20 || this.x < -30 || this.x > this.canvasW + 30) {
         this.reset();
       }
     }
@@ -218,56 +323,80 @@ console.log('[Nature Animations] Script loading...');
       this.frameInterval = 1000 / CONFIG.fps;
       this.isRunning = false;
       this.scrollY = 0;
+      this.mouse = { x: -1000, y: -1000 };
     }
 
     init() {
-      console.log('[Nature Animations] init() called');
+      console.log('[Init] 📍 init() called');
 
-      if (prefersReducedMotion()) {
-        console.log('[Nature Animations] Reduced motion preference detected - aborting');
-        return;
-      }
+      // Disabled: Allow animation even with reduced motion pref for now (testing)
+      // if (prefersReducedMotion()) {
+      //   console.log('[Init] ⚠️  Reduced motion preference detected - aborting');
+      //   return;
+      // }
 
       this.canvas = document.getElementById('natureCanvas');
+      console.log('[Init] Canvas lookup result:', this.canvas ? '✓ Found' : '✗ Not found');
+      
       if (!this.canvas) {
-        console.warn('[Nature Animations] Canvas #natureCanvas not found!');
+        console.error('[Init] ❌ CRITICAL: Canvas #natureCanvas NOT FOUND in DOM!');
         return;
       }
+      
+      console.log('[Init] ✓ Canvas found:', this.canvas);
 
       this.ctx = this.canvas.getContext('2d', { alpha: true });
       if (!this.ctx) {
-        console.error('[Nature Animations] Failed to get canvas 2D context!');
+        console.error('[Init] ❌ Failed to get canvas 2D context!');
         return;
       }
+      
+      console.log('[Init] ✓ 2D context obtained');
 
       try {
+        console.log('[Init] 🎨 Initializing sprites...');
         initSprites();
+        console.log('[Init] 🎨 Resizing canvas...');
         this.resize();
+        console.log('[Init] 🎨 Creating elements...');
         this.createElements();
+        console.log('[Init] 🎨 Binding events...');
         this.bindEvents();
+        
+        // Start animation
         this.isRunning = true;
         this.lastFrame = window.performance ? performance.now() : Date.now();
+        console.log('[Init] ▶️ Starting animation loop');
         this.animate(this.lastFrame);
-        console.log('[Nature Animations] initialized successfully.');
+        
+        console.log('[Init] ✅ FULLY INITIALIZED - Canvas:', this.canvas.width, 'x', this.canvas.height, 'Leaves:', this.leaves.length);
       } catch (e) {
-        console.error('[Nature Animations] Init error:', e);
+        console.error('[Init] ❌ Error during initialization:', e);
+        console.error('[Init] Stack:', e.stack);
+        throw e;
       }
     }
 
     resize() {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = window.devicePixelRatio || 1;
       this.w = window.innerWidth;
       this.h = window.innerHeight;
-      this.canvas.width = this.w * dpr;
-      this.canvas.height = this.h * dpr;
       
-      // Setting CSS width/height to 100vw/vh might create scrolling bars if not careful, 
-      // but inline styling usually overrides this. Using 100% prevents layout scrollbugs 
-      // across major browsers and devices.
-      this.canvas.style.width = '100%';
-      this.canvas.style.height = '100%';
+      console.log('[Resize] Setting canvas to ' + this.w + ' x ' + this.h);
       
-      this.ctx.scale(dpr, dpr);
+      // Set canvas to CSS pixels (not device pixels)
+      this.canvas.width = this.w;
+      this.canvas.height = this.h;
+      
+      console.log('[Resize] Canvas actual size:', this.canvas.width, 'x', this.canvas.height);
+      console.log('[Resize] ✓ Canvas ready');
+      
+      // Draw test green square to verify canvas works
+      this.ctx.fillStyle = '#00FF00';
+      this.ctx.fillRect(10, 10, 100, 100);
+      this.ctx.fillStyle = '#FFFFFF';
+      this.ctx.font = '16px Arial';
+      this.ctx.fillText('Canvas Ready', 10, 135);
     }
 
     createElements() {
@@ -278,11 +407,35 @@ console.log('[Nature Animations] Script loading...');
       this.leaves = [];
       this.particles = [];
 
+      console.log('[Elements] 🍃 Creating elements...');
+      console.log('[Elements] Mobile?', mobile, '| Leaf count:', leafCount, '| Particle count:', particleCount);
+      console.log('[Elements] leafSprites available?', leafSprites.length);
+      
       for (let i = 0; i < leafCount; i++) {
-        this.leaves.push(new Leaf(this.w, this.h));
+        try {
+          const leaf = new Leaf(this.w, this.h);
+          this.leaves.push(leaf);
+          if (i === 0) console.log('[Elements] First leaf created:', leaf, '| Has sprite?', !!leaf.sprite);
+        } catch (e) {
+          console.error('[Elements] Error creating leaf', i, ':', e);
+        }
       }
+      console.log('[Elements] ✓ Created ' + this.leaves.length + ' leaves');
+      
       for (let i = 0; i < particleCount; i++) {
-        this.particles.push(new Particle(this.w, this.h));
+        try {
+          this.particles.push(new Particle(this.w, this.h));
+        } catch (e) {
+          console.error('[Elements] Error creating particle', i, ':', e);
+        }
+      }
+      console.log('[Elements] ✓ Created ' + this.particles.length + ' particles');
+      
+      if (this.leaves.length === 0) {
+        console.error('[Elements] 🔴 ERROR: No leaves were created!');
+      }
+      if (this.leaves.length > 0 && !this.leaves[0].sprite) {
+        console.error('[Elements] 🔴 ERROR: Leaves have no sprites! leafSprites.length =', leafSprites.length);
       }
     }
 
@@ -299,6 +452,18 @@ console.log('[Nature Animations] Script loading...');
       window.addEventListener('scroll', () => {
         this.scrollY = window.scrollY;
       }, { passive: true });
+      
+      // Cursor Physics Tethers
+      window.addEventListener('mousemove', (e) => {
+        this.mouse.x = e.clientX;
+        this.mouse.y = e.clientY;
+      }, { passive: true });
+
+      window.addEventListener('mouseleave', () => {
+        // Sweep cursor array off-screen smoothly so logic doesn't hover indefinitely
+        this.mouse.x = -1000;
+        this.mouse.y = -1000;
+      });
 
       if (CONFIG.pauseWhenHidden) {
         document.addEventListener('visibilitychange', () => {
@@ -335,30 +500,39 @@ console.log('[Nature Animations] Script loading...');
       const elapsed = timestamp - this.lastFrame;
       if (elapsed < this.frameInterval) return;
       
-      // Calculate properly independent of framerate drops
       const frameDelta = Math.min(elapsed, 100); 
       this.lastFrame = timestamp - (elapsed % this.frameInterval);
 
-      // Clear the screen for next paints
+      // Clear canvas simply
       this.ctx.clearRect(0, 0, this.w, this.h);
 
       const parallaxOffset = this.scrollY * 0.05;
 
-      // Soft parallax for particles behind
+      // Draw particles
+      const pOffsetRender = parallaxOffset * 0.2;
       this.ctx.save();
-      this.ctx.translate(0, parallaxOffset * 0.2);
+      this.ctx.translate(0, pOffsetRender);
       for (const p of this.particles) {
-        p.update(timestamp, frameDelta);
+        p.update(timestamp, frameDelta, this.mouse, pOffsetRender);
         p.draw(this.ctx, timestamp);
       }
       this.ctx.restore();
 
-      // Stronger parallax for leaves in front
+      // Draw leaves
+      const lOffsetRender = parallaxOffset * 0.4;
       this.ctx.save();
-      this.ctx.translate(0, parallaxOffset * 0.4);
-      for (const leaf of this.leaves) {
-        leaf.update(timestamp, frameDelta);
-        leaf.draw(this.ctx);
+      this.ctx.translate(0, lOffsetRender);
+      
+      console.log('[Animate] Drawing ' + this.leaves.length + ' leaves');
+      
+      for (let i = 0; i < this.leaves.length; i++) {
+        const leaf = this.leaves[i];
+        leaf.update(timestamp, frameDelta, this.mouse, lOffsetRender);
+        try {
+          leaf.draw(this.ctx);
+        } catch (e) {
+          console.error('[Animate] Error drawing leaf', i, ':', e);
+        }
       }
       this.ctx.restore();
     }
@@ -367,6 +541,7 @@ console.log('[Nature Animations] Script loading...');
       this.pause();
       this.leaves = [];
       this.particles = [];
+      this.mouse = null;
     }
   }
 
@@ -374,14 +549,33 @@ console.log('[Nature Animations] Script loading...');
   let animation;
 
   function startAnimation() {
-    console.log('[Nature Animations] startAnimation() called');
+    console.log('[Nature Animations] 🚀 startAnimation() called');
+    
+    // Check if canvas exists in DOM RIGHT NOW
+    const canvas = document.getElementById('natureCanvas');
+    console.log('[Nature Animations] Canvas found in DOM?', canvas ? '✓ YES' : '✗ NO');
+    if (canvas) {
+      console.log('[Nature Animations] Canvas element:', canvas);
+      console.log('[Nature Animations] Canvas visible?', {
+        display: canvas.style.display,
+        width: canvas.width,
+        height: canvas.height,
+        clientWidth: canvas.clientWidth,
+        clientHeight: canvas.clientHeight,
+        offsetParent: canvas.offsetParent ? 'visible' : 'hidden',
+        computedDisplay: window.getComputedStyle(canvas).display
+      });
+    }
+    
     animation = new NatureAnimation();
     animation.init();
   }
 
   if (document.readyState === 'loading') {
+    console.log('[Nature Animations] ⏳ Waiting for DOM to load...');
     document.addEventListener('DOMContentLoaded', startAnimation);
   } else {
+    console.log('[Nature Animations] ✓ DOM already loaded, starting now');
     startAnimation();
   }
 })();

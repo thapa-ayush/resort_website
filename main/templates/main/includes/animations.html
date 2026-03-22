@@ -4,7 +4,17 @@
      ════════════════════════════════════════════════ -->
 
 <!-- Canvas Layer (behind all content) -->
-<canvas id="natureCanvas" class="nature-canvas" aria-hidden="true"></canvas>
+<canvas id="natureCanvas" class="nature-canvas" aria-hidden="true" style="
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100vh !important;
+  z-index: 0 !important;
+  display: block !important;
+  background: transparent !important;
+  pointer-events: none;
+"></canvas>
 
 <!-- CSS-only Ambient Glow Orbs (very subtle depth) -->
 <div class="ambient-orbs" aria-hidden="true">
@@ -20,11 +30,12 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     z-index: 0;
     pointer-events: none;
     will-change: transform, opacity;
-    background: transparent;
+    background: rgba(0, 0, 0, 0);
+    display: block;
 }
 
 /* ─── Ambient Glow Orbs ─────────────────────── */
@@ -93,6 +104,10 @@
 }
 
 /* ─── Ensure all page content stays below the navbar ─── */
+body {
+    position: relative;
+}
+
 .navbar-premium {
     position: relative;
     z-index: 1050;
@@ -100,12 +115,12 @@
 
 main {
     position: relative;
-    /* let main be underneath the 1040 canvas */
+    z-index: 100;
 }
 
 .footer-premium {
     position: relative;
-    z-index: 1;
+    z-index: 100;
 }
 
 /* ─── Reduced Motion ──────────────────────────── */
