@@ -1,129 +1,94 @@
 """
 Debug views for troubleshooting Cloudinary and storage configuration.
-Only accessible in development or with debug key in production.
 """
 
 from django.http import JsonResponse
 from django.conf import settings
-import cloudinary
 import os
+import traceback
 
 
 def cloudinary_debug(request):
-    """Debug endpoint to check Cloudinary configuration."""
+    """Debug endpoint - check Cloudinary configuration and settings."""
     try:
+        # Get all Cloudinary settings
         debug_info = {
-            'cloudinary_configured': bool(settings.CLOUDINARY_CLOUD_NAME),
-            'cloud_name': settings.CLOUDINARY_CLOUD_NAME or 'NOT SET',
-            'api_key_set': bool(settings.CLOUDINARY_API_KEY),
-            'api_secret_set': bool(settings.CLOUDINARY_API_SECRET),
+            'status': 'OK',
+            'cloudinary_cloud_name': settings.CLOUDINARY_CLOUD_NAME or 'NOT SET',
+            'cloudinary_api_key_set': bool(settings.CLOUDINARY_API_KEY),
+            'cloudinary_api_secret_set': bool(settings.CLOUDINARY_API_SECRET),
             'default_file_storage': settings.DEFAULT_FILE_STORAGE,
             'media_url': settings.MEDIA_URL,
-            'media_root': str(settings.MEDIA_ROOT) if settings.MEDIA_ROOT else None,
-            'cloudinary_config': {
-                'cloud_name': cloudinary.config().cloud_name or 'NOT SET',
-                'api_key_set': bool(cloudinary.config().api_key),
-                'api_secret_set': bool(cloudinary.config().api_secret),
-            },
-            'environment_variables': {
-                'CLOUDINARY_CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', 'NOT SET'),
-                'CLOUDINARY_API_KEY': 'SET' if os.environ.get('CLOUDINARY_API_KEY') else 'NOT SET',
-                'CLOUDINARY_API_SECRET': 'SET' if os.environ.get('CLOUDINARY_API_SECRET') else 'NOT SET',
-            }
+            'media_root': str(settings.MEDIA_ROOT),
+            'env_cloudinary_cloud_name': os.environ.get('CLOUDINARY_CLOUD_NAME', 'NOT SET'),
+            'env_api_key_set': bool(os.environ.get('CLOUDINARY_API_KEY')),
+            'env_api_secret_set': bool(os.environ.get('CLOUDINARY_API_SECRET')),
         }
+        
+        return JsonResponse(debug_info)
     except Exception as e:
-        debug_info = {
+        return JsonResponse({
             'error': str(e),
-            'error_type': type(e).__name__,
-        }
-    
-    return JsonResponse(debug_info, indent=2)
+            'traceback': traceback.format_exc()
+        }, status=500)
 
 
 def image_urls_debug(request):
-    """Debug endpoint to check image URLs for all models."""
-    from main.models import Room, RoomImage, GalleryImage, BlogPost, HeroSection, About
-    
-    debug_info = {
-        'rooms': [],
-        'room_images': [],
-        'gallery_images': [],
-        'blog_posts': [],
-        'hero_slides': [],
-        'about': None,
-    }
-    
-    # Check Rooms
+    """Debug endpoint - check image URLs in database."""
     try:
-        for room in Room.objects.all():
-            debug_info['rooms'].append({
-                'title': room.title,
-                'has_image': bool(room.image),
-                'image_field_type': str(type(room.image)),
-                'image_url': room.image.url if room.image else None,
-                'image_name': room.image.name if room.image else None,
-            })
+        import django
+        from django.apps import apps
+        
+        debug_info = {'images': []}
+        
+        # Get Room model
+        try:
+            Room = apps.get_model('main', 'Room')
+            rooms = Room.objects.all()[:2]
+            for room in rooms:
+                if room.image:
+                    debug_info['images'].append({
+                        'type': 'Room',
+                        'name': room.title,
+                        'image_name': room.image.name,
+                        'image_url': room.image.url,
+                    })
+        except Exception as e:
+            debug_info['room_error'] = str(e)
+        
+        # Get HeroSection model
+        try:
+            HeroSection = apps.get_model('main', 'HeroSection')
+            slides = HeroSection.objects.all()[:2]
+            for slide in slides:
+                if slide.image:
+                    debug_info['images'].append({
+                        'type': 'Hero',
+                        'name': slide.title,
+                        'image_name': slide.image.name,
+                        'image_url': slide.image.url,
+                    })
+        except Exception as e:
+            debug_info['hero_error'] = str(e)
+        
+        # Get GalleryImage model
+        try:
+            GalleryImage = apps.get_model('main', 'GalleryImage')
+            images = GalleryImage.objects.all()[:2]
+            for img in images:
+                if img.image:
+                    debug_info['images'].append({
+                        'type': 'Gallery',
+                        'name': img.caption,
+                        'image_name': img.image.name,
+                        'image_url': img.image.url,
+                    })
+        except Exception as e:
+            debug_info['gallery_error'] = str(e)
+        
+        return JsonResponse(debug_info)
     except Exception as e:
-        debug_info['rooms'].append({'error': str(e)})
-    
-    # Check Room Images
-    try:
-        for image in RoomImage.objects.all()[:5]:  # First 5
-            debug_info['room_images'].append({
-                'room': str(image.room),
-                'has_image': bool(image.image),
-                'image_url': image.image.url if image.image else None,
-                'image_name': image.image.name if image.image else None,
-            })
-    except Exception as e:
-        debug_info['room_images'].append({'error': str(e)})
-    
-    # Check Gallery Images
-    try:
-        for image in GalleryImage.objects.all()[:3]:  # First 3
-            debug_info['gallery_images'].append({
-                'caption': image.caption,
-                'has_image': bool(image.image),
-                'image_url': image.image.url if image.image else None,
-                'image_name': image.image.name if image.image else None,
-            })
-    except Exception as e:
-        debug_info['gallery_images'].append({'error': str(e)})
-    
-    # Check Blog Posts
-    try:
-        for post in BlogPost.objects.all()[:3]:  # First 3
-            debug_info['blog_posts'].append({
-                'title': post.title,
-                'has_image': bool(post.image),
-                'image_url': post.image.url if post.image else None,
-                'image_name': post.image.name if post.image else None,
-            })
-    except Exception as e:
-        debug_info['blog_posts'].append({'error': str(e)})
-    
-    # Check Hero Slides
-    try:
-        for slide in HeroSection.objects.all()[:3]:  # First 3
-            debug_info['hero_slides'].append({
-                'title': slide.title,
-                'has_image': bool(slide.image),
-                'image_url': slide.image.url if slide.image else None,
-                'image_name': slide.image.name if slide.image else None,
-            })
-    except Exception as e:
-        debug_info['hero_slides'].append({'error': str(e)})
-    
-    # Check About Section
-    try:
-        about = About.objects.first()
-        if about:
-            debug_info['about'] = {
-                'has_image': bool(about.image),
-                'image_url': about.image.url if about.image else None,
-                'image_name': about.image.name if about.image else None,
-            }
-    except Exception as e:
-        debug_info['about'] = {'error': str(e)}
-    
-    return JsonResponse(debug_info, indent=2)
+        return JsonResponse({
+            'error': str(e),
+            'traceback': traceback.format_exc()
+        }, status=500)
