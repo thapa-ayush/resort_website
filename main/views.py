@@ -101,8 +101,8 @@ class HomeView(TemplateView):
             context['about'] = None
 
         context['page_description'] = (
-            'Diamond Hill Resort – A stylish mountain retreat in Nagarkot, Nepal. '
-            'Book deluxe rooms, enjoy panoramic views of Himalayas, rooftop pool, spa & premium service.'
+            'Diamond Hill Resort – A stylish mountain retreat in Chamkhar, Panauti-4, Nepal. '
+            'Book deluxe rooms, enjoy panoramic mountain views, rooftop pool, spa & premium service.'
         )
         return context
 
@@ -240,7 +240,7 @@ class BlogListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_title'] = 'Blog | Diamond Hill Resort'
-        context['page_description'] = 'Read the latest news, travel tips, and stories from Diamond Hill Resort. Discover what makes Nagarkot special.'
+        context['page_description'] = 'Read the latest news, travel tips, and stories from Diamond Hill Resort in Chamkhar, Panauti-4, Nepal.'
         return context
 
 
@@ -547,16 +547,16 @@ class ContactView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_title'] = 'Contact Us | Diamond Hill Resort'
-        context['page_description'] = 'Get in touch with Diamond Hill Resort. We\'re located in Nagarkot, Nepal. Call +977-1-1234567 or send us an inquiry.'
+        context['page_description'] = 'Get in touch with Diamond Hill Resort in Chamkhar, Panauti-4, Nepal. Call +977-1-1234567 or send us an inquiry.'
         
         # Contact information
         context['resort_phone'] = '+977-1-1234567'
         context['resort_email'] = 'info@diamondhillresort.com.np'
-        context['resort_address'] = 'Cherry Hill Road, Nagarkot, Kavrepalanchok, Nepal'
+        context['resort_address'] = 'Chamkhar, Panauti-4, Kavrepalanchok, Nepal'
         context['facebook_url'] = 'https://www.facebook.com/diamondhillresort.com.np/'
         
-        # Google Map embed URL (Nagarkot, Nepal)
-        context['map_embed'] = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.7891854169997!2d85.42869952346805!3d27.704500199999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb7e4de5c5c5c5%3A0xc5c5c5c5c5c5c5c5!2sNagarkot%2C%20Kavrepalanchok%2C%20Nepal!5e0!3m2!1sen!2snp!4v1234567890'
+        # Google Map embed URL (Chamkhar, Panauti-4, Nepal)
+        context['map_embed'] = 'https://www.google.com/maps?q=Chamkhar,+Panauti-4,+Nepal&output=embed'
         
         context['form'] = ContactForm()
         return context
@@ -623,7 +623,7 @@ class AboutView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_title'] = 'About Us | Diamond Hill Resort'
-        context['page_description'] = 'Learn about Diamond Hill Resort - A luxury mountain retreat in Nagarkot, Nepal with world-class amenities and exceptional hospitality.'
+        context['page_description'] = 'Learn about Diamond Hill Resort - A luxury mountain retreat in Chamkhar, Panauti-4, Nepal with world-class amenities and exceptional hospitality.'
         context['featured_images'] = GalleryImage.objects.all()[:6]
         
         # Get published reviews for testimonials section
