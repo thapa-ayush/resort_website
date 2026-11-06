@@ -188,7 +188,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── 9. Parallax on Hero (subtle) ────────────────────
   const heroSection = document.querySelector('.hero-section');
-  if (heroSection) {
+  const canUseHeroParallax = window.matchMedia(
+    '(min-width: 769px) and (prefers-reduced-motion: no-preference)'
+  ).matches;
+  if (heroSection && canUseHeroParallax) {
     window.addEventListener('scroll', () => {
       const scrollPos = window.scrollY;
       if (scrollPos < window.innerHeight) {
