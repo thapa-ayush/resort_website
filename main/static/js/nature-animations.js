@@ -316,11 +316,14 @@ console.log('[Nature Animations] Current time:', new Date().toLocaleTimeString()
     constructor() {
       this.canvas = null;
       this.ctx = null;
+      this.foregroundCanvas = null;
+      this.foregroundCtx = null;
       this.leaves = [];
+      this.foregroundLeaves = [];
       this.particles = [];
       this.animId = null;
       this.lastFrame = 0;
-      this.frameInterval = 1000 / CONFIG.fps;
+      this.frameInterval = 1000 / (isMobile() ? 30 : CONFIG.fps);
       this.isRunning = false;
       this.scrollY = 0;
       this.mouse = { x: -1000, y: -1000 };
@@ -336,6 +339,7 @@ console.log('[Nature Animations] Current time:', new Date().toLocaleTimeString()
       // }
 
       this.canvas = document.getElementById('natureCanvas');
+      this.foregroundCanvas = document.getElementById('natureForegroundCanvas');
       console.log('[Init] Canvas lookup result:', this.canvas ? '✓ Found' : '✗ Not found');
       
       if (!this.canvas) {
@@ -350,6 +354,10 @@ console.log('[Nature Animations] Current time:', new Date().toLocaleTimeString()
         console.error('[Init] ❌ Failed to get canvas 2D context!');
         return;
       }
+
+      this.foregroundCtx = this.foregroundCanvas
+        ? this.foregroundCanvas.getContext('2d', { alpha: true })
+        : null;
       
       console.log('[Init] ✓ 2D context obtained');
 
@@ -387,6 +395,10 @@ console.log('[Nature Animations] Current time:', new Date().toLocaleTimeString()
       // Set canvas to CSS pixels (not device pixels)
       this.canvas.width = this.w;
       this.canvas.height = this.h;
+      if (this.foregroundCanvas) {
+        this.foregroundCanvas.width = this.w;
+        this.foregroundCanvas.height = this.h;
+      }
       
       console.log('[Resize] Canvas actual size:', this.canvas.width, 'x', this.canvas.height);
       console.log('[Resize] ✓ Canvas ready');
@@ -406,6 +418,7 @@ console.log('[Nature Animations] Current time:', new Date().toLocaleTimeString()
 
       this.leaves = [];
       this.particles = [];
+      this.foregroundLeaves = [];
 
       console.log('[Elements] 🍃 Creating elements...');
       console.log('[Elements] Mobile?', mobile, '| Leaf count:', leafCount, '| Particle count:', particleCount);
@@ -418,6 +431,12 @@ console.log('[Nature Animations] Current time:', new Date().toLocaleTimeString()
           if (i === 0) console.log('[Elements] First leaf created:', leaf, '| Has sprite?', !!leaf.sprite);
         } catch (e) {
           console.error('[Elements] Error creating leaf', i, ':', e);
+        }
+      }
+
+      if (this.foregroundCtx && !isMobile()) {
+        for (let i = 0; i < 3; i++) {
+          this.foregroundLeaves.push(new Leaf(this.w, this.h));
         }
       }
       console.log('[Elements] ✓ Created ' + this.leaves.length + ' leaves');
@@ -523,8 +542,6 @@ console.log('[Nature Animations] Current time:', new Date().toLocaleTimeString()
       this.ctx.save();
       this.ctx.translate(0, lOffsetRender);
       
-      console.log('[Animate] Drawing ' + this.leaves.length + ' leaves');
-      
       for (let i = 0; i < this.leaves.length; i++) {
         const leaf = this.leaves[i];
         leaf.update(timestamp, frameDelta, this.mouse, lOffsetRender);
@@ -535,11 +552,20 @@ console.log('[Nature Animations] Current time:', new Date().toLocaleTimeString()
         }
       }
       this.ctx.restore();
+
+      if (this.foregroundCtx) {
+        this.foregroundCtx.clearRect(0, 0, this.w, this.h);
+        for (const leaf of this.foregroundLeaves) {
+          leaf.update(timestamp, frameDelta, this.mouse, 0);
+          leaf.draw(this.foregroundCtx);
+        }
+      }
     }
     
     destroy() {
       this.pause();
       this.leaves = [];
+      this.foregroundLeaves = [];
       this.particles = [];
       this.mouse = null;
     }

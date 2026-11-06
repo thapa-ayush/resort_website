@@ -16,6 +16,18 @@
   pointer-events: none;
 "></canvas>
 
+<!-- Foreground depth layer: a few leaves pass over content on larger screens. -->
+<canvas id="natureForegroundCanvas" class="nature-canvas nature-canvas-foreground" aria-hidden="true" style="
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100vh !important;
+    z-index: 110 !important;
+    background: transparent !important;
+    pointer-events: none;
+"></canvas>
+
 <!-- CSS-only Ambient Glow Orbs (very subtle depth) -->
 <div class="ambient-orbs" aria-hidden="true">
     <div class="orb orb--green"></div>
@@ -36,6 +48,16 @@
     will-change: transform, opacity;
     background: rgba(0, 0, 0, 0);
     display: block;
+}
+
+.nature-canvas-foreground {
+    z-index: 110;
+}
+
+@media (max-width: 768px) {
+    .nature-canvas-foreground {
+        display: none !important;
+    }
 }
 
 /* ─── Ambient Glow Orbs ─────────────────────── */
